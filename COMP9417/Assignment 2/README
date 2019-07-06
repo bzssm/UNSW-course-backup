@@ -1,0 +1,27 @@
+>>> dataset: mnist and cifar-10
+
+The code is implemented for minist.
+
+To make your presentation more convinced and attactive, you're recommended to use cifar-10, a popular dataset containing 10 categories pic.
+For more info, you can download 'CIFAR-10 python version' at http://www.cs.toronto.edu/~kriz/cifar.html 
+
+After download it, you need to extract it from /data/cifar-10-python.tar.gz
+then run show.py or load_cifar10.py you will see the pictures.
+
+
+>>> how to run ?
+
+install tensorflow 
+
+1. train you classification model on mnist: python train.py 
+
+2. perform attack: python attack.py
+
+# run them with CPU --> you need to comment out "with device = '/gpu:0' " appearing in train.py and attack.py 
+
+
+>>> what are those folders ?
+
+1. data: contain dataset
+2. model_save: the classification model obtained from Mnist.py
+3. save: those pictures have been attacked. (you can show the original pic by making small change in attack.py)
