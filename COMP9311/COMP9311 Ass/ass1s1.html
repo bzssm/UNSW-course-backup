@@ -1,0 +1,232 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<head>
+<title>COMP9311 17s2 - Assignment 1</title>
+<!--
+<link rel='stylesheet' type='text/css' href='http://www.cse.unsw.edu.au/~cs9311/17s2/9311.css'>
+-->
+</head>
+
+<style>
+body {font-size:11pt;font-family:arial,sans-serif;margin:5px 10px;}
+a {color:#3333CC;text-decoration:none;}
+a[href]:hover {color:#CC0000;background:#FFFFCC;}
+h2 {color:#99BB55;}
+small {font-size:75%}
+pre {background:#EEEEFF;border:thin solid #9999CC;margin:5px 20px 5px 20px;padding:4px 8px;}
+span.toggle {font-size:67%;}
+span.notice {font-size:110%;}
+span.tiny {font-size:75%;font-weight:normal;}
+span.heading {font-size:18pt;font-weight:bold;color:#99BB55;}
+span.marks {font-weight:normal;font-size:75%;}
+span.identifier {color:#993300;font-size:110%;font-weight:bold;font-family:courier;}
+tr.heading {font-size:large;font-weight:bold;background-color:#AACC66;}
+table.note {border:thin solid black;padding:2pt;width:75%}
+div.note {border:thin solid black;font-size:90%;margin:5px 60px 5px 60px;padding:4px 8px;}
+dt.item {font-weight:bold;}
+.red {color:#CC0000;}
+.green {color:#006600;}
+.brown {color:#993300;}
+.grey {color:#CCCCCC;}
+.comment {font-size:90%;color:#666666}
+.important {font-weight:bold;color:#CC0000;}
+.bigQ {font-size:13pt;font-style:italic;}
+
+</style>
+
+<body>
+
+<div align='center'>
+ <table width='100%' border='0'>
+  <tr valign='top'>
+   <td align='left' width='25%'>
+    <span class='tiny'><a href="http://www.cse.unsw.edu.au/~cs9311">COMP9311 17s2</a></span>
+   </td>
+  <td align='center' width='50%'>
+   <span class='heading'>Assignment 1 (worth 10%)</span>
+  </td>
+  <td align='right' width='25%'>
+   <span class='tiny'><a href="http://www.cse.unsw.edu.au/~cs9311">Database Systems</a></span>
+  </td>
+ </table>
+</div>
+
+<div style="text-align:center;font-size:80%;color:#555555;margin-top:5px;">
+Last updated: <b>Sunday 30th July 2017</b> <br>
+Most recent changes will be shown in <span class="red">red</span>. <br>
+</div>
+
+<!--
+<p style='text-align:center'>
+<a href="design.php">[Standard ER Design]</a>
+</p>
+-->
+
+<p>
+<center class="green">
+[Please read this entire document. There are important notes at the end.]
+</center>
+
+
+<h2>Aims</h2>
+
+<p>
+The aims of this assignment are, to:
+</p>
+<ul>
+	<li> analyse/refine problem requirements;
+	<li> design ER data models based on requirements; and
+	<li> map ER data models to SQL schema definitions.
+</ul>
+
+<p>
+     The ultimate goal is to build an SQL schema for a database called OzCars, which will be used by a car dealer whose business is mainly engaged in car repairing, new car selling and used car trading.
+</p>
+
+<h2>Assignment Structure</h2>
+
+<p>
+This assignment will run in two stages: (1) conceptual modeling, (2) implementation.
+</p>
+
+<p>
+ <b>Stage 1</b> is carried out during the lab and is non-assessable. However, preparation of your ER model beforehand and participation in the lab discussion are highly recommended. 
+ By the end of Week 3, we will have discussed the data requirements and the conceptual model of OzCars. We will then release a sample ER design at the end of Week 3.  This ER model will be provided to you for Stage 2. You may discuss with your Lab Tutor during Week 4 regarding the discrepancies between your design and the provided sample ER model.
+<p>
+
+<b>Stage 2</b> is an individual implementation exercise.
+You will <em>individually</em> develop a PostgreSQL schema
+to accurately implement the provided ER model.
+The PostgreSQL schema is the only thing that needs to be formally
+submitted (details on how to do this will be provided later).
+</p>
+
+<h2>Timeline</h2>
+
+<table border='0' cellpadding='4'>
+<tr><td><b>Wednesdays 2 and 9 August 2017 (Weeks 2 and 3)</b></td><td>Discussion of the requirements/design during the lecture</td></tr>
+<tr><td><b>Week 3</b></td><td>Discussion of your design during the lab</td></tr>
+<tr><td><b>Monday 14 August 2017 (Week 4)</b></td><td>Sample Stage 1 ER model released and assignment submission instructions provided</td></tr>
+<tr><td><b>Friday 25 August 2017 @ 23.59 (Week 5)</b></td><td>Deadline for submission of PostgreSQL schema</td></tr>
+</table>
+
+<h2>Assessment</h2>
+
+<p>
+This assignment is worth a total of <b>10 marks</b>.
+</p>
+<p>
+The submitted schema (in a file called <code>a1.sql</code>) will be
+auto-marked and manually checked to determine:
+</p>
+
+<ul>
+	<li> whether it is syntactically correct; and
+	<li> how accurately it captures the sample ER model.
+</ul>
+
+<p>
+More details on what you need to submit and how the marking is done will be provided when the sample ER model is released.
+</p>
+
+<h2>The Problem Domain</h2>
+
+<p>
+  OzCars is a car dealer that sells new cars and trades used cars.  
+  For new cars, it obtains the new cars from the manufacturers at cost price (and every new car also attracts delivery charges). It then sells them to buyers at a price that is higher than the cost plus delivery charges.
+  For used cars, OzCars buys used cars with a price less than the market value (valued based on its own proprietary formula).  It then sells them to new owners at a higher price. OzCars also offers car repair services.
+</p>
+
+<p>
+Here are the details that need to be modeled and stored in the database:
+
+<dl>
+
+<dt class="item">Employee</dt>
+
+<dd>
+
+<ul>
+  <li> There are three types of employees in OzCars. An employee is either a salesman, mechanic, or administrator.
+  <li> Each employee is identified by its employee ID.
+  <li> The database should store at least the name (that consists of first name and last name in separate fields), tax file number and annual salary of an employee.
+  <li> Mechanics will have their practising license numbers on record. 
+  <li> Each salesman will have a negotiated commission rate (which will be reviewed and adjusted when they get promoted) ranging from 5% to max 20% (with no decimals). The commission of each car trade (sell of buy) is then calculated by the commission rate multiplied by the profit of that trade.
+</ul>
+
+</dd>
+
+<dt class="item">Client</dt>
+
+<dd>
+
+<ul>
+  <li> For each car trade (sell or buy), the client details which include name, address, phone number and an optional email address, are recorded.
+                                            <li> If the client is a company, its ABN and an optional Web URL are recorded.
+  <li> Each client is identified by a unique client ID.
+  <li> OzCars also stores client details for car repairs.
+</ul>
+
+</dd>
+
+<dt class="item">Car</dt>
+<dd>
+<ul>
+    <li> Each car is identified by a 17-character VIN, which does not include the letters I, O , or Q (to avoid confusion with digits 1 and 0).
+    <li> The car details, including manufacturer, model, year made, need to be stored.
+    <li> A list of options (if any) such as sun-roof and built-in GPS will be stored.
+    <li> For used cars, the license plate (maximum 6 characters) will be stored.
+	<li> For new cars, the manufacturer cost and delivery charges will be stored.
+</ul>
+</dd>
+<dt class="item">RepairJob</dt>
+<dd>                                                                                                      <ul>
+<li> Each repair job is identified by the number of times that a car has been repaired by OzCars.
+<li> A repair job may be carried out on a car that has not been traded by OzCars before.
+<li> Each repair job can be carried out by more than one mechanic.
+<li> A repair job will have its date, the car details, client contact phone number, description, and cost associated with it.
+                                                         <li> The cost of a repair job has two components: parts and work.
+</ul>
+</dd>
+
+<dt class="item">BuyingCar</dt>
+<dd>
+<ul>
+     <li> For each acquisition of a used car, the client (original owner) details, the car details, date of transaction, market value of the car, and actual transaction price should be recorded.
+	<li> There will only be one salesman involved.  This salesman will receive a commission for the car.
+	<li> The car can be owned by joint owners.
+	<li> The actual buying price must be lower than the market value of the car.
+    <li> The commission is calculated by the commission rate times the profit (i.e., commission = commission rate x (market value - buying price)), and it should be stored in case the salesman changes his commission rate.
+</ul>
+
+</dd>
+
+<dt class="item">SellingCar</dt>
+
+<dd>
+
+<ul>
+	<li> For each sale of a used car, the client (new owner) details, the car details, date of transaction, market value of the car, and actual transaction price should be recorded.
+	<li> For each sale of a new car, the client (new owner) details, the car details, new license plate (max 6 characters), date of transaction, and actual transaction price should be recorded.
+	<li> There will only be one salesman involved (and can be a different salesman than the one who acquired the car, in the case of selling a used car).  This salesman will receive a commission for the car.
+	<li> The car can be owned by joint owners.
+    <li> The market value of a used car is determined by the number of years following the acquisition date of the car, with every year depreciating 10% from the previous year's market value, with the minimum capped at $1000. 
+	<li> The actual selling price must be higher than the market value of the used car.
+	<li> The actual selling price must be higher than the manufacturer cost plus delivery charges of the new car.
+	<li> The commission is calculated by the commission rate times the profit (i.e., for used cars, commission = commission rate x (selling price - market value); for new cars, commission = commission rate x (selling price - (cost + delivery charges))), and it should be stored in case the salesman changes his commission rate.
+</ul>
+
+</dd>
+
+</dl>
+
+<p>
+The above should be sufficient to get started on designing your data model.
+It is essential that the data model you produce is rich enough to support all of the functionality mentioned above.
+If you need to make any assumptions, please write them down as well. They will become part of the design document.
+</p>
+
+</body>
+
+</html>

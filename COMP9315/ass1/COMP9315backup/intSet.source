@@ -1,0 +1,25 @@
+CREATE FUNCTION intset_in(cstring)
+   RETURNS intSet
+   AS '_OBJWD_/intSet'
+   LANGUAGE C IMMUTABLE STRICT;
+
+CREATE FUNCTION intset_out(intSet)
+   RETURNS cstring
+   AS '_OBJWD_/intSet'
+   LANGUAGE C IMMUTABLE STRICT;
+
+CREATE FUNCTION belong(integer, cstring)
+	RETURNS bool
+	AS '_OBJWD_/intSet'
+   LANGUAGE C IMMUTABLE STRICT;
+
+CREATE TYPE intSet (
+   internallength = 16,
+   input = intset_in,
+   output = intset_out
+);
+
+create operator <@(
+leftarg = integer,
+rightarg = cstring,
+precedure = belong);

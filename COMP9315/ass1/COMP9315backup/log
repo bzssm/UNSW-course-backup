@@ -1,0 +1,781 @@
+2018-08-30 17:37:53.480 AEST [1546] LOG:  listening on Unix socket "/srvr/z5089358/pgsql/data/.s.PGSQL.5432"
+2018-08-30 17:37:53.491 AEST [1546] LOG:  could not bind socket for statistics collector: Cannot assign requested address
+2018-08-30 17:37:53.491 AEST [1546] LOG:  disabling statistics collector for lack of working socket
+2018-08-30 17:37:53.491 AEST [1546] WARNING:  autovacuum not started because of misconfiguration
+2018-08-30 17:37:53.491 AEST [1546] HINT:  Enable the "track_counts" option.
+2018-08-30 17:37:53.494 AEST [1547] LOG:  database system was shut down at 2018-08-30 17:35:15 AEST
+2018-08-30 17:37:53.502 AEST [1546] LOG:  database system is ready to accept connections
+2018-08-30 17:37:56.439 AEST [1571] FATAL:  database "z5089358" does not exist
+2018-08-30 17:38:41.018 AEST [1717] ERROR:  type "complex" does not exist at character 44
+2018-08-30 17:38:41.018 AEST [1717] STATEMENT:  create table test(
+	id int primary key,
+	num complex);
+2018-08-30 17:39:17.951 AEST [1717] ERROR:  type "complex" is only a shell at character 44
+2018-08-30 17:39:17.951 AEST [1717] STATEMENT:  create table test(
+	id int primary key,
+	num complex);
+2018-08-30 17:40:57.930 AEST [3622] ERROR:  type "complex" does not exist at character 43
+2018-08-30 17:40:57.930 AEST [3622] STATEMENT:  create table test(id int primary key, num complex);
+2018-08-30 17:41:12.007 AEST [3622] ERROR:  type "complex" is only a shell at character 43
+2018-08-30 17:41:12.007 AEST [3622] STATEMENT:  create table test(id int primary key, num complex);
+2018-08-30 17:41:54.897 AEST [3622] ERROR:  type "complex" does not exist at character 43
+2018-08-30 17:41:54.897 AEST [3622] STATEMENT:  create table test(id int primary key, num complex);
+2018-08-30 17:42:01.334 AEST [3622] ERROR:  type "complex" does not exist at character 43
+2018-08-30 17:42:01.334 AEST [3622] STATEMENT:  create table test(id int primary key, num complex);
+2018-08-30 17:42:20.424 AEST [3622] ERROR:  type "complex" is only a shell at character 43
+2018-08-30 17:42:20.424 AEST [3622] STATEMENT:  create table test(id int primary key, num complex);
+2018-08-30 21:19:16.059 AEST [23349] ERROR:  type "intset" is only a shell at character 49
+2018-08-30 21:19:16.059 AEST [23349] STATEMENT:  create table mysets(id integer primary key,iset intSet);
+2018-08-30 21:21:12.534 AEST [23349] ERROR:  could not find function "complex_in" in file "/srvr/z5089358/postgresql-10.4/src/tutorial/intSet.so"
+2018-08-30 21:21:12.534 AEST [23349] STATEMENT:  CREATE FUNCTION complex_in(cstring)
+	   RETURNS intSet
+	   AS '/srvr/z5089358/postgresql-10.4/src/tutorial/intSet'
+	   LANGUAGE C IMMUTABLE STRICT;
+2018-08-30 21:21:12.534 AEST [23349] ERROR:  could not find function "complex_out" in file "/srvr/z5089358/postgresql-10.4/src/tutorial/intSet.so"
+2018-08-30 21:21:12.534 AEST [23349] STATEMENT:  CREATE FUNCTION complex_out(intSet)
+	   RETURNS cstring
+	   AS '/srvr/z5089358/postgresql-10.4/src/tutorial/intSet'
+	   LANGUAGE C IMMUTABLE STRICT;
+2018-08-30 21:21:12.534 AEST [23349] ERROR:  syntax error at or near ")" at character 90
+2018-08-30 21:21:12.534 AEST [23349] STATEMENT:  CREATE TYPE intSet (
+	   internallength = 40,
+	   input = inset_in,
+	   output = inset_out,
+	);
+2018-08-30 21:23:02.016 AEST [23349] ERROR:  could not access file "_OBJWD_/intSet": No such file or directory
+2018-08-30 21:23:02.016 AEST [23349] STATEMENT:  CREATE FUNCTION complex_in(cstring)
+	   RETURNS intSet
+	   AS '_OBJWD_/intSet'
+	   LANGUAGE C IMMUTABLE STRICT;
+2018-08-30 21:24:11.039 AEST [23349] ERROR:  could not access file "_OBJWD_/intSet": No such file or directory
+2018-08-30 21:24:11.039 AEST [23349] STATEMENT:  CREATE FUNCTION complex_in(cstring)
+	   RETURNS intSet
+	   AS '_OBJWD_/intSet'
+	   LANGUAGE C IMMUTABLE STRICT;
+2018-08-30 21:24:29.159 AEST [23349] ERROR:  could not find function "complex_in" in file "/srvr/z5089358/postgresql-10.4/src/tutorial/intSet.so"
+2018-08-30 21:24:29.159 AEST [23349] STATEMENT:  CREATE FUNCTION complex_in(cstring)
+	   RETURNS intSet
+	   AS '/srvr/z5089358/postgresql-10.4/src/tutorial/intSet'
+	   LANGUAGE C IMMUTABLE STRICT;
+2018-08-30 21:25:15.380 AEST [23349] ERROR:  could not access file "_OBJWD_/intSet": No such file or directory
+2018-08-30 21:25:15.380 AEST [23349] STATEMENT:  CREATE FUNCTION intset_in(cstring)
+	   RETURNS intSet
+	   AS '_OBJWD_/intSet'
+	   LANGUAGE C IMMUTABLE STRICT;
+2018-08-30 21:27:00.683 AEST [25628] ERROR:  syntax error at or near ")" at character 92
+2018-08-30 21:27:00.683 AEST [25628] STATEMENT:  CREATE TYPE intSet (
+	   internallength = 40,
+	   input = intset_in,
+	   output = intset_out,
+	);
+*** glibc detected *** postgres: z5089358 z5089358 [local] SELECT: free(): corrupted unsorted chunks: 0x086d12c8 ***
+======= Backtrace: =========
+/lib/i686/cmov/libc.so.6(+0x700a1)[0xb7e1e0a1]
+/lib/i686/cmov/libc.so.6(+0x718f8)[0xb7e1f8f8]
+/lib/i686/cmov/libc.so.6(cfree+0x6d)[0xb7e22a6d]
+postgres: z5089358 z5089358 [local] SELECT[0x84b04b3]
+postgres: z5089358 z5089358 [local] SELECT(MemoryContextDelete+0x4e)[0x84b44be]
+postgres: z5089358 z5089358 [local] SELECT[0x80c3686]
+postgres: z5089358 z5089358 [local] SELECT(standard_ExecutorRun+0x241)[0x82534c1]
+postgres: z5089358 z5089358 [local] SELECT[0x8387fab]
+postgres: z5089358 z5089358 [local] SELECT(PortalRun+0x19e)[0x838915e]
+postgres: z5089358 z5089358 [local] SELECT[0x83854f5]
+postgres: z5089358 z5089358 [local] SELECT(PostgresMain+0x54b)[0x83865cb]
+postgres: z5089358 z5089358 [local] SELECT[0x8310ca2]
+postgres: z5089358 z5089358 [local] SELECT(PostmasterMain+0x11b1)[0x83143a1]
+postgres: z5089358 z5089358 [local] SELECT(main+0x45f)[0x8290c0f]
+/lib/i686/cmov/libc.so.6(__libc_start_main+0xe6)[0xb7dc4d26]
+postgres: z5089358 z5089358 [local] SELECT[0x80b8c71]
+======= Memory map: ========
+08048000-08647000 r-xp 00000000 08:20 14296942   /export/grieg/1/z5089358/pgsql/bin/postgres
+08647000-08650000 rw-p 005ff000 08:20 14296942   /export/grieg/1/z5089358/pgsql/bin/postgres
+08650000-0875a000 rw-p 08650000 00:00 0          [heap]
+aef00000-aef21000 rw-p aef00000 00:00 0 
+aef21000-af000000 ---p aef21000 00:00 0 
+af0aa000-af0c6000 r-xp 00000000 08:00 443442     /usr/local/lib/libgcc_s.so.1
+af0c6000-af0c7000 rw-p 0001b000 08:00 443442     /usr/local/lib/libgcc_s.so.1
+af0dd000-af13f000 rw-p af0dd000 00:00 0 
+af13f000-b7b3f000 rw-s 00000000 00:07 33533420   /dev/zero (deleted)
+b7b3f000-b7b7c000 r--p 001ec000 08:00 411368     /usr/lib/locale/locale-archive
+b7b7c000-b7d7c000 r--p 00000000 08:00 411368     /usr/lib/locale/locale-archive
+b7d7c000-b7d7e000 rw-p b7d7c000 00:00 0 
+b7d7e000-b7d91000 r-xp 00000000 08:00 1362816    /lib/i686/cmov/libnsl-2.11.3.so
+b7d91000-b7d92000 r--p 00012000 08:00 1362816    /lib/i686/cmov/libnsl-2.11.3.so
+b7d92000-b7d93000 rw-p 00013000 08:00 1362816    /lib/i686/cmov/libnsl-2.11.3.so
+b7d93000-b7d95000 rw-p b7d93000 00:00 0 
+b7d95000-b7daa000 r-xp 00000000 08:00 1362893    /lib/i686/cmov/libpthread-2.11.3.so
+b7daa000-b7dab000 r--p 00014000 08:00 1362893    /lib/i686/cmov/libpthread-2.11.3.so
+b7dab000-b7dac000 rw-p 00015000 08:00 1362893    /lib/i686/cmov/libpthread-2.11.3.so
+b7dac000-b7dae000 rw-p b7dac000 00:00 0 
+b7dae000-b7efc000 r-xp 00000000 08:00 1362805    /lib/i686/cmov/libc-2.11.3.so
+b7efc000-b7efe000 r--p 0014d000 08:00 1362805    /lib/i686/cmov/libc-2.11.3.so
+b7efe000-b7eff000 rw-p 0014f000 08:00 1362805    /lib/i686/cmov/libc-2.11.3.so
+b7eff000-b7f02000 rw-p b7eff000 00:00 0 
+b7f02000-b7f26000 r-xp 00000000 08:00 1362813    /lib/i686/cmov/libm-2.11.3.so
+b7f26000-b7f27000 r--p 00023000 08:00 1362813    /lib/i686/cmov/libm-2.11.3.so
+b7f27000-b7f28000 rw-p 00024000 08:00 1362813    /lib/i686/cmov/libm-2.11.3.so
+b7f28000-b7f2a000 r-xp 00000000 08:00 1362811    /lib/i686/cmov/libdl-2.11.3.so
+b7f2a000-b7f2b000 r--p 00001000 08:00 1362811    /lib/i686/cmov/libdl-2.11.3.so
+b7f2b000-b7f2c000 rw-p 00002000 08:00 1362811    /lib/i686/cmov/libdl-2.11.3.so
+b7f2c000-b7f33000 r-xp 00000000 08:00 1362897    /lib/i686/cmov/librt-2.11.3.so
+b7f33000-b7f34000 r--p 00006000 08:00 1362897    /lib/i686/cmov/librt-2.11.3.so
+b7f34000-b7f35000 rw-p 00007000 08:00 1362897    /lib/i686/cmov/librt-2.11.3.so
+b7f3b000-b7f3c000 r-xp 00000000 08:20 14287888   /export/grieg/1/z5089358/postgresql-10.4/src/tutorial/intSet.so
+b7f3c000-b7f3d000 rw-p 00000000 08:20 14287888   /export/grieg/1/z5089358/postgresql-10.4/src/tutorial/intSet.so
+b7f3d000-b7f47000 r-xp 00000000 08:00 1362884    /lib/i686/cmov/libnss_files-2.11.3.so
+b7f47000-b7f48000 r--p 00009000 08:00 1362884    /lib/i686/cmov/libnss_files-2.11.3.so
+b7f48000-b7f49000 rw-p 0000a000 08:00 1362884    /lib/i686/cmov/libnss_files-2.11.3.so
+b7f49000-b7f4a000 rw-s 00000000 00:07 33533424   /SYSV566acc88 (deleted)
+b7f4a000-b7f4b000 rw-s 00000000 00:07 33533421   /SYSV0052e33b (deleted)
+b7f4b000-b7f4c000 r-xp 00000000 08:00 443491     /usr/local/lib/innetgr.so
+b7f4c000-b7f4d000 rw-p 00000000 08:00 443491     /usr/local/lib/innetgr.so
+b7f4d000-b7f50000 rw-p b7f4d000 00:00 0 
+b7f50000-b7f6b000 r-xp 00000000 08:00 1327131    /lib/ld-2.11.3.so
+b7f6b000-b7f6c000 r--p 0001b000 08:00 1327131    /lib/ld-2.11.3.so
+b7f6c000-b7f6d000 rw-p 0001c000 08:00 1327131    /lib/ld-2.11.3.so
+bf8de000-bf8f4000 rw-p bf8de000 00:00 0          [stack]
+ffffe000-fffff000 r-xp 00000000 00:00 0          [vdso]
+2018-08-30 21:29:09.132 AEST [1546] LOG:  server process (PID 25628) was terminated by signal 6: Aborted
+2018-08-30 21:29:09.132 AEST [1546] DETAIL:  Failed process was running: select * from mysets
+	;
+2018-08-30 21:29:09.132 AEST [1546] LOG:  terminating any other active server processes
+2018-08-30 21:29:09.132 AEST [26412] FATAL:  the database system is in recovery mode
+2018-08-30 21:29:09.132 AEST [1546] LOG:  all server processes terminated; reinitializing
+2018-08-30 21:29:09.144 AEST [26413] LOG:  database system was interrupted; last known up at 2018-08-30 21:25:43 AEST
+2018-08-30 21:29:09.172 AEST [26413] LOG:  database system was not properly shut down; automatic recovery in progress
+2018-08-30 21:29:09.174 AEST [26413] LOG:  redo starts at 0/166ED80
+2018-08-30 21:29:09.175 AEST [26413] LOG:  invalid record length at 0/1691238: wanted 24, got 0
+2018-08-30 21:29:09.175 AEST [26413] LOG:  redo done at 0/1691204
+2018-08-30 21:29:09.175 AEST [26413] LOG:  last completed transaction was at log time 2018-08-30 21:28:06.395547+10
+2018-08-30 21:29:09.208 AEST [1546] LOG:  database system is ready to accept connections
+2018-08-30 21:29:27.031 AEST [26482] ERROR:  unrecognized configuration parameter "tables"
+2018-08-30 21:29:27.031 AEST [26482] STATEMENT:  show tables;
+*** glibc detected *** postgres: z5089358 z5089358 [local] SELECT: free(): corrupted unsorted chunks: 0x08739568 ***
+======= Backtrace: =========
+/lib/i686/cmov/libc.so.6(+0x700a1)[0xb7e1e0a1]
+/lib/i686/cmov/libc.so.6(+0x718f8)[0xb7e1f8f8]
+/lib/i686/cmov/libc.so.6(cfree+0x6d)[0xb7e22a6d]
+postgres: z5089358 z5089358 [local] SELECT[0x84b04b3]
+postgres: z5089358 z5089358 [local] SELECT(MemoryContextDelete+0x4e)[0x84b44be]
+postgres: z5089358 z5089358 [local] SELECT(standard_ExecutorEnd+0x12d)[0x82515fd]
+postgres: z5089358 z5089358 [local] SELECT(PortalCleanup+0xa3)[0x8203453]
+postgres: z5089358 z5089358 [local] SELECT(PortalDrop+0x32)[0x84b5d12]
+postgres: z5089358 z5089358 [local] SELECT[0x838550b]
+postgres: z5089358 z5089358 [local] SELECT(PostgresMain+0x54b)[0x83865cb]
+postgres: z5089358 z5089358 [local] SELECT[0x8310ca2]
+postgres: z5089358 z5089358 [local] SELECT(PostmasterMain+0x11b1)[0x83143a1]
+postgres: z5089358 z5089358 [local] SELECT(main+0x45f)[0x8290c0f]
+/lib/i686/cmov/libc.so.6(__libc_start_main+0xe6)[0xb7dc4d26]
+postgres: z5089358 z5089358 [local] SELECT[0x80b8c71]
+======= Memory map: ========
+08048000-08647000 r-xp 00000000 08:20 14296942   /export/grieg/1/z5089358/pgsql/bin/postgres
+08647000-08650000 rw-p 005ff000 08:20 14296942   /export/grieg/1/z5089358/pgsql/bin/postgres
+08650000-08762000 rw-p 08650000 00:00 0          [heap]
+aef00000-aef21000 rw-p aef00000 00:00 0 
+aef21000-af000000 ---p aef21000 00:00 0 
+af0a8000-af0c4000 r-xp 00000000 08:00 443442     /usr/local/lib/libgcc_s.so.1
+af0c4000-af0c5000 rw-p 0001b000 08:00 443442     /usr/local/lib/libgcc_s.so.1
+af0db000-af0dc000 r-xp 00000000 08:20 14287888   /export/grieg/1/z5089358/postgresql-10.4/src/tutorial/intSet.so
+af0dc000-af0dd000 rw-p 00000000 08:20 14287888   /export/grieg/1/z5089358/postgresql-10.4/src/tutorial/intSet.so
+af0dd000-af13f000 rw-p af0dd000 00:00 0 
+af13f000-b7b3f000 rw-s 00000000 00:07 34408923   /dev/zero (deleted)
+b7b3f000-b7b7c000 r--p 001ec000 08:00 411368     /usr/lib/locale/locale-archive
+b7b7c000-b7d7c000 r--p 00000000 08:00 411368     /usr/lib/locale/locale-archive
+b7d7c000-b7d7e000 rw-p b7d7c000 00:00 0 
+b7d7e000-b7d91000 r-xp 00000000 08:00 1362816    /lib/i686/cmov/libnsl-2.11.3.so
+b7d91000-b7d92000 r--p 00012000 08:00 1362816    /lib/i686/cmov/libnsl-2.11.3.so
+b7d92000-b7d93000 rw-p 00013000 08:00 1362816    /lib/i686/cmov/libnsl-2.11.3.so
+b7d93000-b7d95000 rw-p b7d93000 00:00 0 
+b7d95000-b7daa000 r-xp 00000000 08:00 1362893    /lib/i686/cmov/libpthread-2.11.3.so
+b7daa000-b7dab000 r--p 00014000 08:00 1362893    /lib/i686/cmov/libpthread-2.11.3.so
+b7dab000-b7dac000 rw-p 00015000 08:00 1362893    /lib/i686/cmov/libpthread-2.11.3.so
+b7dac000-b7dae000 rw-p b7dac000 00:00 0 
+b7dae000-b7efc000 r-xp 00000000 08:00 1362805    /lib/i686/cmov/libc-2.11.3.so
+b7efc000-b7efe000 r--p 0014d000 08:00 1362805    /lib/i686/cmov/libc-2.11.3.so
+b7efe000-b7eff000 rw-p 0014f000 08:00 1362805    /lib/i686/cmov/libc-2.11.3.so
+b7eff000-b7f02000 rw-p b7eff000 00:00 0 
+b7f02000-b7f26000 r-xp 00000000 08:00 1362813    /lib/i686/cmov/libm-2.11.3.so
+b7f26000-b7f27000 r--p 00023000 08:00 1362813    /lib/i686/cmov/libm-2.11.3.so
+b7f27000-b7f28000 rw-p 00024000 08:00 1362813    /lib/i686/cmov/libm-2.11.3.so
+b7f28000-b7f2a000 r-xp 00000000 08:00 1362811    /lib/i686/cmov/libdl-2.11.3.so
+b7f2a000-b7f2b000 r--p 00001000 08:00 1362811    /lib/i686/cmov/libdl-2.11.3.so
+b7f2b000-b7f2c000 rw-p 00002000 08:00 1362811    /lib/i686/cmov/libdl-2.11.3.so
+b7f2c000-b7f33000 r-xp 00000000 08:00 1362897    /lib/i686/cmov/librt-2.11.3.so
+b7f33000-b7f34000 r--p 00006000 08:00 1362897    /lib/i686/cmov/librt-2.11.3.so
+b7f34000-b7f35000 rw-p 00007000 08:00 1362897    /lib/i686/cmov/librt-2.11.3.so
+b7f3d000-b7f47000 r-xp 00000000 08:00 1362884    /lib/i686/cmov/libnss_files-2.11.3.so
+b7f47000-b7f48000 r--p 00009000 08:00 1362884    /lib/i686/cmov/libnss_files-2.11.3.so
+b7f48000-b7f49000 rw-p 0000a000 08:00 1362884    /lib/i686/cmov/libnss_files-2.11.3.so
+b7f49000-b7f4a000 rw-s 00000000 00:07 34408926   /SYSV629be60e (deleted)
+b7f4a000-b7f4b000 rw-s 00000000 00:07 34408924   /SYSV0052e33b (deleted)
+b7f4b000-b7f4c000 r-xp 00000000 08:00 443491     /usr/local/lib/innetgr.so
+b7f4c000-b7f4d000 rw-p 00000000 08:00 443491     /usr/local/lib/innetgr.so
+b7f4d000-b7f50000 rw-p b7f4d000 00:00 0 
+b7f50000-b7f6b000 r-xp 00000000 08:00 1327131    /lib/ld-2.11.3.so
+b7f6b000-b7f6c000 r--p 0001b000 08:00 1327131    /lib/ld-2.11.3.so
+b7f6c000-b7f6d000 rw-p 0001c000 08:00 1327131    /lib/ld-2.11.3.so
+bf8de000-bf8f4000 rw-p bf8de000 00:00 0          [stack]
+ffffe000-fffff000 r-xp 00000000 00:00 0          [vdso]
+2018-08-30 21:29:44.433 AEST [1546] LOG:  server process (PID 26482) was terminated by signal 6: Aborted
+2018-08-30 21:29:44.433 AEST [1546] DETAIL:  Failed process was running: select * from mysets
+	;
+2018-08-30 21:29:44.433 AEST [1546] LOG:  terminating any other active server processes
+2018-08-30 21:29:44.433 AEST [26601] FATAL:  the database system is in recovery mode
+2018-08-30 21:29:44.434 AEST [1546] LOG:  all server processes terminated; reinitializing
+2018-08-30 21:29:44.446 AEST [26602] LOG:  database system was interrupted; last known up at 2018-08-30 21:29:09 AEST
+2018-08-30 21:29:44.501 AEST [26602] LOG:  database system was not properly shut down; automatic recovery in progress
+2018-08-30 21:29:44.503 AEST [26602] LOG:  redo starts at 0/16912A0
+2018-08-30 21:29:44.503 AEST [26602] LOG:  invalid record length at 0/1692FC4: wanted 24, got 0
+2018-08-30 21:29:44.503 AEST [26602] LOG:  redo done at 0/1692F90
+2018-08-30 21:29:44.516 AEST [1546] LOG:  database system is ready to accept connections
+2018-08-30 21:30:56.640 AEST [26941] ERROR:  function "intset_in" already exists with same argument types
+2018-08-30 21:30:56.640 AEST [26941] STATEMENT:  CREATE FUNCTION intset_in(cstring)
+	   RETURNS intSet
+	   AS '/srvr/z5089358/postgresql-10.4/src/tutorial/intSet'
+	   LANGUAGE C IMMUTABLE STRICT;
+2018-08-30 21:30:56.641 AEST [26941] ERROR:  function "intset_out" already exists with same argument types
+2018-08-30 21:30:56.641 AEST [26941] STATEMENT:  CREATE FUNCTION intset_out(intSet)
+	   RETURNS cstring
+	   AS '/srvr/z5089358/postgresql-10.4/src/tutorial/intSet'
+	   LANGUAGE C IMMUTABLE STRICT;
+2018-08-30 21:31:00.906 AEST [26941] ERROR:  type "intset" already exists
+2018-08-30 21:31:00.906 AEST [26941] STATEMENT:  CREATE TYPE intSet (
+	   internallength = 40,
+	   input = intset_in,
+	   output = intset_out
+	);
+2018-08-30 21:31:45.630 AEST [26941] ERROR:  relation "mysets" already exists
+2018-08-30 21:31:45.630 AEST [26941] STATEMENT:  create table mySets (id integer primary key, iset intSet);
+2018-08-30 21:31:52.214 AEST [26941] ERROR:  INSERT has more expressions than target columns at character 31
+2018-08-30 21:31:52.214 AEST [26941] STATEMENT:  insert into mySets values (1, '{1,2,3}');
+*** glibc detected *** postgres: z5089358 z5089358 [local] DROP TYPE: malloc(): memory corruption: 0x086cecf0 ***
+======= Backtrace: =========
+/lib/i686/cmov/libc.so.6(+0x700a1)[0xb7e1e0a1]
+/lib/i686/cmov/libc.so.6(+0x72ea5)[0xb7e20ea5]
+/lib/i686/cmov/libc.so.6(__libc_malloc+0x5c)[0xb7e22b3c]
+postgres: z5089358 z5089358 [local] DROP TYPE[0x84aff9e]
+postgres: z5089358 z5089358 [local] DROP TYPE(MemoryContextAlloc+0x2a)[0x84b527a]
+postgres: z5089358 z5089358 [local] DROP TYPE(PushActiveSnapshot+0x20)[0x84c5c70]
+postgres: z5089358 z5089358 [local] DROP TYPE[0x8387b60]
+postgres: z5089358 z5089358 [local] DROP TYPE[0x8388a61]
+postgres: z5089358 z5089358 [local] DROP TYPE(PortalRun+0x225)[0x83891e5]
+postgres: z5089358 z5089358 [local] DROP TYPE[0x83854f5]
+postgres: z5089358 z5089358 [local] DROP TYPE(PostgresMain+0x54b)[0x83865cb]
+postgres: z5089358 z5089358 [local] DROP TYPE[0x8310ca2]
+postgres: z5089358 z5089358 [local] DROP TYPE(PostmasterMain+0x11b1)[0x83143a1]
+postgres: z5089358 z5089358 [local] DROP TYPE(main+0x45f)[0x8290c0f]
+/lib/i686/cmov/libc.so.6(__libc_start_main+0xe6)[0xb7dc4d26]
+postgres: z5089358 z5089358 [local] DROP TYPE[0x80b8c71]
+======= Memory map: ========
+08048000-08647000 r-xp 00000000 08:20 14296942   /export/grieg/1/z5089358/pgsql/bin/postgres
+08647000-08650000 rw-p 005ff000 08:20 14296942   /export/grieg/1/z5089358/pgsql/bin/postgres
+08650000-08755000 rw-p 08650000 00:00 0          [heap]
+aef00000-aef21000 rw-p aef00000 00:00 0 
+aef21000-af000000 ---p aef21000 00:00 0 
+af0a8000-af0c4000 r-xp 00000000 08:00 443442     /usr/local/lib/libgcc_s.so.1
+af0c4000-af0c5000 rw-p 0001b000 08:00 443442     /usr/local/lib/libgcc_s.so.1
+af0db000-af0dc000 r-xp 00000000 08:20 14287888   /export/grieg/1/z5089358/postgresql-10.4/src/tutorial/intSet.so
+af0dc000-af0dd000 rw-p 00000000 08:20 14287888   /export/grieg/1/z5089358/postgresql-10.4/src/tutorial/intSet.so
+af0dd000-af13f000 rw-p af0dd000 00:00 0 
+af13f000-b7b3f000 rw-s 00000000 00:07 34412185   /dev/zero (deleted)
+b7b3f000-b7b7c000 r--p 001ec000 08:00 411368     /usr/lib/locale/locale-archive
+b7b7c000-b7d7c000 r--p 00000000 08:00 411368     /usr/lib/locale/locale-archive
+b7d7c000-b7d7e000 rw-p b7d7c000 00:00 0 
+b7d7e000-b7d91000 r-xp 00000000 08:00 1362816    /lib/i686/cmov/libnsl-2.11.3.so
+b7d91000-b7d92000 r--p 00012000 08:00 1362816    /lib/i686/cmov/libnsl-2.11.3.so
+b7d92000-b7d93000 rw-p 00013000 08:00 1362816    /lib/i686/cmov/libnsl-2.11.3.so
+b7d93000-b7d95000 rw-p b7d93000 00:00 0 
+b7d95000-b7daa000 r-xp 00000000 08:00 1362893    /lib/i686/cmov/libpthread-2.11.3.so
+b7daa000-b7dab000 r--p 00014000 08:00 1362893    /lib/i686/cmov/libpthread-2.11.3.so
+b7dab000-b7dac000 rw-p 00015000 08:00 1362893    /lib/i686/cmov/libpthread-2.11.3.so
+b7dac000-b7dae000 rw-p b7dac000 00:00 0 
+b7dae000-b7efc000 r-xp 00000000 08:00 1362805    /lib/i686/cmov/libc-2.11.3.so
+b7efc000-b7efe000 r--p 0014d000 08:00 1362805    /lib/i686/cmov/libc-2.11.3.so
+b7efe000-b7eff000 rw-p 0014f000 08:00 1362805    /lib/i686/cmov/libc-2.11.3.so
+b7eff000-b7f02000 rw-p b7eff000 00:00 0 
+b7f02000-b7f26000 r-xp 00000000 08:00 1362813    /lib/i686/cmov/libm-2.11.3.so
+b7f26000-b7f27000 r--p 00023000 08:00 1362813    /lib/i686/cmov/libm-2.11.3.so
+b7f27000-b7f28000 rw-p 00024000 08:00 1362813    /lib/i686/cmov/libm-2.11.3.so
+b7f28000-b7f2a000 r-xp 00000000 08:00 1362811    /lib/i686/cmov/libdl-2.11.3.so
+b7f2a000-b7f2b000 r--p 00001000 08:00 1362811    /lib/i686/cmov/libdl-2.11.3.so
+b7f2b000-b7f2c000 rw-p 00002000 08:00 1362811    /lib/i686/cmov/libdl-2.11.3.so
+b7f2c000-b7f33000 r-xp 00000000 08:00 1362897    /lib/i686/cmov/librt-2.11.3.so
+b7f33000-b7f34000 r--p 00006000 08:00 1362897    /lib/i686/cmov/librt-2.11.3.so
+b7f34000-b7f35000 rw-p 00007000 08:00 1362897    /lib/i686/cmov/librt-2.11.3.so
+b7f3d000-b7f47000 r-xp 00000000 08:00 1362884    /lib/i686/cmov/libnss_files-2.11.3.so
+b7f47000-b7f48000 r--p 00009000 08:00 1362884    /lib/i686/cmov/libnss_files-2.11.3.so
+b7f48000-b7f49000 rw-p 0000a000 08:00 1362884    /lib/i686/cmov/libnss_files-2.11.3.so
+b7f49000-b7f4a000 rw-s 00000000 00:07 34412188   /SYSV1214a9b7 (deleted)
+b7f4a000-b7f4b000 rw-s 00000000 00:07 34412186   /SYSV0052e33b (deleted)
+b7f4b000-b7f4c000 r-xp 00000000 08:00 443491     /usr/local/lib/innetgr.so
+b7f4c000-b7f4d000 rw-p 00000000 08:00 443491     /usr/local/lib/innetgr.so
+b7f4d000-b7f50000 rw-p b7f4d000 00:00 0 
+b7f50000-b7f6b000 r-xp 00000000 08:00 1327131    /lib/ld-2.11.3.so
+b7f6b000-b7f6c000 r--p 0001b000 08:00 1327131    /lib/ld-2.11.3.so
+b7f6c000-b7f6d000 rw-p 0001c000 08:00 1327131    /lib/ld-2.11.3.so
+bf8de000-bf8f4000 rw-p bf8de000 00:00 0          [stack]
+ffffe000-fffff000 r-xp 00000000 00:00 0          [vdso]
+2018-08-30 21:33:35.652 AEST [1546] LOG:  server process (PID 26941) was terminated by signal 6: Aborted
+2018-08-30 21:33:35.652 AEST [1546] DETAIL:  Failed process was running: drop type intSet cascade;
+2018-08-30 21:33:35.652 AEST [1546] LOG:  terminating any other active server processes
+2018-08-30 21:33:35.652 AEST [27837] FATAL:  the database system is in recovery mode
+2018-08-30 21:33:35.652 AEST [1546] LOG:  all server processes terminated; reinitializing
+2018-08-30 21:33:35.667 AEST [27838] LOG:  database system was interrupted; last known up at 2018-08-30 21:29:44 AEST
+2018-08-30 21:33:35.705 AEST [27838] LOG:  database system was not properly shut down; automatic recovery in progress
+2018-08-30 21:33:35.708 AEST [27838] LOG:  redo starts at 0/169302C
+2018-08-30 21:33:35.709 AEST [27838] LOG:  invalid record length at 0/16B84C4: wanted 24, got 0
+2018-08-30 21:33:35.709 AEST [27838] LOG:  redo done at 0/16B8490
+2018-08-30 21:33:35.709 AEST [27838] LOG:  last completed transaction was at log time 2018-08-30 21:33:11.799287+10
+2018-08-30 21:33:35.741 AEST [1546] LOG:  database system is ready to accept connections
+2018-08-30 21:37:39.193 AEST [27862] ERROR:  type "intset" does not exist
+2018-08-30 21:37:39.193 AEST [27862] STATEMENT:  drop type intSet cascade;
+2018-08-30 21:37:43.272 AEST [27862] ERROR:  table "mysets" does not exist
+2018-08-30 21:37:43.272 AEST [27862] STATEMENT:  drop table mySets;
+2018-08-30 21:37:48.834 AEST [27862] ERROR:  type "intset" does not exist at character 51
+2018-08-30 21:37:48.834 AEST [27862] STATEMENT:  create table mySets (id integer primary key, iset intSet);
+2018-08-30 21:38:30.440 AEST [27862] ERROR:  function "intset_in" already exists with same argument types
+2018-08-30 21:38:30.440 AEST [27862] STATEMENT:  CREATE FUNCTION intset_in(cstring)
+	   RETURNS intSet
+	   AS '/srvr/z5089358/postgresql-10.4/src/tutorial/intSet'
+	   LANGUAGE C IMMUTABLE STRICT;
+*** glibc detected *** postgres: z5089358 z5089358 [local] SELECT: free(): corrupted unsorted chunks: 0x08747f88 ***
+======= Backtrace: =========
+/lib/i686/cmov/libc.so.6(+0x700a1)[0xb7e1e0a1]
+/lib/i686/cmov/libc.so.6(+0x718f8)[0xb7e1f8f8]
+/lib/i686/cmov/libc.so.6(cfree+0x6d)[0xb7e22a6d]
+postgres: z5089358 z5089358 [local] SELECT[0x84b04b3]
+postgres: z5089358 z5089358 [local] SELECT(MemoryContextDelete+0x4e)[0x84b44be]
+postgres: z5089358 z5089358 [local] SELECT(standard_ExecutorEnd+0x12d)[0x82515fd]
+postgres: z5089358 z5089358 [local] SELECT(PortalCleanup+0xa3)[0x8203453]
+postgres: z5089358 z5089358 [local] SELECT(PortalDrop+0x32)[0x84b5d12]
+postgres: z5089358 z5089358 [local] SELECT[0x838550b]
+postgres: z5089358 z5089358 [local] SELECT(PostgresMain+0x54b)[0x83865cb]
+postgres: z5089358 z5089358 [local] SELECT[0x8310ca2]
+postgres: z5089358 z5089358 [local] SELECT(PostmasterMain+0x11b1)[0x83143a1]
+postgres: z5089358 z5089358 [local] SELECT(main+0x45f)[0x8290c0f]
+/lib/i686/cmov/libc.so.6(__libc_start_main+0xe6)[0xb7dc4d26]
+postgres: z5089358 z5089358 [local] SELECT[0x80b8c71]
+======= Memory map: ========
+08048000-08647000 r-xp 00000000 08:20 14296942   /export/grieg/1/z5089358/pgsql/bin/postgres
+08647000-08650000 rw-p 005ff000 08:20 14296942   /export/grieg/1/z5089358/pgsql/bin/postgres
+08650000-08755000 rw-p 08650000 00:00 0          [heap]
+aef00000-aef21000 rw-p aef00000 00:00 0 
+aef21000-af000000 ---p aef21000 00:00 0 
+af0a8000-af0c4000 r-xp 00000000 08:00 443442     /usr/local/lib/libgcc_s.so.1
+af0c4000-af0c5000 rw-p 0001b000 08:00 443442     /usr/local/lib/libgcc_s.so.1
+af0db000-af0dc000 r-xp 00000000 08:20 14287888   /export/grieg/1/z5089358/postgresql-10.4/src/tutorial/intSet.so
+af0dc000-af0dd000 rw-p 00000000 08:20 14287888   /export/grieg/1/z5089358/postgresql-10.4/src/tutorial/intSet.so
+af0dd000-af13f000 rw-p af0dd000 00:00 0 
+af13f000-b7b3f000 rw-s 00000000 00:07 34429292   /dev/zero (deleted)
+b7b3f000-b7b7c000 r--p 001ec000 08:00 411368     /usr/lib/locale/locale-archive
+b7b7c000-b7d7c000 r--p 00000000 08:00 411368     /usr/lib/locale/locale-archive
+b7d7c000-b7d7e000 rw-p b7d7c000 00:00 0 
+b7d7e000-b7d91000 r-xp 00000000 08:00 1362816    /lib/i686/cmov/libnsl-2.11.3.so
+b7d91000-b7d92000 r--p 00012000 08:00 1362816    /lib/i686/cmov/libnsl-2.11.3.so
+b7d92000-b7d93000 rw-p 00013000 08:00 1362816    /lib/i686/cmov/libnsl-2.11.3.so
+b7d93000-b7d95000 rw-p b7d93000 00:00 0 
+b7d95000-b7daa000 r-xp 00000000 08:00 1362893    /lib/i686/cmov/libpthread-2.11.3.so
+b7daa000-b7dab000 r--p 00014000 08:00 1362893    /lib/i686/cmov/libpthread-2.11.3.so
+b7dab000-b7dac000 rw-p 00015000 08:00 1362893    /lib/i686/cmov/libpthread-2.11.3.so
+b7dac000-b7dae000 rw-p b7dac000 00:00 0 
+b7dae000-b7efc000 r-xp 00000000 08:00 1362805    /lib/i686/cmov/libc-2.11.3.so
+b7efc000-b7efe000 r--p 0014d000 08:00 1362805    /lib/i686/cmov/libc-2.11.3.so
+b7efe000-b7eff000 rw-p 0014f000 08:00 1362805    /lib/i686/cmov/libc-2.11.3.so
+b7eff000-b7f02000 rw-p b7eff000 00:00 0 
+b7f02000-b7f26000 r-xp 00000000 08:00 1362813    /lib/i686/cmov/libm-2.11.3.so
+b7f26000-b7f27000 r--p 00023000 08:00 1362813    /lib/i686/cmov/libm-2.11.3.so
+b7f27000-b7f28000 rw-p 00024000 08:00 1362813    /lib/i686/cmov/libm-2.11.3.so
+b7f28000-b7f2a000 r-xp 00000000 08:00 1362811    /lib/i686/cmov/libdl-2.11.3.so
+b7f2a000-b7f2b000 r--p 00001000 08:00 1362811    /lib/i686/cmov/libdl-2.11.3.so
+b7f2b000-b7f2c000 rw-p 00002000 08:00 1362811    /lib/i686/cmov/libdl-2.11.3.so
+b7f2c000-b7f33000 r-xp 00000000 08:00 1362897    /lib/i686/cmov/librt-2.11.3.so
+b7f33000-b7f34000 r--p 00006000 08:00 1362897    /lib/i686/cmov/librt-2.11.3.so
+b7f34000-b7f35000 rw-p 00007000 08:00 1362897    /lib/i686/cmov/librt-2.11.3.so
+b7f3d000-b7f47000 r-xp 00000000 08:00 1362884    /lib/i686/cmov/libnss_files-2.11.3.so
+b7f47000-b7f48000 r--p 00009000 08:00 1362884    /lib/i686/cmov/libnss_files-2.11.3.so
+b7f48000-b7f49000 rw-p 0000a000 08:00 1362884    /lib/i686/cmov/libnss_files-2.11.3.so
+b7f49000-b7f4a000 rw-s 00000000 00:07 34429295   /SYSV5ae8b953 (deleted)
+b7f4a000-b7f4b000 rw-s 00000000 00:07 34429293   /SYSV0052e33b (deleted)
+b7f4b000-b7f4c000 r-xp 00000000 08:00 443491     /usr/local/lib/innetgr.so
+b7f4c000-b7f4d000 rw-p 00000000 08:00 443491     /usr/local/lib/innetgr.so
+b7f4d000-b7f50000 rw-p b7f4d000 00:00 0 
+b7f50000-b7f6b000 r-xp 00000000 08:00 1327131    /lib/ld-2.11.3.so
+b7f6b000-b7f6c000 r--p 0001b000 08:00 1327131    /lib/ld-2.11.3.so
+b7f6c000-b7f6d000 rw-p 0001c000 08:00 1327131    /lib/ld-2.11.3.so
+bf8de000-bf8f4000 rw-p bf8de000 00:00 0          [stack]
+ffffe000-fffff000 r-xp 00000000 00:00 0          [vdso]
+2018-08-30 21:38:30.452 AEST [1546] LOG:  server process (PID 27862) was terminated by signal 6: Aborted
+2018-08-30 21:38:30.452 AEST [1546] DETAIL:  Failed process was running: select * from mySets;
+2018-08-30 21:38:30.452 AEST [1546] LOG:  terminating any other active server processes
+2018-08-30 21:38:30.453 AEST [1546] LOG:  all server processes terminated; reinitializing
+2018-08-30 21:38:30.466 AEST [29883] LOG:  database system was interrupted; last known up at 2018-08-30 21:33:35 AEST
+2018-08-30 21:38:30.501 AEST [29883] LOG:  database system was not properly shut down; automatic recovery in progress
+2018-08-30 21:38:30.503 AEST [29883] LOG:  redo starts at 0/16B852C
+2018-08-30 21:38:30.504 AEST [29883] LOG:  invalid record length at 0/16DC934: wanted 24, got 0
+2018-08-30 21:38:30.504 AEST [29883] LOG:  redo done at 0/16DC910
+2018-08-30 21:38:30.504 AEST [29883] LOG:  last completed transaction was at log time 2018-08-30 21:38:30.449459+10
+2018-08-30 21:38:30.533 AEST [1546] LOG:  database system is ready to accept connections
+*** glibc detected *** postgres: z5089358 z5089358 [local] SELECT: free(): corrupted unsorted chunks: 0x08747f88 ***
+======= Backtrace: =========
+/lib/i686/cmov/libc.so.6(+0x700a1)[0xb7e1e0a1]
+/lib/i686/cmov/libc.so.6(+0x718f8)[0xb7e1f8f8]
+/lib/i686/cmov/libc.so.6(cfree+0x6d)[0xb7e22a6d]
+postgres: z5089358 z5089358 [local] SELECT[0x84b04b3]
+postgres: z5089358 z5089358 [local] SELECT(MemoryContextDelete+0x4e)[0x84b44be]
+postgres: z5089358 z5089358 [local] SELECT(standard_ExecutorEnd+0x12d)[0x82515fd]
+postgres: z5089358 z5089358 [local] SELECT(PortalCleanup+0xa3)[0x8203453]
+postgres: z5089358 z5089358 [local] SELECT(PortalDrop+0x32)[0x84b5d12]
+postgres: z5089358 z5089358 [local] SELECT[0x838550b]
+postgres: z5089358 z5089358 [local] SELECT(PostgresMain+0x54b)[0x83865cb]
+postgres: z5089358 z5089358 [local] SELECT[0x8310ca2]
+postgres: z5089358 z5089358 [local] SELECT(PostmasterMain+0x11b1)[0x83143a1]
+postgres: z5089358 z5089358 [local] SELECT(main+0x45f)[0x8290c0f]
+/lib/i686/cmov/libc.so.6(__libc_start_main+0xe6)[0xb7dc4d26]
+postgres: z5089358 z5089358 [local] SELECT[0x80b8c71]
+======= Memory map: ========
+08048000-08647000 r-xp 00000000 08:20 14296942   /export/grieg/1/z5089358/pgsql/bin/postgres
+08647000-08650000 rw-p 005ff000 08:20 14296942   /export/grieg/1/z5089358/pgsql/bin/postgres
+08650000-08755000 rw-p 08650000 00:00 0          [heap]
+aef00000-aef21000 rw-p aef00000 00:00 0 
+aef21000-af000000 ---p aef21000 00:00 0 
+af0a8000-af0c4000 r-xp 00000000 08:00 443442     /usr/local/lib/libgcc_s.so.1
+af0c4000-af0c5000 rw-p 0001b000 08:00 443442     /usr/local/lib/libgcc_s.so.1
+af0db000-af0dc000 r-xp 00000000 08:20 14287888   /export/grieg/1/z5089358/postgresql-10.4/src/tutorial/intSet.so
+af0dc000-af0dd000 rw-p 00000000 08:20 14287888   /export/grieg/1/z5089358/postgresql-10.4/src/tutorial/intSet.so
+af0dd000-af13f000 rw-p af0dd000 00:00 0 
+af13f000-b7b3f000 rw-s 00000000 00:07 34448931   /dev/zero (deleted)
+b7b3f000-b7b7c000 r--p 001ec000 08:00 411368     /usr/lib/locale/locale-archive
+b7b7c000-b7d7c000 r--p 00000000 08:00 411368     /usr/lib/locale/locale-archive
+b7d7c000-b7d7e000 rw-p b7d7c000 00:00 0 
+b7d7e000-b7d91000 r-xp 00000000 08:00 1362816    /lib/i686/cmov/libnsl-2.11.3.so
+b7d91000-b7d92000 r--p 00012000 08:00 1362816    /lib/i686/cmov/libnsl-2.11.3.so
+b7d92000-b7d93000 rw-p 00013000 08:00 1362816    /lib/i686/cmov/libnsl-2.11.3.so
+b7d93000-b7d95000 rw-p b7d93000 00:00 0 
+b7d95000-b7daa000 r-xp 00000000 08:00 1362893    /lib/i686/cmov/libpthread-2.11.3.so
+b7daa000-b7dab000 r--p 00014000 08:00 1362893    /lib/i686/cmov/libpthread-2.11.3.so
+b7dab000-b7dac000 rw-p 00015000 08:00 1362893    /lib/i686/cmov/libpthread-2.11.3.so
+b7dac000-b7dae000 rw-p b7dac000 00:00 0 
+b7dae000-b7efc000 r-xp 00000000 08:00 1362805    /lib/i686/cmov/libc-2.11.3.so
+b7efc000-b7efe000 r--p 0014d000 08:00 1362805    /lib/i686/cmov/libc-2.11.3.so
+b7efe000-b7eff000 rw-p 0014f000 08:00 1362805    /lib/i686/cmov/libc-2.11.3.so
+b7eff000-b7f02000 rw-p b7eff000 00:00 0 
+b7f02000-b7f26000 r-xp 00000000 08:00 1362813    /lib/i686/cmov/libm-2.11.3.so
+b7f26000-b7f27000 r--p 00023000 08:00 1362813    /lib/i686/cmov/libm-2.11.3.so
+b7f27000-b7f28000 rw-p 00024000 08:00 1362813    /lib/i686/cmov/libm-2.11.3.so
+b7f28000-b7f2a000 r-xp 00000000 08:00 1362811    /lib/i686/cmov/libdl-2.11.3.so
+b7f2a000-b7f2b000 r--p 00001000 08:00 1362811    /lib/i686/cmov/libdl-2.11.3.so
+b7f2b000-b7f2c000 rw-p 00002000 08:00 1362811    /lib/i686/cmov/libdl-2.11.3.so
+b7f2c000-b7f33000 r-xp 00000000 08:00 1362897    /lib/i686/cmov/librt-2.11.3.so
+b7f33000-b7f34000 r--p 00006000 08:00 1362897    /lib/i686/cmov/librt-2.11.3.so
+b7f34000-b7f35000 rw-p 00007000 08:00 1362897    /lib/i686/cmov/librt-2.11.3.so
+b7f3d000-b7f47000 r-xp 00000000 08:00 1362884    /lib/i686/cmov/libnss_files-2.11.3.so
+b7f47000-b7f48000 r--p 00009000 08:00 1362884    /lib/i686/cmov/libnss_files-2.11.3.so
+b7f48000-b7f49000 rw-p 0000a000 08:00 1362884    /lib/i686/cmov/libnss_files-2.11.3.so
+b7f49000-b7f4a000 rw-s 00000000 00:07 34448934   /SYSV3210fb71 (deleted)
+b7f4a000-b7f4b000 rw-s 00000000 00:07 34448932   /SYSV0052e33b (deleted)
+b7f4b000-b7f4c000 r-xp 00000000 08:00 443491     /usr/local/lib/innetgr.so
+b7f4c000-b7f4d000 rw-p 00000000 08:00 443491     /usr/local/lib/innetgr.so
+b7f4d000-b7f50000 rw-p b7f4d000 00:00 0 
+b7f50000-b7f6b000 r-xp 00000000 08:00 1327131    /lib/ld-2.11.3.so
+b7f6b000-b7f6c000 r--p 0001b000 08:00 1327131    /lib/ld-2.11.3.so
+b7f6c000-b7f6d000 rw-p 0001c000 08:00 1327131    /lib/ld-2.11.3.so
+bf8de000-bf8f4000 rw-p bf8de000 00:00 0          [stack]
+ffffe000-fffff000 r-xp 00000000 00:00 0          [vdso]
+2018-08-30 21:39:11.890 AEST [1546] LOG:  server process (PID 30156) was terminated by signal 6: Aborted
+2018-08-30 21:39:11.890 AEST [1546] DETAIL:  Failed process was running: select * from mySets;
+2018-08-30 21:39:11.890 AEST [1546] LOG:  terminating any other active server processes
+2018-08-30 21:39:11.890 AEST [30280] FATAL:  the database system is in recovery mode
+2018-08-30 21:39:11.890 AEST [1546] LOG:  all server processes terminated; reinitializing
+2018-08-30 21:39:11.905 AEST [30281] LOG:  database system was interrupted; last known up at 2018-08-30 21:38:30 AEST
+2018-08-30 21:39:11.969 AEST [30281] LOG:  database system was not properly shut down; automatic recovery in progress
+2018-08-30 21:39:12.004 AEST [30281] LOG:  redo starts at 0/16DC99C
+2018-08-30 21:39:12.005 AEST [30281] LOG:  invalid record length at 0/1702590: wanted 24, got 0
+2018-08-30 21:39:12.005 AEST [30281] LOG:  redo done at 0/170256C
+2018-08-30 21:39:12.005 AEST [30281] LOG:  last completed transaction was at log time 2018-08-30 21:39:08.123228+10
+2018-08-30 21:39:12.041 AEST [1546] LOG:  database system is ready to accept connections
+*** glibc detected *** postgres: z5089358 z5089358 [local] SELECT: free(): corrupted unsorted chunks: 0x08747f88 ***
+======= Backtrace: =========
+/lib/i686/cmov/libc.so.6(+0x700a1)[0xb7e1e0a1]
+/lib/i686/cmov/libc.so.6(+0x718f8)[0xb7e1f8f8]
+/lib/i686/cmov/libc.so.6(cfree+0x6d)[0xb7e22a6d]
+postgres: z5089358 z5089358 [local] SELECT[0x84b04b3]
+postgres: z5089358 z5089358 [local] SELECT(MemoryContextDelete+0x4e)[0x84b44be]
+postgres: z5089358 z5089358 [local] SELECT(standard_ExecutorEnd+0x12d)[0x82515fd]
+postgres: z5089358 z5089358 [local] SELECT(PortalCleanup+0xa3)[0x8203453]
+postgres: z5089358 z5089358 [local] SELECT(PortalDrop+0x32)[0x84b5d12]
+postgres: z5089358 z5089358 [local] SELECT[0x838550b]
+postgres: z5089358 z5089358 [local] SELECT(PostgresMain+0x54b)[0x83865cb]
+postgres: z5089358 z5089358 [local] SELECT[0x8310ca2]
+postgres: z5089358 z5089358 [local] SELECT(PostmasterMain+0x11b1)[0x83143a1]
+postgres: z5089358 z5089358 [local] SELECT(main+0x45f)[0x8290c0f]
+/lib/i686/cmov/libc.so.6(__libc_start_main+0xe6)[0xb7dc4d26]
+postgres: z5089358 z5089358 [local] SELECT[0x80b8c71]
+======= Memory map: ========
+08048000-08647000 r-xp 00000000 08:20 14296942   /export/grieg/1/z5089358/pgsql/bin/postgres
+08647000-08650000 rw-p 005ff000 08:20 14296942   /export/grieg/1/z5089358/pgsql/bin/postgres
+08650000-08755000 rw-p 08650000 00:00 0          [heap]
+aef00000-aef21000 rw-p aef00000 00:00 0 
+aef21000-af000000 ---p aef21000 00:00 0 
+af0a8000-af0c4000 r-xp 00000000 08:00 443442     /usr/local/lib/libgcc_s.so.1
+af0c4000-af0c5000 rw-p 0001b000 08:00 443442     /usr/local/lib/libgcc_s.so.1
+af0db000-af0dc000 r-xp 00000000 08:20 14287888   /export/grieg/1/z5089358/postgresql-10.4/src/tutorial/intSet.so
+af0dc000-af0dd000 rw-p 00000000 08:20 14287888   /export/grieg/1/z5089358/postgresql-10.4/src/tutorial/intSet.so
+af0dd000-af13f000 rw-p af0dd000 00:00 0 
+af13f000-b7b3f000 rw-s 00000000 00:07 34452083   /dev/zero (deleted)
+b7b3f000-b7b7c000 r--p 001ec000 08:00 411368     /usr/lib/locale/locale-archive
+b7b7c000-b7d7c000 r--p 00000000 08:00 411368     /usr/lib/locale/locale-archive
+b7d7c000-b7d7e000 rw-p b7d7c000 00:00 0 
+b7d7e000-b7d91000 r-xp 00000000 08:00 1362816    /lib/i686/cmov/libnsl-2.11.3.so
+b7d91000-b7d92000 r--p 00012000 08:00 1362816    /lib/i686/cmov/libnsl-2.11.3.so
+b7d92000-b7d93000 rw-p 00013000 08:00 1362816    /lib/i686/cmov/libnsl-2.11.3.so
+b7d93000-b7d95000 rw-p b7d93000 00:00 0 
+b7d95000-b7daa000 r-xp 00000000 08:00 1362893    /lib/i686/cmov/libpthread-2.11.3.so
+b7daa000-b7dab000 r--p 00014000 08:00 1362893    /lib/i686/cmov/libpthread-2.11.3.so
+b7dab000-b7dac000 rw-p 00015000 08:00 1362893    /lib/i686/cmov/libpthread-2.11.3.so
+b7dac000-b7dae000 rw-p b7dac000 00:00 0 
+b7dae000-b7efc000 r-xp 00000000 08:00 1362805    /lib/i686/cmov/libc-2.11.3.so
+b7efc000-b7efe000 r--p 0014d000 08:00 1362805    /lib/i686/cmov/libc-2.11.3.so
+b7efe000-b7eff000 rw-p 0014f000 08:00 1362805    /lib/i686/cmov/libc-2.11.3.so
+b7eff000-b7f02000 rw-p b7eff000 00:00 0 
+b7f02000-b7f26000 r-xp 00000000 08:00 1362813    /lib/i686/cmov/libm-2.11.3.so
+b7f26000-b7f27000 r--p 00023000 08:00 1362813    /lib/i686/cmov/libm-2.11.3.so
+b7f27000-b7f28000 rw-p 00024000 08:00 1362813    /lib/i686/cmov/libm-2.11.3.so
+b7f28000-b7f2a000 r-xp 00000000 08:00 1362811    /lib/i686/cmov/libdl-2.11.3.so
+b7f2a000-b7f2b000 r--p 00001000 08:00 1362811    /lib/i686/cmov/libdl-2.11.3.so
+b7f2b000-b7f2c000 rw-p 00002000 08:00 1362811    /lib/i686/cmov/libdl-2.11.3.so
+b7f2c000-b7f33000 r-xp 00000000 08:00 1362897    /lib/i686/cmov/librt-2.11.3.so
+b7f33000-b7f34000 r--p 00006000 08:00 1362897    /lib/i686/cmov/librt-2.11.3.so
+b7f34000-b7f35000 rw-p 00007000 08:00 1362897    /lib/i686/cmov/librt-2.11.3.so
+b7f3d000-b7f47000 r-xp 00000000 08:00 1362884    /lib/i686/cmov/libnss_files-2.11.3.so
+b7f47000-b7f48000 r--p 00009000 08:00 1362884    /lib/i686/cmov/libnss_files-2.11.3.so
+b7f48000-b7f49000 rw-p 0000a000 08:00 1362884    /lib/i686/cmov/libnss_files-2.11.3.so
+b7f49000-b7f4a000 rw-s 00000000 00:07 34452086   /SYSV6adeb698 (deleted)
+b7f4a000-b7f4b000 rw-s 00000000 00:07 34452084   /SYSV0052e33b (deleted)
+b7f4b000-b7f4c000 r-xp 00000000 08:00 443491     /usr/local/lib/innetgr.so
+b7f4c000-b7f4d000 rw-p 00000000 08:00 443491     /usr/local/lib/innetgr.so
+b7f4d000-b7f50000 rw-p b7f4d000 00:00 0 
+b7f50000-b7f6b000 r-xp 00000000 08:00 1327131    /lib/ld-2.11.3.so
+b7f6b000-b7f6c000 r--p 0001b000 08:00 1327131    /lib/ld-2.11.3.so
+b7f6c000-b7f6d000 rw-p 0001c000 08:00 1327131    /lib/ld-2.11.3.so
+bf8de000-bf8f4000 rw-p bf8de000 00:00 0          [stack]
+ffffe000-fffff000 r-xp 00000000 00:00 0          [vdso]
+2018-08-30 21:39:40.694 AEST [1546] LOG:  server process (PID 30328) was terminated by signal 6: Aborted
+2018-08-30 21:39:40.694 AEST [1546] DETAIL:  Failed process was running: select * from mySets;
+2018-08-30 21:39:40.694 AEST [1546] LOG:  terminating any other active server processes
+2018-08-30 21:39:40.694 AEST [30665] FATAL:  the database system is in recovery mode
+2018-08-30 21:39:40.695 AEST [1546] LOG:  all server processes terminated; reinitializing
+2018-08-30 21:39:40.708 AEST [30666] LOG:  database system was interrupted; last known up at 2018-08-30 21:39:12 AEST
+2018-08-30 21:39:40.763 AEST [30666] LOG:  database system was not properly shut down; automatic recovery in progress
+2018-08-30 21:39:40.765 AEST [30666] LOG:  redo starts at 0/17025F8
+2018-08-30 21:39:40.767 AEST [30666] LOG:  invalid record length at 0/17277CC: wanted 24, got 0
+2018-08-30 21:39:40.767 AEST [30666] LOG:  redo done at 0/17277A8
+2018-08-30 21:39:40.767 AEST [30666] LOG:  last completed transaction was at log time 2018-08-30 21:39:37.559425+10
+2018-08-30 21:39:40.796 AEST [1546] LOG:  database system is ready to accept connections
+*** glibc detected *** postgres: z5089358 z5089358 [local] SELECT: free(): corrupted unsorted chunks: 0x08739160 ***
+======= Backtrace: =========
+/lib/i686/cmov/libc.so.6(+0x700a1)[0xb7e1e0a1]
+/lib/i686/cmov/libc.so.6(+0x718f8)[0xb7e1f8f8]
+/lib/i686/cmov/libc.so.6(cfree+0x6d)[0xb7e22a6d]
+postgres: z5089358 z5089358 [local] SELECT[0x84b04b3]
+postgres: z5089358 z5089358 [local] SELECT(MemoryContextDelete+0x4e)[0x84b44be]
+postgres: z5089358 z5089358 [local] SELECT(standard_ExecutorEnd+0x12d)[0x82515fd]
+postgres: z5089358 z5089358 [local] SELECT(PortalCleanup+0xa3)[0x8203453]
+postgres: z5089358 z5089358 [local] SELECT(PortalDrop+0x32)[0x84b5d12]
+postgres: z5089358 z5089358 [local] SELECT[0x838550b]
+postgres: z5089358 z5089358 [local] SELECT(PostgresMain+0x54b)[0x83865cb]
+postgres: z5089358 z5089358 [local] SELECT[0x8310ca2]
+postgres: z5089358 z5089358 [local] SELECT(PostmasterMain+0x11b1)[0x83143a1]
+postgres: z5089358 z5089358 [local] SELECT(main+0x45f)[0x8290c0f]
+/lib/i686/cmov/libc.so.6(__libc_start_main+0xe6)[0xb7dc4d26]
+postgres: z5089358 z5089358 [local] SELECT[0x80b8c71]
+======= Memory map: ========
+08048000-08647000 r-xp 00000000 08:20 14296942   /export/grieg/1/z5089358/pgsql/bin/postgres
+08647000-08650000 rw-p 005ff000 08:20 14296942   /export/grieg/1/z5089358/pgsql/bin/postgres
+08650000-08755000 rw-p 08650000 00:00 0          [heap]
+aef00000-aef21000 rw-p aef00000 00:00 0 
+aef21000-af000000 ---p aef21000 00:00 0 
+af0a8000-af0c4000 r-xp 00000000 08:00 443442     /usr/local/lib/libgcc_s.so.1
+af0c4000-af0c5000 rw-p 0001b000 08:00 443442     /usr/local/lib/libgcc_s.so.1
+af0db000-af0dc000 r-xp 00000000 08:20 14287888   /export/grieg/1/z5089358/postgresql-10.4/src/tutorial/intSet.so
+af0dc000-af0dd000 rw-p 00000000 08:20 14287888   /export/grieg/1/z5089358/postgresql-10.4/src/tutorial/intSet.so
+af0dd000-af13f000 rw-p af0dd000 00:00 0 
+af13f000-b7b3f000 rw-s 00000000 00:07 34454597   /dev/zero (deleted)
+b7b3f000-b7b7c000 r--p 001ec000 08:00 411368     /usr/lib/locale/locale-archive
+b7b7c000-b7d7c000 r--p 00000000 08:00 411368     /usr/lib/locale/locale-archive
+b7d7c000-b7d7e000 rw-p b7d7c000 00:00 0 
+b7d7e000-b7d91000 r-xp 00000000 08:00 1362816    /lib/i686/cmov/libnsl-2.11.3.so
+b7d91000-b7d92000 r--p 00012000 08:00 1362816    /lib/i686/cmov/libnsl-2.11.3.so
+b7d92000-b7d93000 rw-p 00013000 08:00 1362816    /lib/i686/cmov/libnsl-2.11.3.so
+b7d93000-b7d95000 rw-p b7d93000 00:00 0 
+b7d95000-b7daa000 r-xp 00000000 08:00 1362893    /lib/i686/cmov/libpthread-2.11.3.so
+b7daa000-b7dab000 r--p 00014000 08:00 1362893    /lib/i686/cmov/libpthread-2.11.3.so
+b7dab000-b7dac000 rw-p 00015000 08:00 1362893    /lib/i686/cmov/libpthread-2.11.3.so
+b7dac000-b7dae000 rw-p b7dac000 00:00 0 
+b7dae000-b7efc000 r-xp 00000000 08:00 1362805    /lib/i686/cmov/libc-2.11.3.so
+b7efc000-b7efe000 r--p 0014d000 08:00 1362805    /lib/i686/cmov/libc-2.11.3.so
+b7efe000-b7eff000 rw-p 0014f000 08:00 1362805    /lib/i686/cmov/libc-2.11.3.so
+b7eff000-b7f02000 rw-p b7eff000 00:00 0 
+b7f02000-b7f26000 r-xp 00000000 08:00 1362813    /lib/i686/cmov/libm-2.11.3.so
+b7f26000-b7f27000 r--p 00023000 08:00 1362813    /lib/i686/cmov/libm-2.11.3.so
+b7f27000-b7f28000 rw-p 00024000 08:00 1362813    /lib/i686/cmov/libm-2.11.3.so
+b7f28000-b7f2a000 r-xp 00000000 08:00 1362811    /lib/i686/cmov/libdl-2.11.3.so
+b7f2a000-b7f2b000 r--p 00001000 08:00 1362811    /lib/i686/cmov/libdl-2.11.3.so
+b7f2b000-b7f2c000 rw-p 00002000 08:00 1362811    /lib/i686/cmov/libdl-2.11.3.so
+b7f2c000-b7f33000 r-xp 00000000 08:00 1362897    /lib/i686/cmov/librt-2.11.3.so
+b7f33000-b7f34000 r--p 00006000 08:00 1362897    /lib/i686/cmov/librt-2.11.3.so
+b7f34000-b7f35000 rw-p 00007000 08:00 1362897    /lib/i686/cmov/librt-2.11.3.so
+b7f3d000-b7f47000 r-xp 00000000 08:00 1362884    /lib/i686/cmov/libnss_files-2.11.3.so
+b7f47000-b7f48000 r--p 00009000 08:00 1362884    /lib/i686/cmov/libnss_files-2.11.3.so
+b7f48000-b7f49000 rw-p 0000a000 08:00 1362884    /lib/i686/cmov/libnss_files-2.11.3.so
+b7f49000-b7f4a000 rw-s 00000000 00:07 34454600   /SYSV5ddaf226 (deleted)
+b7f4a000-b7f4b000 rw-s 00000000 00:07 34454598   /SYSV0052e33b (deleted)
+b7f4b000-b7f4c000 r-xp 00000000 08:00 443491     /usr/local/lib/innetgr.so
+b7f4c000-b7f4d000 rw-p 00000000 08:00 443491     /usr/local/lib/innetgr.so
+b7f4d000-b7f50000 rw-p b7f4d000 00:00 0 
+b7f50000-b7f6b000 r-xp 00000000 08:00 1327131    /lib/ld-2.11.3.so
+b7f6b000-b7f6c000 r--p 0001b000 08:00 1327131    /lib/ld-2.11.3.so
+b7f6c000-b7f6d000 rw-p 0001c000 08:00 1327131    /lib/ld-2.11.3.so
+bf8de000-bf8f4000 rw-p bf8de000 00:00 0          [stack]
+ffffe000-fffff000 r-xp 00000000 00:00 0          [vdso]
+2018-08-30 21:39:53.517 AEST [1546] LOG:  server process (PID 30700) was terminated by signal 6: Aborted
+2018-08-30 21:39:53.517 AEST [1546] DETAIL:  Failed process was running: select * from mySets;
+2018-08-30 21:39:53.517 AEST [1546] LOG:  terminating any other active server processes
+2018-08-30 21:39:53.518 AEST [30714] FATAL:  the database system is in recovery mode
+2018-08-30 21:39:53.518 AEST [1546] LOG:  all server processes terminated; reinitializing
+2018-08-30 21:39:53.530 AEST [30715] LOG:  database system was interrupted; last known up at 2018-08-30 21:39:40 AEST
+2018-08-30 21:39:53.577 AEST [30715] LOG:  database system was not properly shut down; automatic recovery in progress
+2018-08-30 21:39:53.579 AEST [30715] LOG:  invalid record length at 0/1727834: wanted 24, got 0
+2018-08-30 21:39:53.579 AEST [30715] LOG:  redo is not required
+2018-08-30 21:39:53.591 AEST [1546] LOG:  database system is ready to accept connections
+*** glibc detected *** postgres: z5089358 z5089358 [local] SELECT: free(): corrupted unsorted chunks: 0x08738d90 ***
+======= Backtrace: =========
+/lib/i686/cmov/libc.so.6(+0x700a1)[0xb7e1e0a1]
+/lib/i686/cmov/libc.so.6(+0x718f8)[0xb7e1f8f8]
+/lib/i686/cmov/libc.so.6(cfree+0x6d)[0xb7e22a6d]
+postgres: z5089358 z5089358 [local] SELECT[0x84b04b3]
+postgres: z5089358 z5089358 [local] SELECT(MemoryContextDelete+0x4e)[0x84b44be]
+postgres: z5089358 z5089358 [local] SELECT[0x80c3686]
+postgres: z5089358 z5089358 [local] SELECT(standard_ExecutorRun+0x241)[0x82534c1]
+postgres: z5089358 z5089358 [local] SELECT[0x8387fab]
+postgres: z5089358 z5089358 [local] SELECT(PortalRun+0x19e)[0x838915e]
+postgres: z5089358 z5089358 [local] SELECT[0x83854f5]
+postgres: z5089358 z5089358 [local] SELECT(PostgresMain+0x54b)[0x83865cb]
+postgres: z5089358 z5089358 [local] SELECT[0x8310ca2]
+postgres: z5089358 z5089358 [local] SELECT(PostmasterMain+0x11b1)[0x83143a1]
+postgres: z5089358 z5089358 [local] SELECT(main+0x45f)[0x8290c0f]
+/lib/i686/cmov/libc.so.6(__libc_start_main+0xe6)[0xb7dc4d26]
+postgres: z5089358 z5089358 [local] SELECT[0x80b8c71]
+======= Memory map: ========
+08048000-08647000 r-xp 00000000 08:20 14296942   /export/grieg/1/z5089358/pgsql/bin/postgres
+08647000-08650000 rw-p 005ff000 08:20 14296942   /export/grieg/1/z5089358/pgsql/bin/postgres
+08650000-08755000 rw-p 08650000 00:00 0          [heap]
+aef00000-aef21000 rw-p aef00000 00:00 0 
+aef21000-af000000 ---p aef21000 00:00 0 
+af0a8000-af0c4000 r-xp 00000000 08:00 443442     /usr/local/lib/libgcc_s.so.1
+af0c4000-af0c5000 rw-p 0001b000 08:00 443442     /usr/local/lib/libgcc_s.so.1
+af0db000-af0dc000 r-xp 00000000 08:20 14287888   /export/grieg/1/z5089358/postgresql-10.4/src/tutorial/intSet.so
+af0dc000-af0dd000 rw-p 00000000 08:20 14287888   /export/grieg/1/z5089358/postgresql-10.4/src/tutorial/intSet.so
+af0dd000-af13f000 rw-p af0dd000 00:00 0 
+af13f000-b7b3f000 rw-s 00000000 00:07 34455296   /dev/zero (deleted)
+b7b3f000-b7b7c000 r--p 001ec000 08:00 411368     /usr/lib/locale/locale-archive
+b7b7c000-b7d7c000 r--p 00000000 08:00 411368     /usr/lib/locale/locale-archive
+b7d7c000-b7d7e000 rw-p b7d7c000 00:00 0 
+b7d7e000-b7d91000 r-xp 00000000 08:00 1362816    /lib/i686/cmov/libnsl-2.11.3.so
+b7d91000-b7d92000 r--p 00012000 08:00 1362816    /lib/i686/cmov/libnsl-2.11.3.so
+b7d92000-b7d93000 rw-p 00013000 08:00 1362816    /lib/i686/cmov/libnsl-2.11.3.so
+b7d93000-b7d95000 rw-p b7d93000 00:00 0 
+b7d95000-b7daa000 r-xp 00000000 08:00 1362893    /lib/i686/cmov/libpthread-2.11.3.so
+b7daa000-b7dab000 r--p 00014000 08:00 1362893    /lib/i686/cmov/libpthread-2.11.3.so
+b7dab000-b7dac000 rw-p 00015000 08:00 1362893    /lib/i686/cmov/libpthread-2.11.3.so
+b7dac000-b7dae000 rw-p b7dac000 00:00 0 
+b7dae000-b7efc000 r-xp 00000000 08:00 1362805    /lib/i686/cmov/libc-2.11.3.so
+b7efc000-b7efe000 r--p 0014d000 08:00 1362805    /lib/i686/cmov/libc-2.11.3.so
+b7efe000-b7eff000 rw-p 0014f000 08:00 1362805    /lib/i686/cmov/libc-2.11.3.so
+b7eff000-b7f02000 rw-p b7eff000 00:00 0 
+b7f02000-b7f26000 r-xp 00000000 08:00 1362813    /lib/i686/cmov/libm-2.11.3.so
+b7f26000-b7f27000 r--p 00023000 08:00 1362813    /lib/i686/cmov/libm-2.11.3.so
+b7f27000-b7f28000 rw-p 00024000 08:00 1362813    /lib/i686/cmov/libm-2.11.3.so
+b7f28000-b7f2a000 r-xp 00000000 08:00 1362811    /lib/i686/cmov/libdl-2.11.3.so
+b7f2a000-b7f2b000 r--p 00001000 08:00 1362811    /lib/i686/cmov/libdl-2.11.3.so
+b7f2b000-b7f2c000 rw-p 00002000 08:00 1362811    /lib/i686/cmov/libdl-2.11.3.so
+b7f2c000-b7f33000 r-xp 00000000 08:00 1362897    /lib/i686/cmov/librt-2.11.3.so
+b7f33000-b7f34000 r--p 00006000 08:00 1362897    /lib/i686/cmov/librt-2.11.3.so
+b7f34000-b7f35000 rw-p 00007000 08:00 1362897    /lib/i686/cmov/librt-2.11.3.so
+b7f3d000-b7f47000 r-xp 00000000 08:00 1362884    /lib/i686/cmov/libnss_files-2.11.3.so
+b7f47000-b7f48000 r--p 00009000 08:00 1362884    /lib/i686/cmov/libnss_files-2.11.3.so
+b7f48000-b7f49000 rw-p 0000a000 08:00 1362884    /lib/i686/cmov/libnss_files-2.11.3.so
+b7f49000-b7f4a000 rw-s 00000000 00:07 34455299   /SYSV461a8f30 (deleted)
+b7f4a000-b7f4b000 rw-s 00000000 00:07 34455297   /SYSV0052e33b (deleted)
+b7f4b000-b7f4c000 r-xp 00000000 08:00 443491     /usr/local/lib/innetgr.so
+b7f4c000-b7f4d000 rw-p 00000000 08:00 443491     /usr/local/lib/innetgr.so
+b7f4d000-b7f50000 rw-p b7f4d000 00:00 0 
+b7f50000-b7f6b000 r-xp 00000000 08:00 1327131    /lib/ld-2.11.3.so
+b7f6b000-b7f6c000 r--p 0001b000 08:00 1327131    /lib/ld-2.11.3.so
+b7f6c000-b7f6d000 rw-p 0001c000 08:00 1327131    /lib/ld-2.11.3.so
+bf8de000-bf8f4000 rw-p bf8de000 00:00 0          [stack]
+ffffe000-fffff000 r-xp 00000000 00:00 0          [vdso]
+2018-08-30 21:41:16.717 AEST [1546] LOG:  server process (PID 31003) was terminated by signal 6: Aborted
+2018-08-30 21:41:16.717 AEST [1546] DETAIL:  Failed process was running: select * from mySets;
+2018-08-30 21:41:16.717 AEST [1546] LOG:  terminating any other active server processes
+2018-08-30 21:41:16.718 AEST [31099] FATAL:  the database system is in recovery mode
+2018-08-30 21:41:16.718 AEST [1546] LOG:  all server processes terminated; reinitializing
+2018-08-30 21:41:16.729 AEST [31100] LOG:  database system was interrupted; last known up at 2018-08-30 21:39:53 AEST
+2018-08-30 21:41:16.793 AEST [31100] LOG:  database system was not properly shut down; automatic recovery in progress
+2018-08-30 21:41:16.795 AEST [31100] LOG:  redo starts at 0/172789C
+2018-08-30 21:41:16.796 AEST [31100] LOG:  invalid record length at 0/174BC40: wanted 24, got 0
+2018-08-30 21:41:16.796 AEST [31100] LOG:  redo done at 0/174BC0C
+2018-08-30 21:41:16.796 AEST [31100] LOG:  last completed transaction was at log time 2018-08-30 21:41:07.245537+10
+2018-08-30 21:41:16.827 AEST [1546] LOG:  database system is ready to accept connections
+2018-08-30 21:47:37.409 AEST [1546] LOG:  server process (PID 800) was terminated by signal 11: Segmentation fault
+2018-08-30 21:47:37.409 AEST [1546] DETAIL:  Failed process was running: insert into mySets values (1, '{1,2,3}');
+2018-08-30 21:47:37.409 AEST [1546] LOG:  terminating any other active server processes
+2018-08-30 21:47:37.410 AEST [859] FATAL:  the database system is in recovery mode
+2018-08-30 21:47:37.410 AEST [1546] LOG:  all server processes terminated; reinitializing
+2018-08-30 21:47:37.422 AEST [860] LOG:  database system was interrupted; last known up at 2018-08-30 21:41:16 AEST
+2018-08-30 21:47:37.484 AEST [860] LOG:  database system was not properly shut down; automatic recovery in progress
+2018-08-30 21:47:37.486 AEST [860] LOG:  redo starts at 0/174BCA8
+2018-08-30 21:47:37.487 AEST [860] LOG:  invalid record length at 0/177134C: wanted 24, got 0
+2018-08-30 21:47:37.487 AEST [860] LOG:  redo done at 0/17710B4
+2018-08-30 21:47:37.487 AEST [860] LOG:  last completed transaction was at log time 2018-08-30 21:47:36.686462+10
+2018-08-30 21:47:37.518 AEST [1546] LOG:  database system is ready to accept connections
+2018-08-30 21:47:55.690 AEST [1546] LOG:  server process (PID 887) was terminated by signal 11: Segmentation fault
+2018-08-30 21:47:55.690 AEST [1546] DETAIL:  Failed process was running: insert into mySets values (1, '{1,2,3}');
+2018-08-30 21:47:55.690 AEST [1546] LOG:  terminating any other active server processes
+2018-08-30 21:47:55.690 AEST [939] WARNING:  terminating connection because of crash of another server process
+2018-08-30 21:47:55.690 AEST [939] DETAIL:  The postmaster has commanded this server process to roll back the current transaction and exit, because another server process exited abnormally and possibly corrupted shared memory.
+2018-08-30 21:47:55.690 AEST [939] HINT:  In a moment you should be able to reconnect to the database and repeat your command.
+2018-08-30 21:47:55.690 AEST [1546] LOG:  all server processes terminated; reinitializing
+2018-08-30 21:47:55.701 AEST [940] LOG:  database system was interrupted; last known up at 2018-08-30 21:47:37 AEST
+2018-08-30 21:47:55.746 AEST [940] LOG:  database system was not properly shut down; automatic recovery in progress
+2018-08-30 21:47:55.748 AEST [940] LOG:  redo starts at 0/17713B4
+2018-08-30 21:47:55.748 AEST [940] LOG:  invalid record length at 0/17713E8: wanted 24, got 0
+2018-08-30 21:47:55.748 AEST [940] LOG:  redo done at 0/17713B4
+2018-08-30 21:47:55.761 AEST [1546] LOG:  database system is ready to accept connections
+2018-08-31 13:44:00.776 AEST [1546] LOG:  server process (PID 17361) was terminated by signal 11: Segmentation fault
+2018-08-31 13:44:00.776 AEST [1546] DETAIL:  Failed process was running: insert into mySets values (1, '{1,2,3}');
+2018-08-31 13:44:00.776 AEST [1546] LOG:  terminating any other active server processes
+2018-08-31 13:44:00.776 AEST [17432] WARNING:  terminating connection because of crash of another server process
+2018-08-31 13:44:00.776 AEST [17432] DETAIL:  The postmaster has commanded this server process to roll back the current transaction and exit, because another server process exited abnormally and possibly corrupted shared memory.
+2018-08-31 13:44:00.776 AEST [17432] HINT:  In a moment you should be able to reconnect to the database and repeat your command.
+2018-08-31 13:44:00.776 AEST [1546] LOG:  all server processes terminated; reinitializing
+2018-08-31 13:44:00.789 AEST [17433] LOG:  database system was interrupted; last known up at 2018-08-30 21:47:55 AEST
+2018-08-31 13:44:00.868 AEST [17433] LOG:  database system was not properly shut down; automatic recovery in progress
+2018-08-31 13:44:00.871 AEST [17433] LOG:  redo starts at 0/1771450
+2018-08-31 13:44:00.872 AEST [17433] LOG:  invalid record length at 0/1797138: wanted 24, got 0
+2018-08-31 13:44:00.872 AEST [17433] LOG:  redo done at 0/1796EA0
+2018-08-31 13:44:00.872 AEST [17433] LOG:  last completed transaction was at log time 2018-08-31 13:43:56.575904+10
+2018-08-31 13:44:00.911 AEST [1546] LOG:  database system is ready to accept connections
+2018-08-31 13:51:47.068 AEST [20600] ERROR:  table "mysets" does not exist
+2018-08-31 13:51:47.068 AEST [20600] STATEMENT:  drop table mySets;
+2018-08-31 13:52:04.336 AEST [1546] LOG:  server process (PID 20600) was terminated by signal 11: Segmentation fault
+2018-08-31 13:52:04.336 AEST [1546] DETAIL:  Failed process was running: select * from mySets;
+2018-08-31 13:52:04.336 AEST [1546] LOG:  terminating any other active server processes
+2018-08-31 13:52:04.336 AEST [20724] FATAL:  the database system is in recovery mode
+2018-08-31 13:52:04.357 AEST [1546] LOG:  all server processes terminated; reinitializing
+2018-08-31 13:52:04.370 AEST [20725] LOG:  database system was interrupted; last known up at 2018-08-31 13:49:01 AEST
+2018-08-31 13:52:04.412 AEST [20725] LOG:  database system was not properly shut down; automatic recovery in progress
+2018-08-31 13:52:04.414 AEST [20725] LOG:  redo starts at 0/179FED8
+2018-08-31 13:52:04.415 AEST [20725] LOG:  invalid record length at 0/17C677C: wanted 24, got 0
+2018-08-31 13:52:04.415 AEST [20725] LOG:  redo done at 0/17C6748
+2018-08-31 13:52:04.415 AEST [20725] LOG:  last completed transaction was at log time 2018-08-31 13:52:00.237359+10
+2018-08-31 13:52:04.443 AEST [1546] LOG:  database system is ready to accept connections

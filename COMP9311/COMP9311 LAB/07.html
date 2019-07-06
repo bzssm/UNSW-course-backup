@@ -1,0 +1,922 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<head>
+  <title>COMP9311 17s2 - Lab 07</title>
+
+<style>
+body {font-size:11pt;font-family:arial,sans-serif;margin:5px 10px;}
+a {color:#3333CC;text-decoration:none;}
+a[href]:hover {color:#CC0000;background:#FFFFCC;}
+h2 {color:#99BB55;}
+small {font-size:75%}
+pre {background:#EEEEFF;border:thin solid #9999CC;margin:5px 20px 5px 20px;padding:4px 8px;}
+span.toggle {font-size:67%;}
+span.notice {font-size:110%;}
+span.tiny {font-size:75%;font-weight:normal;}
+span.heading {font-size:18pt;font-weight:bold;color:#99BB55;}
+span.marks {font-weight:normal;font-size:75%;}
+span.identifier {color:#993300;font-size:110%;font-weight:bold;font-family:courier;}
+tr.heading {font-size:large;font-weight:bold;background-color:#AACC66;}
+table.note {border:thin solid black;padding:2pt;width:75%}
+div.note {border:thin solid black;font-size:90%;margin:5px 60px 5px 60px;padding:4px 8px;}
+dt.item {font-weight:bold;}
+.red {color:#CC0000;}
+.green {color:#006600;}
+.brown {color:#993300;}
+.grey {color:#CCCCCC;}
+.comment {font-size:90%;color:#666666}
+.important {font-weight:bold;color:#CC0000;}
+.bigQ {font-size:13pt;font-style:italic;}
+</style>
+
+</head>
+
+<body>
+<div align='center'>
+<table width='100%' border='0'>
+ <tr valign='top'>
+  <td align='left' width='25%'>
+   <span class='tiny'><a href="http://www.cse.unsw.edu.au/~cs9311">COMP9311 17s2</a></span>
+  </td>
+  <td align='center' width='50%'>
+   <span class='heading'>Lab 7</span><br><b>Lab 7 - SQL Practices</b>
+  </td>
+  <td align='right' width='25%'>
+   <span class='tiny'><a href="http://www.cse.unsw.edu.au/~cs9311">Database Systems</a></span>
+  </td>
+ </tr> 
+</table>
+</div>
+
+<h2>1. Aims</h2>
+
+<p>
+This exercise aims to get you to: 
+<ul>
+ <li>obtain some hands-on experience of the PostgreSQL server.</li>
+ <li>write correct SQL code to query the database.</li>
+</ul>
+
+<h2>2. Preliminaries</h2>
+
+<p>
+Before doing this lab, make sure you:
+<ul>
+ <li>have installed your PostgreSQL server correctly</li>
+ <li>have logged into <tt>grieg</tt>, and executed commands (manually or automatically) to start the database (refer Lab 1).</li>
+</ul>
+</p>
+
+<p>
+Just a few reminders:
+<ul>
+ <li>Use <tt>-- </tt> to add comment to your SQL scripts. 
+ <li>end your SQL commands with a semicolon (;).
+ <li>string literals are enclosed by single quote (') instead of double quote (").
+</ul> 
+</p>
+
+<h2>3. Tutorial</h2>
+
+(The complete lab script can be found in <a href="lab07.sql">lab07.sql</a>.)
+
+
+<h3>3.1. Creating a New Table</h3>
+
+<p>
+You can create a new table by specifying the table name, along with
+all column names and their types:
+</p>
+
+<pre>
+CREATE TABLE weather (
+    city            varchar(80),
+    temp_lo         int,           -- low temperature
+    temp_hi         int,           -- high temperature
+    prcp            real,          -- precipitation
+    date            date
+);
+</pre>
+
+<p>
+You can enter this into <tt>psql</tt> with the line breaks. <tt>psql</tt> will
+recognize that the command is not terminated until the semicolon.
+</p>
+
+<p>
+White space (i.e., spaces, tabs, and newlines) may be used freely in
+SQL commands. That means you can type the command aligned differently
+than above, or even all on one line. Two dashes (&ldquo;<tt>--</tt>&rdquo;) introduce
+comments. Whatever follows them is ignored up to the end of the
+line. SQL is case insensitive about key words and identifiers, except
+when identifiers are double-quoted to preserve the case (not done
+above).
+</p>
+
+<p>
+<tt>varchar(80)</tt> specifies a data type that can store arbitrary character
+strings up to 80 characters in length. <tt>int</tt> is the normal integer
+type. <tt>real</tt> is a type for storing single precision floating-point
+numbers. <tt>date</tt> should be self-explanatory. (Yes, the column of type
+<tt>date</tt> is also named <tt>date</tt>. This may be convenient or confusing ---
+you choose.)
+</p>
+
+<p>
+PostgreSQL supports the standard SQL types <tt>int</tt>, <tt>smallint</tt>, <tt>real</tt>,
+<tt>double precision</tt>, <tt>char(N)</tt>, <tt>varchar(N)</tt>, <tt>date</tt>, <tt>time</tt>,
+<tt>timestamp</tt>, and <tt>interval</tt>, as well as other types of general utility
+and a rich set of geometric types. PostgreSQL can be customized with an
+arbitrary number of user-defined data types. Consequently, type names are
+not syntactical key words, except where required to support special cases
+in the SQL standard.
+</p>
+
+<p>
+The second example will store cities and their associated geographical
+location:
+</p>
+
+<pre>
+CREATE TABLE cities (
+    name            varchar(80),
+    location        point
+);
+</pre>
+
+<p>
+The <tt>point</tt> type is an example of a PostgreSQL-specific data type. 
+</p>
+
+<p>
+Finally, it should be mentioned that if you don't need a table any
+longer or want to recreate it differently you can remove it using the
+following command:
+</p>
+
+<pre>
+DROP TABLE tablename;
+</pre>
+
+
+
+<h3>3.2. Populating a Table with Rows/Tuples</h3>
+
+<p>
+The <tt>INSERT</tt> statement is used to populate a table with rows/tuples:
+</p>
+
+<pre>
+INSERT INTO weather VALUES ('San Francisco', 46, 50, 0.25, '1994-11-27');
+</pre>
+
+<p>
+Note that all data types use rather obvious input formats. Constants
+that are not simple numeric values usually must be surrounded by
+single quotes (<tt>'</tt>), as in the example. The date type is actually quite
+flexible in what it accepts, but for this tutorial we will stick to
+the unambiguous format shown here. (Also see the functions for
+<tt>date</tt>/<tt>time</tt> data types in the documentation)
+</p>
+
+<p>
+The point type requires a coordinate pair as input, as shown here:
+</p>
+
+<pre>
+INSERT INTO cities VALUES ('San Francisco', '(-194.0, 53.0)');
+</pre>
+
+<p>
+The syntax used so far requires you to remember the order of the
+columns. An alternative syntax allows you to list the columns
+explicitly:
+</p>
+
+<pre>
+INSERT INTO weather (city, temp_lo, temp_hi, prcp, date)
+    VALUES ('San Francisco', 43, 57, 0.0, '1994-11-29');
+</pre>
+
+<p>
+You can list the columns in a different order if you wish or even omit
+some columns, e.g., if the precipitation is unknown:
+</p>
+
+<pre>
+INSERT INTO weather (date, city, temp_hi, temp_lo)
+    VALUES ('1994-11-29', 'Hayward', 54, 37);
+</pre>
+
+<p>
+Many developers consider explicitly listing the columns better style
+than relying on the order implicitly.
+</p>
+
+<p>
+Please enter all the commands shown above so you have some data to
+work with in the following sections.
+</p>
+
+<h3>3.3. Querying a Table</h3>
+
+<p>
+To retrieve data from a table, the table is queried. An SQL <tt>SELECT</tt>
+statement is used to do this. The statement is divided into a select
+list (the part that lists the columns to be returned), a table list (the
+part that lists the tables from which to retrieve the data), and an
+optional qualification (the part that specifies any restrictions). For
+example, to retrieve all the rows of table <tt>weather</tt>, type:
+</p>
+
+<pre>
+SELECT * FROM weather;
+</pre>
+
+<p>
+Here <tt><b></tt> is a shorthand for &ldquo;all columns&rdquo;. (While <tt>SELECT </b></tt> is
+useful for off-the-cuff queries, it is widely considered bad style in
+production code, since adding a column to the table would change the
+results) So the same result would be had with:
+</p>
+
+<pre>
+SELECT city, temp_lo, temp_hi, prcp, date FROM weather;
+</pre>
+
+<p>
+The output should be:
+</p>
+
+<pre>
+       city      | temp_lo | temp_hi | prcp |    date
+  ---------------+---------+---------+------+------------
+   San Francisco |      46 |      50 | 0.25 | 1994-11-27
+   San Francisco |      43 |      57 |    0 | 1994-11-29
+   Hayward       |      37 |      54 |      | 1994-11-29
+  (3 rows)
+</pre>
+
+<p>
+You can write expressions, not just simple column references, in the
+select list. For example, you can do:
+</p>
+
+<pre>
+SELECT city, (temp_hi+temp_lo)/2 AS temp_avg, date FROM weather;
+</pre>
+
+<p>
+This should give:
+</p>
+
+<pre>
+       city      | temp_avg |    date
+  ---------------+----------+------------
+   San Francisco |       48 | 1994-11-27
+   San Francisco |       50 | 1994-11-29
+   Hayward       |       45 | 1994-11-29
+  (3 rows)
+</pre>
+
+<p>
+Notice how the <tt>AS</tt> clause is used to relabel the output
+column. (The <tt>AS</tt> clause is optional.)
+</p>
+
+
+<p>
+A query can be &ldquo;qualified&rdquo; by adding a <tt>WHERE</tt> clause that specifies
+which rows are wanted. The <tt>WHERE</tt> clause contains a Boolean (truth
+value) expression, and only rows for which the Boolean expression is
+true are returned. The usual Boolean operators (<tt>AND</tt>, <tt>OR</tt>, and
+<tt>NOT</tt>) are allowed in the qualification. For example, the following
+retrieves the weather of San Francisco on rainy days:
+</p>
+
+<pre>
+SELECT * FROM weather
+WHERE city = 'San Francisco' AND prcp > 0.0;
+</pre>
+
+<p>
+Result:
+</p>
+
+<pre>
+       city      | temp_lo | temp_hi | prcp |    date
+  ---------------+---------+---------+------+------------
+   San Francisco |      46 |      50 | 0.25 | 1994-11-27
+  (1 row)
+</pre>
+
+<p>
+You can request that the results of a query be returned in sorted order: 
+</p>
+
+<pre>
+SELECT * FROM weather
+ORDER BY city;
+</pre>
+
+<pre>
+       city      | temp_lo | temp_hi | prcp |    date
+  ---------------+---------+---------+------+------------
+   Hayward       |      37 |      54 |      | 1994-11-29
+   San Francisco |      43 |      57 |    0 | 1994-11-29
+   San Francisco |      46 |      50 | 0.25 | 1994-11-27
+</pre>
+
+<p>
+In this example, the sort order isn't fully specified, and so you
+might get the San Francisco rows in either order. But you'd always get
+the results shown above if you do
+</p>
+
+<pre>
+SELECT * FROM weather
+ORDER BY city, temp_lo;
+</pre>
+
+<p>
+You can request that duplicate rows be removed from the result of a query: 
+</p>
+
+<pre>
+SELECT DISTINCT city
+FROM weather;
+</pre>
+
+<pre>
+       city
+  ---------------
+   Hayward
+   San Francisco
+  (2 rows)
+</pre>
+
+<p>
+Here again, the result row ordering might vary. You can ensure
+consistent results by using <tt>DISTINCT</tt> and <tt>ORDER BY</tt> together:
+</p>
+
+<pre>
+SELECT DISTINCT city
+FROM weather
+ORDER BY city;
+</pre>
+
+<h3>3.4. Joins between Tables</h3>
+
+<p>
+Thus far, our queries have only accessed one table at a time. Queries
+can access multiple tables at once, or access the same table in such a
+way that multiple rows of the table are being processed at the same
+time. A query that accesses multiple rows of the same or different
+tables at one time is called a join query. As an example, say you wish
+to list all the weather records together with the location of the
+associated city. To do that, we need to compare the <tt>city</tt> column of
+each row of the <tt>weather</tt> table with the <tt>name</tt> column of all rows in the
+<tt>cities</tt> table, and select the pairs of rows where these values match.  
+</p>
+
+<div align="center">
+<div style="padding: 2mm; width: 18cm;" align="justify">
+<b>Note</b>: This is only a conceptual model. The join is usually performed in a more efficient manner than actually comparing each possible pair of rows, but this is invisible to the user.  
+</div>
+</div>
+
+<p>
+This would be accomplished by the following query:
+</p>
+
+<pre>
+SELECT *
+FROM weather, cities
+WHERE city = name;
+</pre>
+
+<pre>
+       city      | temp_lo | temp_hi | prcp |    date    |     name      | location
+  ---------------+---------+---------+------+------------+---------------+-----------
+   San Francisco |      46 |      50 | 0.25 | 1994-11-27 | San Francisco | (-194,53)
+   San Francisco |      43 |      57 |    0 | 1994-11-29 | San Francisco | (-194,53)
+  (2 rows)
+</pre>
+
+<p>
+Observe two things about the result set: 
+<ul>
+ <li><p>There is no result row for the city of <tt>Hayward</tt>. This is
+	  because there is no matching entry in the <tt>cities</tt> table for
+	  <tt>Hayward</tt>, so the join ignores the unmatched rows in the
+	  <tt>weather</tt> table. We will see shortly how this can be fixed.
+ <li><p>There are two columns containing the city name. This is correct
+	  because the lists of columns of the <tt>weather</tt> and the <tt>cities</tt>
+	  table are concatenated. In practice this is undesirable, though,
+	  so you will probably want to list the output columns explicitly
+	  rather than using <tt>*</tt>:
+</ul>
+</p>
+
+<pre>
+SELECT city, temp_lo, temp_hi, prcp, date, location
+FROM weather, cities
+WHERE city = name;
+</pre>
+
+<div align="center">
+<div style="padding: 2mm; width: 18cm;" align="justify">
+*Exercise*: Attempt to find out the semantics of this query when the <tt>WHERE</tt> clause is omitted.
+</div>
+</div>
+
+<p>
+Since the columns all had different names, the parser automatically
+found out which table they belong to. If there were duplicate column
+names in the two tables you'd need to qualify the column names to show
+which one you meant, as in:
+</p>
+
+<pre>
+SELECT weather.city, weather.temp_lo, weather.temp_hi,
+       weather.prcp, weather.date, cities.location
+FROM weather, cities
+WHERE cities.name = weather.city;
+</pre>
+
+<p>
+It is widely considered good style to qualify all column names in a
+join query, so that the query won't fail if a duplicate column name is
+later added to one of the tables.
+</p>
+
+<p>
+Join queries of the kind seen thus far can also be written in this alternative form: 
+</p>
+
+<pre>
+SELECT *
+FROM weather INNER JOIN cities ON (weather.city = cities.name);
+</pre>
+
+<p>
+This syntax is not as commonly used as the one above, but we show it
+here to help you understand the following topics.
+</p>
+
+<p>
+Now we will figure out how we can get the <tt>Hayward</tt> records back
+in. What we want the query to do is to scan the <tt>weather</tt> table and
+for each row to find the matching cities row(s). If no matching row is
+found we want some &ldquo;empty values&rdquo; to be substituted for the cities
+table's columns. This kind of query is called an _outer join<em>. (The
+joins we have seen so far are </em>inner joins_.) The command looks like
+this:
+</p>
+
+<pre>
+SELECT *
+FROM weather LEFT OUTER JOIN cities ON (weather.city = cities.name);
+</pre>
+
+<pre>
+       city      | temp_lo | temp_hi | prcp |    date    |     name      | location
+  ---------------+---------+---------+------+------------+---------------+-----------
+   Hayward       |      37 |      54 |      | 1994-11-29 |               |
+   San Francisco |      46 |      50 | 0.25 | 1994-11-27 | San Francisco | (-194,53)
+   San Francisco |      43 |      57 |    0 | 1994-11-29 | San Francisco | (-194,53)
+  (3 rows)
+</pre>
+
+<p>
+This query is called a _left outer join_ because the table mentioned on the
+left of the join operator will have each of its rows in the output at least
+once, whereas the table on the right will only have those rows output that
+match some row of the left table. When outputting a left-table row for
+which there is no right-table match, empty (null) values are substituted
+for the right-table columns.
+</p>
+
+<div align="center">
+<div style="padding: 2mm; width: 18cm;" align="justify">
+<b>Exercise</b>: There are also right outer joins and full outer joins. Try to find out what those do.
+</div>
+</div>
+
+<p>
+We can also join a table against itself. This is called a <em>self
+join</em>. As an example, suppose we wish to find all the weather records
+that are in the temperature range of other weather records. So we need
+to compare the <tt>temp_lo</tt> and <tt>temp_hi</tt> columns of each weather row to the
+<tt>temp<em>lo</tt> and <tt>temp</em>hi</tt> columns of all other weather rows. We can do this
+with the following query:
+</p>
+
+<pre>
+SELECT W1.city, W1.temp_lo AS low, W1.temp_hi AS high,
+       W2.city, W2.temp_lo AS low, W2.temp_hi AS high
+FROM weather W1, weather W2
+WHERE W1.temp_lo < W2.temp_lo
+AND W1.temp_hi > W2.temp_hi;
+</pre>
+
+<pre>
+       city      | low | high |     city      | low | high
+  ---------------+-----+------+---------------+-----+------
+   San Francisco |  43 |   57 | San Francisco |  46 |   50
+   Hayward       |  37 |   54 | San Francisco |  46 |   50
+  (2 rows)
+</pre>
+
+<p>
+Here we have relabeled the <tt>weather</tt> table as <tt>W1</tt> and <tt>W2</tt> to be able to distinguish the left and right side of the join. You can also use these kinds of aliases in other queries to save some typing, e.g.:
+</p>
+
+<pre>
+SELECT *
+FROM weather w, cities c
+WHERE w.city = c.name;
+</pre>
+
+<p>
+You will encounter this style of abbreviating quite frequently.
+</p>
+
+<h3>3.5. Aggregate Functions</h3>
+
+<p>
+Like most other relational database products, PostgreSQL supports
+aggregate functions. An aggregate function computes a single result
+from multiple input rows. For example, there are aggregates to compute
+the count, sum, avg (average), max (maximum) and min (minimum) over a
+set of rows.
+</p>
+
+<p>
+As an example, we can find the highest low-temperature reading anywhere with 
+</p>
+
+<pre>
+SELECT max(temp_lo) FROM weather;
+</pre>
+
+<pre>
+   max
+  -----
+    46
+  (1 row)
+</pre>
+
+<p>
+If we wanted to know what city (or cities) that reading occurred in, we might try
+</p>
+
+<pre>
+SELECT city FROM weather WHERE temp_lo = max(temp_lo);     -- WRONG
+</pre>
+
+<p>
+but this will not work since the aggregate <tt>max</tt> cannot be used
+in the <tt>WHERE</tt> clause. (This restriction exists because the
+<tt>WHERE</tt> clause determines which rows will be included in the
+aggregate calculation; so obviously it has to be evaluated before
+aggregate functions are computed.) However, as is often the case
+the query can be restated to accomplish the desired result, here
+by using a <b>subquery</b>:
+</p>
+
+<pre>
+SELECT city FROM weather
+WHERE temp_lo = (SELECT max(temp_lo) FROM weather);
+</pre>
+
+<pre>
+       city
+  ---------------
+   San Francisco
+  (1 row)
+</pre>
+
+<p>
+This is OK because the subquery is an independent computation that
+computes its own aggregate separately from what is happening in the
+outer query.
+</p>
+
+<p>
+Aggregates are also very useful in combination with <tt>GROUP BY</tt>
+clauses. For example, we can get the maximum low temperature observed
+in each city with
+</p>
+
+<pre>
+SELECT city, max(temp_lo)
+FROM weather
+GROUP BY city;
+</pre>
+
+<pre>
+       city      | max
+  ---------------+-----
+   Hayward       |  37
+   San Francisco |  46
+  (2 rows)
+</pre>
+
+<p>
+which gives us one output row per city. Each aggregate result is
+computed over the table rows matching that city. We can filter these
+grouped rows using <tt>HAVING</tt>:
+</p>
+
+<pre>
+SELECT city, max(temp_lo)
+FROM weather
+GROUP BY city
+HAVING max(temp_lo) < 40;
+</pre>
+
+<pre>
+    city   | max
+  ---------+-----
+   Hayward |  37
+  (1 row)
+</pre>
+
+<p>
+which gives us the same results for only the cities that have all
+<tt>temp_lo</tt> values below 40. Finally, if we only care about cities
+whose names begin with &ldquo;<tt>S</tt>&rdquo;, we might do
+</p>
+
+<pre>
+SELECT city, max(temp_lo)
+FROM weather
+WHERE city LIKE 'S%'
+GROUP BY city
+HAVING max(temp_lo) < 40;
+</pre>
+
+(The <tt>LIKE</tt> operator does pattern matching.)
+
+<p>
+It is important to understand the interaction between aggregates and
+SQL's <tt>WHERE</tt> and <tt>HAVING</tt> clauses. The fundamental difference
+between <tt>WHERE</tt> and <tt>HAVING</tt> is this: <tt>WHERE</tt> selects input
+<b>rows</b> <em>before</em> groups and aggregates are computed (thus, it controls
+which rows go into the aggregate computation), whereas <tt>HAVING</tt>
+selects <b>group</b> rows <em>after</em> groups and aggregates are computed. Thus,
+the <tt>WHERE</tt> clause must not contain aggregate functions; it makes no
+sense to try to use an aggregate to determine which rows will be
+inputs to the aggregates. On the other hand, the <tt>HAVING</tt> clause
+always contains aggregate functions. (Strictly speaking, you are
+allowed to write a <tt>HAVING</tt> clause that doesn't use aggregates, but
+it's seldom useful. The same condition could be used more efficiently
+at the <tt>WHERE</tt> stage.)
+</p>
+
+<p>
+In the previous example, we can apply the city name restriction in
+<tt>WHERE</tt>, since it needs no aggregate. This is more efficient than
+adding the restriction to HAVING, because we avoid doing the grouping
+and aggregate calculations for all rows that fail the <tt>WHERE</tt> check.
+</p>
+
+
+<h3>3.6. Updates</h3>
+
+<p>
+You can update existing rows using the <tt>UPDATE</tt> command. Suppose
+you discover the temperature readings are all off by 2 degrees after
+November 28. You may correct the data as follows:
+</p>
+
+<pre>
+UPDATE weather
+SET temp_hi = temp_hi - 2,  temp_lo = temp_lo - 2
+WHERE date > '1994-11-28';
+</pre>
+
+<p>
+Look at the new state of the data:
+</p>
+
+<pre>
+SELECT * FROM weather;
+</pre>
+
+<pre>
+       city      | temp_lo | temp_hi | prcp |    date
+  ---------------+---------+---------+------+------------
+   San Francisco |      46 |      50 | 0.25 | 1994-11-27
+   San Francisco |      41 |      55 |    0 | 1994-11-29
+   Hayward       |      35 |      52 |      | 1994-11-29
+  (3 rows)
+</pre>
+
+<h3>3.7. Deletions</h3>
+
+<p>
+Rows can be removed from a table using the <tt>DELETE</tt> command. Suppose
+you are no longer interested in the weather of <tt>Hayward</tt>. Then you
+can do the following to delete those rows from the table:
+</p>
+
+<pre>
+DELETE FROM weather WHERE city = 'Hayward';
+</pre>
+
+<p>
+All weather records belonging to <tt>Hayward</tt> are removed.
+</p>
+
+<pre>
+SELECT * FROM weather;
+</pre>
+
+<pre>
+       city      | temp_lo | temp_hi | prcp |    date
+  ---------------+---------+---------+------+------------
+   San Francisco |      46 |      50 | 0.25 | 1994-11-27
+   San Francisco |      41 |      55 |    0 | 1994-11-29
+  (2 rows)
+</pre>
+
+<p>
+One should be wary of statements of the form
+</p>
+
+<pre>
+DELETE FROM tablename;
+</pre>
+
+<p>
+Without a qualification, <tt>DELETE</tt> will remove all rows from the given
+table, leaving it empty. The system will not request confirmation before
+doing this!
+</p>
+
+
+<h3>3.8. Foreign Keys</h3>
+
+<p>
+Consider the following problem: You want to make sure that no one can
+insert rows in the <tt>weather</tt> table that do not have a matching entry
+in the <tt>cities</tt> table. This is called maintaining the <em>referential
+integrity</em> of your data. In simplistic database systems this would be
+implemented (if at all) by first looking at the cities table to check
+if a matching record exists, and then inserting or rejecting the new
+weather records. This approach has a number of problems and is very
+inconvenient, so PostgreSQL can do this for you by adding the
+referential integrity constraint into the <tt>CREATE TABLE</tt> statements.
+</p>
+
+<p>
+The new declaration of the tables would look like this:
+</p>
+
+<pre>
+CREATE TABLE cities (
+        city     varchar(80) primary key,
+        location point
+);
+
+CREATE TABLE weather (
+        city      varchar(80) references cities(city),
+        temp_lo   int,
+        temp_hi   int,
+        prcp      real,
+        date      date
+);
+</pre>
+
+<p>
+Now try inserting an invalid record:
+</p>
+
+<pre>
+INSERT INTO weather VALUES ('Berkeley', 45, 53, 0.0, '1994-11-28');
+
+ERROR:  insert or update on table "weather" violates foreign key constraint "weather_city_fkey"
+DETAIL:  Key (city)=(Berkeley) is not present in table "cities".
+</pre>
+
+<p>
+The behavior of foreign keys can be finely tuned to your application. We
+will not go beyond this simple example in this tutorial, but just refer
+you to Chapter 5 in PostgreSQL documentation for more information. Making
+correct use of foreign keys will definitely improve the quality of your
+database applications, so you are strongly encouraged to learn about
+them.
+</p>
+
+<h3>3.9. Views</h3>
+
+<p>
+Suppose the combined listing of weather records and city location is
+of particular interest to your application, but you do not want to
+type the join query each time you need it. You can create a view over
+the query, which gives a name to the query that you can refer to like
+an ordinary table.
+</p>
+
+<pre>
+CREATE VIEW myview AS
+SELECT city, temp_lo, temp_hi, prcp, date, location
+FROM weather, cities
+WHERE city = name;
+
+SELECT * FROM myview;
+</pre>
+
+<p>
+Making liberal use of views is a key aspect of good SQL database
+design. Views allow you to encapsulate the details of the structure
+of your tables, which may change as your application evolves, behind
+consistent interfaces.
+</p>
+
+<p>
+Views can be used in almost any place a real table can be used. Building
+views upon other views is not uncommon.
+</p>
+
+<h3>3.10. Transactions</h3>
+
+<p>
+Transactions are a fundamental concept of all database systems. The essential point of a transaction is that it bundles multiple steps into
+a single, all-or-nothing operation. The intermediate states between the steps are not visible to other concurrent transactions, and if some
+failure occurs that prevents the transaction from completing, then none of the steps affect the database at all.
+</p>
+
+<p>
+For example, consider a bank database that contains balances for various customer accounts, as well as total deposit balances for
+branches. Suppose that we want to record a payment of $100.00 from Alice's account to Bob's account. Simplifying outrageously, the SQL
+commands for this might look like:
+</p>
+
+<pre>
+UPDATE accounts SET balance = balance - 100.00
+    WHERE name = 'Alice';
+UPDATE branches SET balance = balance - 100.00
+    WHERE name = (SELECT branch_name FROM accounts WHERE name = 'Alice');
+UPDATE accounts SET balance = balance + 100.00
+    WHERE name = 'Bob';
+UPDATE branches SET balance = balance + 100.00
+    WHERE name = (SELECT branch_name FROM accounts WHERE name = 'Bob');
+</pre>
+
+<p>
+The details of these commands are not important here; the <em>important point</em> is that there are several separate updates involved to accomplish this rather simple operation. Our bank's officers will want to be assured that either all these updates happen, or none of them happen. It would certainly not do for a system failure to result in Bob receiving $100.00 that was not debited from Alice. Nor would Alice long remain a happy customer if she was debited without Bob being credited. We need a guarantee that if something goes wrong partway through the operation, none of the steps executed so far will take effect. Grouping the updates into a transaction gives us this
+guarantee. A transaction is said to be <b>atomic</b>: from the point of view of other transactions, it either happens completely or not at all.
+</p>
+
+
+<p>
+We also want a guarantee that once a transaction is completed and acknowledged by the database system, it has indeed been permanently
+recorded and won't be lost even if a crash ensues shortly thereafter. For example, if we are recording a cash withdrawal by Bob,
+we do not want any chance that the debit to his account will disappear in a crash just after he walks out the bank door. A transactional
+database guarantees that all the updates made by a transaction are logged in permanent storage (i.e., on disk) before the transaction is
+reported complete.
+</p>
+
+
+<p>
+Another important property of transactional databases is closely related to the notion of atomic updates: when multiple transactions
+are running concurrently, each one should not be able to see the incomplete changes made by others. For example, if one transaction
+is busy totalling all the branch balances, it would not do for it to include the debit from Alice's branch but not the credit to Bob's
+branch, nor vice versa. So transactions must be all-or-nothing not only in terms of their permanent effect on the database, but also in
+terms of their visibility as they happen. The updates made so far by an open transaction are invisible to other transactions until the
+transaction completes, whereupon all the updates become visible simultaneously.
+</p>
+
+<p>
+A transaction has the following ACID properties: <b>A</b>utomicity, <b>C</b>onsistency, <b>I</b>solation, and <b>D</b>urability.
+</p>
+
+<p>
+In PostgreSQL, a transaction is set up by surrounding the SQL commands of the transaction with <tt>BEGIN</tt> and <tt>COMMIT</tt> commands. So our banking transaction would actually look like:
+</p>
+
+<pre>
+  BEGIN;
+  UPDATE accounts SET balance = balance - 100.00
+      WHERE name = 'Alice';
+  -- etc etc
+  COMMIT;
+</pre>
+
+<p>
+If, partway through the transaction, we decide we do not want to commit (perhaps we just noticed that Alice's balance went negative),
+we can issue the command <tt>ROLLBACK</tt> instead of <tt>COMMIT</tt>, and all our updates so far will be canceled.
+</p>
+
+<p>
+PostgreSQL actually treats every SQL statement as being executed within a transaction.
+If you do not issue a <tt>BEGIN</tt> command, then each individual statement has an implicit <tt>BEGIN</tt> and (if successful) <tt>COMMIT</tt> wrapped around it. A group of statements surrounded by <tt>BEGIN</tt> and <tt>COMMIT</tt> is sometimes called a transaction block.
+</p>
+
+</body>
+</html>

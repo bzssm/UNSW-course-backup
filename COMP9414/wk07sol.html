@@ -1,0 +1,245 @@
+<HTML>
+<HEAD>
+  <TITLE>COMP3411 Tutorial Solutions Week 10</TITLE>
+</HEAD>
+<style><!-- A {text-decoration:none} --></style>
+<BODY ALINK="#660000" VLINK="#000066" LINK="#800066" BGCOLOR="#ffffff">
+
+<H2><P><CENTER><B><FONT COLOR="#000066">
+COMP3411/9414/9814 Artificial Intelligence<br>
+Session 1, 2018</FONT></B></CENTER></P></H2>
+
+<H2><P><CENTER><B>Tutorial Solutions - Week 7</B></CENTER></P></H2>
+
+<P><B><FONT SIZE=-1>
+<SCRIPT LANGUAGE="JavaScript">
+document.write("This page was last updated: " +
+document.lastModified);
+</SCRIPT>
+</FONT>
+</B>
+</P>
+
+<hr align=left>
+<b>Activity 10.2</b> Multi-Layer Neural Networks to Compute Logical Functions
+<hr>
+<p>
+Explain how each of the following could be constructed:
+<p>
+<ol type=1>
+<li> Perceptron to compute the OR function of <em>m</em> inputs
+<p>
+Set the bias weight to -&frac12;, all other weights to 1.
+<p>
+<li> Perceptron to compute the AND function of <em>n</em> inputs
+<p>
+Set the bias weight to (&frac12; - <em>n</em>), all other weights to 1.
+<p>
+<li> 2-Layer Neural Network
+to compute any (given) logical expression, assuming it is written in
+<a href="http://en.wikipedia.org/wiki/Conjunctive_normal_form">Conjunctive Normal Form</a>.
+<p>
+Each hidden node should compute one disjunctive term
+in the expression. The weights should be -1 for items that
+are negated, +1 for the others. The bias should be
+(<em>k</em> - &frac12;) where <em>k</em> is the number of items
+that are negated. The output node then computes the conjunction
+of all the hidden nodes, as in part 2.
+<p>
+For example, here is a network that computes
+(A &or; B) &and; (&not B &or; C &or; &not; D) &and; (D &or; &not; E)
+<p>
+<img src="./wk07nn_logic.jpg">
+</ol>
+<p>
+<hr>
+<b>Activity 10.3</b> Computing XOR with One Hidden Unit
+<hr>
+<p>
+We have seen how to compute XOR using a Neural Network with two inputs, two hidden units and one output.
+<p>
+Can you construct a Neural Network to compute XOR which has only one
+hidden unit, but also includes shortcut connections from the two
+inputs directly to the (one) output?
+<p>
+Hint: start with a network that computes the inclusive OR, and then try to think of how it could be modified.
+<p>
+<blockquote>
+Inclusive and exclusive OR are similar, but differ in the case where
+both inputs are True, i.e. where (x<sub>1</sub> AND x<sub>2</sub>) is True.
+<p>
+We therefore introduce a single hidden unit which computes
+(x<sub>1</sub> AND x<sub>2</sub>). This hidden unit is connected to the
+output with a negative weight, thus forcing this input to be classified negatively.
+
+<p>
+<img src="./wk07xor1.jpg">
+<p>
+The addition of this hidden "feature" creates a 3-dimensional space
+in which the points can be linearly separated by a plane.
+The weights for the output unit (+1,+1,-2) specify a vector perpendicular to the
+separating plane, and its distance from the origin is determined by
+the output bias divided by the length of this vector.
+<p>
+<img src="./wk07hidden.jpg">
+</blockquote>
+<p>
+
+<p>
+<p>
+<hr>
+<b>Activity 7.4</b> Q-Learning [COMP3411/9814 only]
+<hr>
+<p>
+Consider a world with two states
+S = {S<sub>1</sub>, S<sub>2</sub>}
+and two actions
+A = {a<sub>1</sub>, a<sub>2</sub>},
+where the transitions &delta; and reward <em>r</em>
+for each state and action are as follows:
+<blockquote>
+<table>
+<tr align=right><td>&delta;(S<sub>1</sub>, a<sub>1</sub>) = S<sub>1</sub>,</td>
+ <td><em>r</em>(S<sub>1</sub>, a<sub>1</sub>) =</td><td>0</td></tr>
+<tr align=right><td>&delta;(S<sub>1</sub>, a<sub>2</sub>) = S<sub>2</sub>,</td>
+ <td><em>r</em>(S<sub>1</sub>, a<sub>2</sub>) =</td><td>-1</td></tr>
+<tr align=right><td>&delta;(S<sub>2</sub>, a<sub>1</sub>) = S<sub>2</sub>,</td>
+ <td><em>r</em>(S<sub>2</sub>, a<sub>1</sub>) =</td><td>+1</td></tr>
+<tr align=right><td>&delta;(S<sub>2</sub>, a<sub>2</sub>) = S<sub>1</sub>,</td>
+ <td><em>r</em>(S<sub>2</sub>, a<sub>2</sub>) =</td><td>+5</td></tr>
+</table>
+</blockquote>
+
+<ol type="1">
+
+<li>
+Draw a picture of this world, using circles for the states and
+arrows for the transitions.
+<p>
+<img src="wk07qlearn.jpg">
+<p>
+
+<li>
+Assuming a discount factor of &gamma; = 0.9, determine:
+<ol type=a>
+<li>the optimal policy &pi;<sup>*</sup> : S &rarr; A
+<blockquote>
+&pi;<sup>*</sup>(S<sub>1</sub>) = a<sub>2</sub><br>
+&pi;<sup>*</sup>(S<sub>2</sub>) = a<sub>2</sub>
+</blockquote>
+
+<li>the value function V<sup>*</sup> : S &rarr; R
+<blockquote>
+V(S<sub>1</sub>) = -1 + &gamma;V(S<sub>2</sub>)<br>
+V(S<sub>2</sub>) =  5 + &gamma;V(S<sub>1</sub>)
+<p>
+So V(S<sub>1</sub>) = -1 + 5&gamma; + &gamma;<sup>2</sup> V(S<sub>1</sub>)<br>
+i.e. V(S<sub>1</sub>)
+= (-1 + 5&gamma;) / (1 - &gamma;<sup>2</sup>)
+= 3.5 / 0.19 = 18.42
+<p>
+V(S<sub>2</sub>) = 5 + &gamma;V(S<sub>1</sub>)
+= 5 + 0.9 * 3.5 / 0.19 = 21.58
+</blockquote>
+
+<li>the "Q" function Q : S x A &rarr; R
+<blockquote>
+<table>
+<tr><td>Q(S<sub>1</sub>, a<sub>1</sub>) =</td>
+<td align=right>&gamma;V(S<sub>1</sub>) = 16.58</td></tr>
+<tr><td>Q(S<sub>1</sub>, a<sub>2</sub>) =</td>
+<td align=right>V(S<sub>1</sub>) = 18.42</td></tr>
+<tr><td>Q(S<sub>2</sub>, a<sub>1</sub>) =</td>
+<td align=right>1 + &gamma;V(S<sub>2</sub>) = 20.42</td></tr>
+<tr><td>Q(S<sub>2</sub>, a<sub>2</sub>) =</td>
+<td align=right>V(S<sub>2</sub>) = 21.58</td></tr>
+</table>
+</blockquote>
+</ol>
+<p>
+
+<li>
+Write the Q values in a matrix:
+<p>
+<table border=1>
+<tr><th>Q</td><th>a<sub>1</sub></th><th>a<sub>2</sub></th></tr>
+<tr align=right><th>S<sub>1</sub></th><td>&nbsp;16.58&nbsp;</td><td>&nbsp;18.42&nbsp;</td></tr>
+<tr align=right><th>S<sub>2</sub></th><td>&nbsp;20.42&nbsp;</td><td>&nbsp;21.58&nbsp;</td></tr>
+</table>
+</blockquote>
+
+<li>
+Trace through the first few steps of the Q-learning algorithm,
+with all Q values initially set to zero.
+Explain why it is necessary to force exploration through
+probabilistic choice of actions, in order to ensure
+convergence to the true Q values.
+<blockquote>
+<table border=1>
+<tr><th>current state</th><th>chosen action</th><th>new Q value</th></tr>
+<tr align=center><td>S<sub>1</sub></td><td>a<sub>1</sub></td><td>0 + &gamma;*0 = 0</td></tr>
+<tr align=center><td>S<sub>1</sub></td><td>a<sub>2</sub></td><td>-1 + &gamma;*0 = -1</td></tr>
+<tr align=center><td>S<sub>2</sub></td><td>a<sub>1</sub></td><td>1 + &gamma;*0 = +1</td></tr>
+</table>
+</blockquote>
+<p>
+At this point, the table looks like this:
+<p>
+<blockquote>
+<table border=1>
+<tr><th>Q</td><th>a<sub>1</sub></th><th>a<sub>2</sub></th></tr>
+<tr align=right><th>S<sub>1</sub></th><td>&nbsp;0&nbsp;</td><td>&nbsp;-1&nbsp;</td></tr>
+<tr align=right><th>S<sub>2</sub></th><td>&nbsp;1&nbsp;</td><td>&nbsp;0&nbsp;</td></tr>
+</table>
+</blockquote>
+<p>
+If we do not force exploration, the agent will always
+prefer action a<sub>1</sub> in state S<sub>2</sub>,
+so it will never explore action a<sub>2</sub>.
+This means that Q(S<sub>2</sub>, a<sub>2</sub>) will remain zero
+forever, instead of converging to the true value of 21.58 .
+If we force exploration, the next few steps might look like this:
+<p>
+<blockquote>
+<table border=1>
+<tr><th>current state</th><th>chosen action</th><th>new Q value</th></tr>
+<tr align=center><td>S<sub>2</sub></td><td>a<sub>2</sub></td><td>5 + &gamma;*0 = 5</td></tr>
+<tr align=center><td>S<sub>1</sub></td><td>a<sub>1</sub></td><td>0 + &gamma;*0 = 0</td></tr>
+<tr align=center><td>S<sub>1</sub></td><td>a<sub>2</sub></td><td>-1 + &gamma;*5 = 3.5</td></tr>
+<tr align=center><td>S<sub>2</sub></td><td>a<sub>1</sub></td><td>1 + &gamma;*5 = 5.5</td></tr>
+<tr align=center><td>S<sub>2</sub></td><td>a<sub>2</sub></td><td>5 + &gamma;*3.5 = 8.15</td></tr>
+</table>
+</blockquote>
+<p>
+Now we have this table:
+<p>
+<blockquote>
+<table border=1>
+<tr><th>Q</td><th>a<sub>1</sub></th><th>a<sub>2</sub></th></tr>
+<tr align=right><th>S<sub>1</sub></th><td>&nbsp;0&nbsp;</td><td>&nbsp;3.5&nbsp;</td></tr>
+<tr align=right><th>S<sub>2</sub></th><td>&nbsp;5.5&nbsp;</td><td>&nbsp;8.15&nbsp;</td></tr>
+</table>
+</blockquote>
+<p>
+From this point on, the agent will prefer action a<sub>2</sub>
+both in state S<sub>1</sub> and in state S<sub>2</sub>.
+Further steps refine the Q value estimates, and, in the limit,
+they will converge to their true values.
+<p>
+<blockquote>
+<table border=1>
+<tr><th>current state</th><th>chosen action</th><th>new Q value</th></tr>
+<tr align=center><td>S<sub>1</sub></td><td>a<sub>1</sub></td><td>0 + &gamma;*3.5 = 3.15</td></tr>
+<tr align=center><td>S<sub>1</sub></td><td>a<sub>2</sub></td><td>-1 + &gamma;*8.15 = 6.335</td></tr>
+<tr align=center><td>S<sub>2</sub></td><td>a<sub>1</sub></td><td>1 + &gamma;*8.15 = 8.335</td></tr>
+<tr align=center><td>S<sub>2</sub></td><td>a<sub>2</sub></td><td>5 + &gamma;*6.34 = 10.70</td></tr>
+</table>
+&nbsp;&nbsp;etc...
+</blockquote>
+<p>
+
+</ol>
+
+<hr align=left>
+</body>
+</html>

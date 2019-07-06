@@ -1,0 +1,1328 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+ <head>
+  <title>COMP9311 17s2 - Lab 09</title>
+
+<style>
+body {font-size:11pt;font-family:arial,sans-serif;margin:5px 10px;}
+a {color:#3333CC;text-decoration:none;}
+a[href]:hover {color:#CC0000;background:#FFFFCC;}
+h2 {color:#99BB55;}
+small {font-size:75%}
+pre {background:#EEEEFF;border:thin solid #9999CC;margin:5px 20px 5px 20px;padding:4px 8px;}
+span.toggle {font-size:67%;}
+span.notice {font-size:110%;}
+span.tiny {font-size:75%;font-weight:normal;}
+span.heading {font-size:18pt;font-weight:bold;color:#99BB55;}
+span.marks {font-weight:normal;font-size:75%;}
+span.identifier {color:#993300;font-size:110%;font-weight:bold;font-family:courier;}
+tr.heading {font-size:large;font-weight:bold;background-color:#AACC66;}
+table.note {border:thin solid black;padding:2pt;width:75%}
+div.note {border:thin solid black;font-size:90%;margin:5px 60px 5px 60px;padding:4px 8px;}
+dt.item {font-weight:bold;}
+.red {color:#CC0000;}
+.green {color:#006600;}
+.brown {color:#993300;}
+.grey {color:#CCCCCC;}
+.comment {font-size:90%;color:#666666}
+.important {font-weight:bold;color:#CC0000;}
+.bigQ {font-size:13pt;font-style:italic;}
+</style>
+
+</head>
+
+<body>
+
+<div align='center'>
+<table width='100%' border='0'>
+ <tr valign='top'>
+  <td align='left' width='25%'>
+   <span class='tiny'><a href="http://www.cse.unsw.edu.au/~cs9311">COMP9311 17s2</a></span>
+  </td>
+  <td align='center' width='50%'>
+   <span class='heading'>Lab 9</span><br><b>Lab 9 - Relational Algebra</b>
+  </td>
+  <td align='right' width='25%'>
+   <span class='tiny'><a href="http://www.cse.unsw.edu.au/~cs9311">Database Systems</a></span>
+  </td>
+ </tr> 
+</table>
+</div>
+
+
+
+<br>
+<center>
+<table width=80% border=1 cellpadding=6><tr>
+<td style='font-size:75%'>
+<p>
+<b>Notation:</b> in the relational schemas below,
+primary key attributes are shown in &nbsp; <code><b>bold</b></code> &nbsp; font,
+foreign key attributes are shown in &nbsp; <code><i>italic</i></code> &nbsp; font,
+and primary key attributes that are also foreign keys are
+shown in &nbsp; <code><b><i>bold italic</i></b></code> &nbsp; font.
+</p>
+Example:
+<pre>
+   Student(<b>id</b>, name, <i>degreeCode</i>)
+   Degree(<b>code</b>, name, requirements)
+   Subject(<b>code</b>, name, syllabus)
+   Marks(<i><b>studentId</b></i>, <i><b>subjectCode</b></i>, <b>session</b>, mark)
+</pre>
+<p>
+In their respective relations, the student id, the degree code
+and the subject code are primary keys.
+In the Student relation, the degree code is a foreign key.
+In the Marks relation, the three attributes student id, subject
+code and session together form the primary key; the first two
+(student id and subject code) are also foreign keys.
+</p>
+</tr></td></table>
+</center>
+
+<ol>
+
+<li>
+<p>
+Relational algebra operators can be <i>composed</i>.
+What precisely does this mean? And why is it important?
+</p>
+<?=startAnswer()?>
+<p>
+Composition means that the result of one operator can be used as an argument
+for some other operator.
+Since most relational algebra operators take relations as inputs and produce
+relations as results, they can be composed.
+It is important because it allows us to build arbitrarily complex relational
+algebra expressions to answer arbitrarily complex queries (i.e. we can build
+answers to complex queries from answers to simple queries).
+<p>
+Note that we often find it clearer to express complex queries as a
+sequence of simple queries which are <q>assigned</q> to named
+intermediate relations, rather than as deeply nested expressions. 
+</p>
+<?=endAnswer()?>
+
+<li>
+<p>
+The natural join ( <i>R</i> Join <i>S</i> ) joins two tables on
+their common attributes.
+Consider a theta-join ( <i>R</i> Join[<i>C</i>] <i>S</i> ) where
+the join condition <i>C</i> is a conjunction of <i>R.A</i> = <i>S.A</i>
+for each attribute <i>A</i> appearing in the schemas of both <i>R</i>
+and <i>S</i> (i.e. it joins on the common attributes).
+What is the difference between the above natural join and theta join?
+</p>
+<?=startAnswer()?>
+<p>
+The relation that results from the natural join has only one attribute
+from each pair of matching attributes. The theta-join has attributes for
+both, and their columns are identical. 
+Both joins result in a relation with the same number of tuples.
+</p>
+<?=endAnswer()?>
+
+<li>
+<p>
+The definition of relational algebra in lectures was based on <em>sets</em>
+of tuples. In practice, commercial relational database management systems
+deal with <em>bags</em> (or <em>multisets</em>) of tuples.
+<p>
+Consider the following relation that describes a collection of PCs
+<p>
+<center>
+<b>PCs</b>
+<table border=1 cellpadding=4>
+<tr><th>Model</th><th>Speed</th><th>RAM</th><th>Disk</th><th>Price</th><tr>
+<tr><td>1001</td><td>700</td><td>64</td><td>10</td><td>799</td></tr>
+<tr><td>1002</td><td>1500</td><td>128</td><td>60</td><td>2499</td></tr>
+<tr><td>1003</td><td>1000</td><td>128</td><td>20</td><td>1499</td></tr>
+<tr><td>1004</td><td>1000</td><td>256</td><td>40</td><td>1999</td></tr>
+<tr><td>1005</td><td>700</td><td>64</td><td>30</td><td>999</td></tr>
+</table>
+</center>
+<p>
+Consider a projection of this relation on the processor speed
+attribute, i.e. <code>Proj[speed](PCs)</code>.
+<ol type="a">
+<li> What is the value of the projection as a set?
+<li> What is the value of the projection as a bag?
+<li> What is the average speed if the projection is a set?
+<li> What is the average speed if the projection is a bag?
+<li> Is the minimum/maximum speed different between the bag and set representation?
+</ol>
+</p>
+<?=startAnswer()?>
+<p>
+<ol type="a">
+<li> {700, 1000, 1500}
+<li> {700, 700, 1000, 1000, 1500}
+<li> (700+1000+1500)/3 = 1067
+<li> (700+700+1000+1000+1500)/5 = 980
+<li> No. Unlike the average value, the minimum and maximum values
+are not affected by repetitions.
+</ol>
+<?=endAnswer()?>
+
+<li>
+<p>
+Consider the following two relations:
+<p>
+<center>
+<table border=0 cellpadding=10>
+<tr>
+<td valign=top align=center>
+   <b>R</b>
+   <table border=1 cellpadding=4>
+   <tr><th>A</th><th>B</th><th>C</th></tr>
+   <tr><td>a1</td><td>b1</td><td>c1</td></tr>
+   <tr><td>a1</td><td>b2</td><td>c2</td></tr>
+   <tr><td>a2</td><td>b1</td><td>c1</td></tr>
+   </table>
+</td>
+<td> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </td>
+<td valign=top align=center>
+   <b>S</b>
+   <table border=1 cellpadding=4>
+   <tr><th>B</th><th>C</th></tr>
+   <tr><td>b1</td><td>c1</td></tr>
+   <tr><td>b2</td><td>c2</td></tr>
+   </table>
+</td>
+</tr>
+</table>
+</center>
+<p>
+Give the relation that results from each of the following
+relational algebra expressions on these relations:
+</p>
+
+<ol type='a'>
+<li>
+<p>
+<i>R</i> Div <i>S</i>
+</p>
+<?=startAnswer()?>
+<p>
+<table cellpadding="6">
+<tr valign="top">
+ <td><i>R</i> Div <i>S</i></td><td>=</td>
+ <td>
+   <table border=1 cellpadding=5>
+   <tr><th>A</th></tr>
+   <tr><td>a1</td></tr>
+   </table>
+ </td>
+</tr></table>
+<?=endAnswer()?>
+<li>
+<p>
+<i>R</i> Div (Sel[B != b1](<i>S</i>))
+</p>
+<?=startAnswer()?>
+<p>
+<table cellpadding="6">
+<tr valign="top">
+ <td><i>Tmp1</i> = Sel[B != b1](<i>S</i>)</td><td>=</td>
+ <td>
+   <table border=1 cellpadding=5>
+   <tr><th>B</th><th>C</th></tr>
+   <tr><td>b2</td><td>c2</td></tr>
+   </table>
+ </td>
+</tr>
+<tr valign="top">
+ <td><i>R</i> Div <i>Tmp1</i></td><td>=</td>
+ <td>
+   <table border=1 cellpadding=5>
+   <tr><th>A</th></tr>
+   <tr><td>a1</td></tr>
+   </table>
+ </td>
+</tr>
+</table>
+<?=endAnswer()?>
+<li>
+<p>
+<i>R</i> Div (Sel[B != b2](<i>S</i>))
+</p>
+<?=startAnswer()?>
+<p>
+<table cellpadding="6">
+<tr valign="top">
+ <td><i>Tmp1</i> = Sel[B != b2](<i>S</i>)</td><td>=</td>
+ <td>
+   <table border=1 cellpadding=5>
+   <tr><th>B</th><th>C</th></tr>
+   <tr><td>b1</td><td>c1</td></tr>
+   </table>
+ </td>
+</tr>
+<tr valign="top">
+ <td><i>R</i> Div <i>Tmp1</i></td><td>=</td>
+ <td>
+   <table border=1 cellpadding=5>
+   <tr><th>A</th></tr>
+   <tr><td>a1</td></tr>
+   <tr><td>a2</td></tr>
+   </table>
+ </td>
+</tr>
+</table>
+<?=endAnswer()?>
+<li>
+<p>
+(<i>R</i> &times; <i>S</i>) - (Sel [R.C=S.C] (<i>R</i> Join [B=B] <i>S</i>)
+</p>
+<?=startAnswer()?>
+<p>
+<table cellpadding="6">
+<tr valign="top">
+ <td><i>Tmp1</i> = <i>R</i> Join[R.B=S.B] <i>S</i></td><td>=</td>
+ <td>
+   <table border=1 cellpadding=5>
+   <tr><th>R.A</th><th>R.B</th><th>R.C</th><th>S.B</th><th>S.C</th></tr>
+   <tr><td>a1</td><td>b1</td><td>c1</td><td>b1</td><td>c1</td></tr>
+   <tr><td>a1</td><td>b2</td><td>c2</td><td>b2</td><td>c2</td></tr>
+   <tr><td>a2</td><td>b1</td><td>c1</td><td>b1</td><td>c1</td></tr>
+   </table>
+ </td>
+</tr>
+<tr valign="top">
+ <td><i>Tmp2</i> = Sel[R.C=S.C](<i>Tmp1</i>)</td><td>=</td>
+ <td>
+   <table border=1 cellpadding=5>
+   <tr><th>R.A</th><th>R.B</th><th>R.C</th><th>S.B</th><th>S.C</th></tr>
+   <tr><td>a1</td><td>b1</td><td>c1</td><td>b1</td><td>c1</td></tr>
+   <tr><td>a1</td><td>b2</td><td>c2</td><td>b2</td><td>c2</td></tr>
+   <tr><td>a2</td><td>b1</td><td>c1</td><td>b1</td><td>c1</td></tr>
+   </table>
+ </td>
+</tr>
+<tr valign="top">
+ <td><i>Tmp3</i> = <i>R</i> &times; <i>S</i></td><td>=</td>
+ <td>
+   <table border=1 cellpadding=5>
+   <tr><th>R.A</th><th>R.B</th><th>R.C</th><th>S.B</th><th>S.C</th></tr>
+   <tr><td>a1</td><td>b1</td><td>c1</td><td>b1</td><td>c1</td></tr>
+   <tr><td>a1</td><td>b1</td><td>c1</td><td>b2</td><td>c2</td></tr>
+   <tr><td>a1</td><td>b2</td><td>c2</td><td>b1</td><td>c1</td></tr>
+   <tr><td>a1</td><td>b2</td><td>c2</td><td>b2</td><td>c2</td></tr>
+   <tr><td>a2</td><td>b1</td><td>c1</td><td>b1</td><td>c1</td></tr>
+   <tr><td>a2</td><td>b1</td><td>c1</td><td>b2</td><td>c2</td></tr>
+   </table>
+ </td>
+</tr>
+<tr valign="top">
+ <td><i>Tmp3</i> - <i>Tmp2</i></td><td>=</td>
+ <td>
+   <table border=1 cellpadding=5>
+   <tr><th>R.A</th><th>R.B</th><th>R.C</th><th>S.B</th><th>S.C</th></tr>
+   <tr><td>a1</td><td>b1</td><td>c1</td><td>b2</td><td>c2</td></tr>
+   <tr><td>a1</td><td>b2</td><td>c2</td><td>b1</td><td>c1</td></tr>
+   <tr><td>a2</td><td>b1</td><td>c1</td><td>b2</td><td>c2</td></tr>
+   </table>
+ </td>
+</tr>
+</table>
+<?=endAnswer()?>
+</ol>
+
+<li>
+<p>
+Consider two relations <i>R1</i> and <i>R2</i>, where <i>R1</i> contains
+<i>N1</i> tuples and <i>R2</i> contains <i>N2</i> tuples, and 
+<i>N1</i> &gt; <i>N2</i> &gt; 0.
+Give the minimum and maximum possible sizes (in tuples) for the
+result relation produced by each of the following relational algebra
+expressions.
+In each case state any assumptions about the schemas of <i>R1</i> and
+<i>R2</i> that are needed to make the expression meaningful.
+<p>
+<ol type="a">
+<li> <i>R1</i> Union <i>R2</i>
+<li> <i>R1</i> Intersect <i>R2</i>
+<li> <i>R1</i> - <i>R2</i>
+<li> <i>R1</i> &times; <i>R2</i>
+<li> Sel<small> [a=5] </small>(<i>R1</i>)
+<li> Proj<small> [a] </small>(<i>R1</i>)
+<li> <i>R1</i> Div <i>R2</i>
+</ol>
+</p>
+<?=startAnswer()?>
+<p>
+<center>
+<table border=1 cellpadding=10>
+<tr>
+  <td><b>Expression</b></td>
+  <td><b>Assumptions</b></td>
+  <td><b>Min</b></td>
+  <td><b>Max</b></td>
+</tr>
+<tr>
+  <td><i>R1</i> Union <i>R2</i></td>
+  <td><i>R1</i> and <i>R2</i> are union-compatible</td>
+  <td><i>N1</i> <br> (when <i>R2&sub;R1</i>)</td>
+  <td><i>N1+N2</i> <br> (when <i>R1&cap;R2=&empty;</i>)</td>
+</tr>
+<tr>
+  <td><i>R1</i> Intersect <i>R2</i></td>
+  <td><i>R1</i> and <i>R2</i> are union-compatible</td>
+  <td><i>0</i> <br> (when <i>R1&cap;R2=&empty;</i>)</td>
+  <td><i><i>N2</i> <br> (when <i>R2&sub;R1</i>) </td>
+</tr>
+<tr>
+  <td><i>R1</i> - <i>R2</i></td>
+  <td><i>R1</i> and <i>R2</i> are union-compatible</td>
+  <td><i>N1-N2</i> <br> (when <i>R2&cap;R1=R2</i>)</td>
+  <td><i>N1</i> <br> (when <i>R1&cap;R2=&empty;</i>)</td>
+</tr>
+<tr>
+  <td><i>R1</i> &times; <i>R2</i></td>
+  <td>None</td>
+  <td><i>N1*N2</i></td>
+  <td><i>N1*N2</i></td>
+</tr>
+<tr>
+  <td>Sel<small> [a=5] </small>(<i>R1</i>)</td>
+  <td><i>R1</i> has an attribute <i>a</i></td>
+  <td><i>0</i> <br> (no matches)</td>
+  <td><i>N1</i> <br> (all match)</td>
+</tr>
+<tr>
+  <td>Proj<small> [a] </small>(<i>R1</i>)</td>
+  <td><i>R1</i> has an attribute <i>a</i>, <i>N1 &gt; 0</i></td>
+  <td><i>1</i></td>
+  <td><i>N1</i></td>
+</tr>
+<tr>
+  <td><i>R1</i> Div <i>R2</i></td>
+  <td>The set of <i>R2</i>'s attributes is <br> a subset of <i>R1</i>'s attributes</td>
+  <td><i>0</i></td>
+  <td><i>floor(N1/N2)</i></td>
+</tr>
+</table>
+</center>
+<?=endAnswer()?>
+
+<li>
+<p>
+Let <i>A</i> and <i>B</i> be two arbitrary relations.
+In terms of the keys of <i>A</i> and <i>B</i>, state
+the keys for each of the following RA expressions.
+Assume in each case that <i>A</i> and <i>B</i> meet the requirements
+of the operation (e.g. they are union-compatible for the Union and
+Intersect operations) <small>(Date, exercise 6.11)</small>.
+</p>
+
+<ol type='a'>
+<li>
+<p>
+Sel<small>[<i>cond</i>]</small>(<i>A</i>),
+	&nbsp;  where <i>cond</i> is any condition
+</p>
+<?=startAnswer()?>
+<p>
+Any subset of <i>A</i> inherits all of the candidate keys for <i>A</i>
+</p>
+<?=endAnswer()?>
+<li>
+<p>
+Proj<small>[<i>attrs</i>]</small>(<i>A</i>), 
+	&nbsp; where <i>attrs</i> is any set of atributes
+</p>
+<?=startAnswer()?>
+<p>
+If the projection includes any candidate key <i>K</i> of <i>A</i>,
+then <i>K</i> is a candidate key for the projection. Otherwise, the
+only candidate key is the combination of all projected attributes.
+</p>
+<?=endAnswer()?>
+<li>
+<p>
+<i>A</i> &times; <i>B</i>
+</p>
+<?=startAnswer()?>
+<p>
+Every combination of a candidate key <i>KA</i> for <i>A</i> and
+a candidate key <i>KB</i> for <i>B</i> is a candidate key for
+the product.
+</p>
+<?=endAnswer()?>
+<li>
+<p>
+<i>A</i> Union <i>B</i>
+</p>
+<?=startAnswer()?>
+<p>
+Even if two relations are union-compatible, it doesn't mean that
+they share the same candidate keys, so in the general case, the
+only candidate key for a union is the set of all attributes.
+In the special case where <i>A</i> and <i>B</i> are selections
+from the same relation, the candidate keys for the union would
+the the same as the candidate keys for the underlying relation.
+</p>
+<?=endAnswer()?>
+<li>
+<p>
+<i>A</i> Intersect <i>B</i>
+</p>
+<?=startAnswer()?>
+<p>
+Same considerations as for Union.
+</p>
+<?=endAnswer()?>
+<li>
+<p>
+<i>A</i> - <i>B</i>
+</p>
+<?=startAnswer()?>
+<p>
+Every candidate key for <i>A</i> is a candidate key for the
+difference (could be viewed as a special kind of selection
+from <i>A</i>).
+</p>
+<?=endAnswer()?>
+<li>
+<p>
+<i>A</i> Div <i>B</i>
+</p>
+<?=startAnswer()?>
+<p>
+Ultimately, division is like a selection followed by projection
+on the original table.
+Similar considerations would apply as for projection.
+</p>
+<?=endAnswer()?>
+</ol>
+
+
+<li>
+<p>Consider the following relational schema:</p>
+<pre>
+   Suppliers(<b>sid</b>, sname, address)
+   Parts(<b>pid</b>, pname, colour)
+   Catalog(<b><i>sid</i></b>, <b><i>pid</i></b>, cost)
+</pre>
+<p>
+Assume that the ids are integers,
+that <code>cost</code> is a real number,
+that all other attributes are strings,
+that the <code><b><i>sid</i></b></code> field in Catalog 
+is a foreign key containing a supplier id,
+and
+that the <b><i>pid</i></b> field in Catalog is a foreign key
+containing a part id.
+Write a relational algebra expression to answer each
+of the following queries:
+</p>
+<ol type='a'>
+<li>
+<p>
+Find the <i>names</i> of suppliers who supply some red part.
+</p>
+<?=startAnswer()?>
+<p>
+<pre>
+RedPartIds = Proj<small>[pid]</small>(Sel<small>[colour='red']</small>(Parts))
+RedPartSupplierIds = Proj<small>[sid]</small>(RedPartIds Join Catalog)
+Answer = Proj<small>[sname]</small>(RedPartSupplierIds Join Suppliers)
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Find the <i>sids</i> of suppliers who supply some red or green part.
+</p>
+<?=startAnswer()?>
+<p>
+<pre>
+RedGreenPartIds = Proj<small>[pid]</small>(Sel<small>[colour='red' OR colour='green']</small>(Parts))
+Answer = Proj<small>[sid]</small>(RedGreenPartIds Join Catalog)
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Find the <i>sids</i> of suppliers who supply some red part or
+whose address is 221 Packer Street.
+</p>
+<?=startAnswer()?>
+<p>
+<pre>
+RedPartIds = Proj<small>[pid]</small>(Sel<small>[colour='red']</small>(Parts))
+RedPartSupplierIds = Proj<small>[sid]</small>(RedPartIds Join Catalog)
+PackerStSupplierIds = Proj<small>[sid]</small>(Sel<small>[address='221 Packer Street']</small>(Suppliers))
+Answer = RedPartSupplierIds Union PackerStSupplierIds
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Find the <i>sids</i> of suppliers who supply some red part and some green part.
+</p>
+<?=startAnswer()?>
+<p>
+<pre>
+RedPartIds = Proj<small>[pid]</small>(Sel<small>[colour='red']</small>(Parts))
+RedPartSupplierIds = Proj<small>[sid]</small>(RedPartIds Join Catalog)
+GreenPartIds = Proj<small>[pid]</small>(Sel<small>[colour='green']</small>(Parts))
+GreenPartSupplierIds = Proj<small>[sid]</small>(GreenPartIds Join Catalog)
+Answer = RedPartSupplierIds &nbsp; Intersect &nbsp; GreenPartSupplierIds
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Find the <i>sids</i> of suppliers who supply every part.
+</p>
+<?=startAnswer()?>
+<p>
+<pre>
+AllPartIds = Proj<small>[pid]</small>(Parts)
+PartSuppliers = Proj<small>[sid,pid]</small>(Catalog)
+Answer = PartSuppliers Div AllPartIds
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Find the <i>sids</i> of suppliers who supply every red part.
+</p>
+<?=startAnswer()?>
+<p>
+<pre>
+RedPartIds = Proj<small>[pid]</small>(Sel<small>[colour='red']</small>(Parts))
+PartSuppliers = Proj<small>[sid,pid]</small>(Catalog)
+Answer = PartSuppliers Div RedPartIds
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Find the <i>sids</i> of suppliers who supply every red or green part.
+</p>
+<?=startAnswer()?>
+<p>
+<pre>
+RedGreenPartIds = Proj<small>[pid]</small>(Sel<small>[colour='red' OR colour='green']</small>(Parts))
+Answer = PartSuppliers Div RedGreenPartIds
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Find the <i>sids</i> of suppliers who supply every red part
+or supply every green part.
+</p>
+<?=startAnswer()?>
+<p>
+<pre>
+RedPartIds = Proj<small>[pid]</small>(Sel<small>[colour='red']</small>(Parts))
+GreenPartIds = Proj<small>[pid]</small>(Sel<small>[colour='green']</small>(Parts))
+PartSuppliers = Proj<small>[sid,pid]</small>(Catalog)
+AllRedPartSuppliers = PartSuppliers Div RedPartIds
+AllGreenPartSuppliers = PartSuppliers Div GreenPartIds
+Answer = AllRedPartSuppliers Union AllGreenPartSuppliers
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Find the <i>pids</i> of parts that are supplied by at least two
+different suppliers.
+</p>
+<?=startAnswer()?>
+<p>
+<pre>
+C1 = Catalog
+C2 = Catalog
+SupplierPartPairs = Sel<small>[C1.sid!=C2.sid]</small>(C1 Join<small>[pid]</small> C2)
+Answer = Proj<small>[C1.pid]</small>(SupplierPartPairs)
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Find pairs of <i>sids</i> such that the supplier with the first <i>sid</i>
+charges more for some part than the supplier with the second sid.
+</p>
+<?=startAnswer()?>
+<p>
+<pre>
+C1 = Catalog
+C2 = Catalog
+SupplierPartPairs = Sel<small>[C1.sid!=C2.sid AND C1.cost&gt;C2.cost]</small>(C1 Join<small>[pid]</small> C2)
+Answer = Proj<small>[C1.sid,C2.sid]</small>(SupplierPartPairs)
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Find the <i>pids</i> of the most expensive part(s) supplied by suppliers
+named "Yosemite Sham".
+</p>
+<?=startAnswer()?>
+<p>
+<pre>
+R1 = Proj<small>[sid,pid,cost]</small>(Sel<small>[name='Yosemite Sham']</small>(Suppliers Join Catalog))
+R2 = R1
+R3 = Rename<small>[1->sid,2->pid,3->cost]</small>(Sel<small>[R1.cost&lt;R2.cost]</small>(R1 &times; R2))
+Answer = Proj<small>[pid]</small>(R2 Minus Proj<small>[sid,pid,cost]</small>(R3))
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Find the <i>pids</i> of parts supplied by every supplier at a price less
+than 200 dollars (if any supplier either does not supply the part or charges
+more than 200 dollars for it, the part should not be selected).
+</p>
+<?=startAnswer()?>
+<p>
+<pre>
+CheapParts = Sel<small>[cost&lt;200]</small>(Catalog)
+AllSuppliers = Proj<small>[sid]</small>(Suppliers)
+Answer = Proj<small>[part,supplier]</small>(CheapParts Div AllSuppliers)
+</pre>
+<?=endAnswer()?>
+</ol>
+
+<li>
+<p>
+Using the Suppliers-Parts-Catalog schema from the previous question,
+state what the following relational algebra expressions compute:
+</p>
+<ol type='a'>
+<li>
+<pre>
+Proj<small>[sname]</small>(
+	Proj<small>[sid]</small>(Sel<small>[colour='red']</small>(Parts))
+	Join
+	Sel<small>[cost&lt;100]</small>(Catalog)
+	Join
+	Suppliers
+)
+</pre>
+<?=startAnswer()?>
+<p>
+Finds the names of all suppliers who supply red parts that cost less than $100.
+</p>
+<?=endAnswer()?>
+<li>
+<pre>
+Proj<small>[sname]</small>(
+	Proj<small>[sid]</small>(
+		Sel<small>[colour='red']</small>(Parts)
+		Join
+		Sel<small>[cost&lt;100]</small>(Catalog)
+		Join
+		Suppliers
+	)
+)
+</pre>
+<?=startAnswer()?>
+<p>
+Produces nothing, because there is no <tt>sname</tt> field left to job
+after the <tt>Proj<small>[sid]</small></tt>.
+</p>
+<?=endAnswer()?>
+<li>
+<pre>
+Proj<small>[sname]</small>(
+	Sel<small>[colour='red']</small>(Parts)
+	Join
+	Sel<small>[cost&lt;100]</small>(Catalog)
+	Join
+	Suppliers
+)
+Intersect
+Proj<small>[sname]</small>(
+	Sel<small>[colour='green']</small>(Parts)
+	Join
+	Sel<small>[cost&lt;100]</small>(Catalog)
+	Join
+	Suppliers
+)
+</pre>
+<?=startAnswer()?>
+<p>
+Finds the names of all suppliers who supply both red and green parts
+that cost less than $100.
+</p>
+<?=endAnswer()?>
+<li>
+<pre>
+Proj<small>[sid]</small>(
+	Sel<small>[colour='red']</small>(Parts)
+	Join
+	Sel<small>[cost&lt;100]</small>(Catalog)
+	Join
+	Suppliers
+)
+Intersect
+Proj<small>[sid]</small>(
+	Sel<small>[colour='green']</small>(Parts)
+	Join
+	Sel<small>[cost&lt;100]</small>(Catalog)
+	Join
+	Suppliers
+)
+</pre>
+<?=startAnswer()?>
+<p>
+Finds the sids of all suppliers who supply both red and green parts
+that cost less than $100.
+</p>
+<?=endAnswer()?>
+<li>
+<pre>
+Proj<small>[sid,sname]</small>(
+	Proj<small>[sid,sname]</small>(
+		Sel<small>[colour='red']</small>(Parts)
+		Join
+		Sel<small>[cost&lt;100]</small>(Catalog)
+		Join
+		Suppliers
+	)
+	Intersect
+	Proj<small>[sid,sname]</small>(
+		Sel<small>[colour='green']</small>(Parts)
+		Join
+		Sel<small>[cost&lt;100]</small>(Catalog)
+		Join
+		Suppliers
+	)
+)
+</pre>
+<?=startAnswer()?>
+<p>
+Finds the names and sids of all suppliers who supply
+both red and green parts that cost less than $100.
+The outermost projection is completely redundant.
+</p>
+<?=endAnswer()?>
+</ol>
+
+<li>
+<p>
+Consider the following relational schema containing flight, aircraft
+and pilot information for an airline:
+</p>
+<pre>
+Flights(<b>flno</b>, from, to, distance, departs, arrives)
+Aircraft(<b>aid</b>, aname, cruisingRange)
+Certified(<b><i>employee</i></b>, <b><i>aircraft</i></b>)
+Employees(<b>eid</b>, ename, salary)
+</pre>
+<p>
+The <code>Flights</code> relation describes a particular timetabled
+fight from a source (city) to a destination (city) at a particular time
+each week.
+Note that this schema doesn't model which specific aircraft makes
+the flight.
+The <code>Aircraft</code> relation describes individual planes,
+with the <code>aname</code> field containing values like
+<code>'Boeing 747'</code>, <code>'Airbus A300'</code>, etc.
+The <code>Certified</code> relation indicates which pilots (who
+are employees) are qualified to fly which aircraft.
+The <code><b><i>employee</i></b></code> field contains the <i>eid</i> of the
+pilot, while the <code><b><i>aircraft</i></b></code> field contains
+Finally, the <code>Employees</code> relation contains information
+about all of the employees of the airline, including the pilots.
+</p>
+<p>
+Write, where possible, a relational algebra expression
+to answer each of the following queries.
+If it is not possible to express any query in relational
+algebra, suggest what extra mechanisms might make it possible.
+</p>
+<ol type='a'>
+<li>
+<p>
+Find the <i>ids</i> of pilots certified for 'Boeing 747' aircraft.
+</p>
+<?=startAnswer()?>
+<p>
+Approach: collect together information about aicraft and certification
+and project out just the employee ids for tuples that involve 747's.
+</p>
+<pre>
+Answer = Proj<small>[eid]</small>(Sel<small>[aname='Boeing 747']</small>(Aircraft Join Certified))
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Find the <i>names</i> of pilots certified for 'Boeing 747' aircraft.
+</p>
+<?=startAnswer()?>
+<p>
+Approach: collect together information about pilots and what planes they
+are certified on and project out just the name (since we need the pilot's
+name this time, we need to include <tt>Employees</tt>).
+</p>
+<pre>
+Answer = Proj<small>[ename]</small>(Sel<small>[aname='Boeing 747']</small>(Aircraft Join Certified Join Employees))
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Find the <i>ids</i> of all aircraft that can be used on non-stop
+flights from New York to Los Angeles.
+</p>
+<?=startAnswer()?>
+<p>
+Approach: get all of the flights from New York to Los Angeles (to get the
+distance), join these with aircraft information and select only those
+combinations where the plane is capable of cruising that far.
+If you were fussy, you could also include flights from Los Angeles
+to New York with a disjunction in the inner <tt>Sel</tt> (in case
+the distance was different for some reason e.g. slightly different
+route).
+</p>
+<pre>
+Answer =
+	Proj<small>[aid]</small>(
+		Aircraft
+		Join<small>[cruisingRange&gt;distance]</small>
+		Sel<small>[from='New York' AND to='Los Angeles']</small>(Flights)
+	)
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Identify the flights that can be piloted by a pilot whose salary
+is more than $100,000.
+</p>
+<?=startAnswer()?>
+<p>
+Approach: collect together information about which planes can make
+which flights and pilot certification, then select just those for
+which the pilot is certified and where the pilot earns more
+than $100000.
+</p>
+<pre>
+Temp   =
+	Proj<small>[flno,aid]</small>(
+		Flights
+		Join<small>[distance&lt;cruisingRange]</small>
+		Aircraft
+	)
+Answer =
+	Proj<small>[flno]</small>(
+		Sel<small>[salary&gt;100000]</small>(
+			Temp Join Certified Join Employees
+		)
+	)
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Find the names of pilots who can operate planes with a range greater
+than 3000 miles, but are not certified on 'Boeing 747' aircraft.
+</p>
+<?=startAnswer()?>
+<p>
+Approach: get a list of employee ids who are certified for aircraft
+with a crusing range more than 3000 miles, then subtract the employee
+ids for those who <em>are</em> certified on a 747, leaving just those
+who are <em>not</em> certified on a 747; to get their names, join
+with the employees relation and project out the names.
+</p>
+<pre>
+LongRangeAircraftCert = Proj<small>[eid]</small>(Sel<small>[cruisingRange&gt;3000]</small>(Aircraft Join Certfied))
+Boeing747Cert = Proj<small>[eid]</small>(Sel<small>[aname='Boeing 747']</small>(Aircraft Join Certfied))
+Answer = 
+	Proj<small>[ename]</small>(
+		Employees Join (LongRangeAircraftCert Minus Boeing747Cert)
+	)
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Find the total amount paid to employees as salaries.
+</p>
+<?=startAnswer()?>
+<pre>
+Answer = Sum[salary](Employees)
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Find the <i>ids</i> of employees who make the highest salary.
+</p>
+<?=startAnswer()?>
+<p>
+Approach: find employees who do not have the highest salary (via the join),
+and then subtract them from the set of all employees, thus leaving just the
+highest paid employees.
+</p>
+<pre>
+E1 = Employees
+E2 = Employees
+Employees = Proj<small>[eid]</small>(Employees)
+LowerPaidEmployees = Proj<small>[E2.eid]</small>(E1 Join<small>[E1.salary&gt;E2.salary]</small> E2)
+Answer = Employees Minus LowerPaidEmployees
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Find the <i>ids</i> of employees who make the second highest salary.
+</p>
+<?=startAnswer()?>
+<p>
+Approach: use the idea from the previous question; first find highest
+paid employees, then remove them from list of employees, then find
+highest paid employees in what's left; these will be the second
+highest-paid employees.
+</p>
+<pre>
+E1 = Employees
+E2 = Employees
+HighestPaid =
+	Proj<small>[eid,salary]</small>(Employees)
+	Minus
+	Proj<small>[E2.eid,E2.salary]</small>(E1 Join<small>[E1.salary&gt;E2.salary]</small> E2)
+NotHighestPaid =
+	Proj<small>[eid,salary]</small>(Employees)  Minus  HighestPaid
+E3 = NotHighestPaid
+E4 = NotHighestPaid
+SecondHighestPaid =
+	NotHighestPaid
+	Minus
+	Proj<small>[E4.eid,E4.salary]</small>(E3 Join<small>[E3.salary&gt;E4.salary]</small> E4)
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Find the <i>ids</i> of employees who are certified for the largest number of aircraft.
+</p>
+<?=startAnswer()?>
+<p>
+Approach: find for each pilot the number of aircraft the are certified for; then rename Count(employee) to ncertified;
+then find the maximum ncertified using the aggregate operation Max; the pilots who are certified for the largest number of aircraft are the ones for which ncertified is the maximum.
+</p>
+<pre>
+R1 = GroupBy<small> [employee,Count[employee]] </small>(Certified)
+R2 = Rename<small> [1->employee,2->ncertified] </small>(R1)
+R3 = Max [ncertified] (R2)
+Answer = Sel<small> [ncertified=R3] </small>(R1)
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Find the <i>ids</i> of employees who are certified for exactly three aircraft.
+</p>
+<?=startAnswer()?>
+<p>
+Approach: find pilots who are certified for at least three aircraft;
+then find pilots who are certified for at least four aircraft; then
+subtract the first set from the latter and you'll pilots who are
+certified for exactly three aircraft; the "counting" is built into
+the join condition.
+</p>
+<pre>
+R1 = R2 = R3 = R4 = Certified
+CertifiedForAtLeast3 =
+	Proj<small>[eid]</small>(
+		Sel<small>[R1.eid=R2.eid=R3.eid AND R1.aid!=R2.aid!=R3.aid]</small>(
+			R1 &times; R2 &times; R3
+		)
+	)
+CertifiedForAtLeast4 =
+	Proj<small>[eid]</small>(
+		Sel<small>[R1.eid=R2.eid=R3.eid=R4.eid AND R1.aid!=R2.aid!=R3.aid!=R4.aid]</small>(
+			R1 &times; R2 &times; R3 &times; R4
+		)
+	)
+Answer = CertifiedForAtLeast3 Minus CertifiedForAtLeast4
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Find if there is any non-stop or single-stop way to travel by air
+from Sydney to New York.
+</p>
+<?=startAnswer()?>
+<p>
+Approach: find any non-stop flights from Sydney to New York; find any
+single-stop flights from Sydney to New York; take the union of these
+two sets.
+</p>
+<pre>
+F1 = F2 = Flights
+SydToNYNonStop = Proj<small>[flno]</small>(Sel<small>[from='Sydney' AND to='New York']</small>(Flights))
+SydToNYSingleStop = Proj<small>[flno]</small>(Sel<small>[F1.from='Sydney' AND F2.to='New York']</small>(F1 Join<small>[F1.to=F2.from]</small> F2))
+Answer = SydToNYNonStop Union SydToNYSingleStop
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Is there a sequence of flights from Sydney to Timbuktu (somewhere 
+in the middle of Africa)? Each flight in the sequence is required
+to depart from the destination of the previous flight; the first
+flight must leave Sydney, and the last flight must arrive in
+Timbuktu, but there is no restriction on the number of intermediate
+flights.
+</p>
+<?=startAnswer()?>
+<p>
+This is a generalisation of the previous question to routes with an
+arbitrary number of stops. This cannot be expressed in standard
+relational algebra. It requires some kind of iterative or recursive
+querying mechanism before it will work. If we're willing to put an
+upper bound on the number of intermediate stops, we can generalise
+the previous query to do it.
+</p>
+<?=endAnswer()?>
+</ol>
+
+<li>
+<p>
+Consider the following classic relational schema for a
+Parts-Suppliers-Jobs application <small>(Date, exercises 6.13-6.40)</small> :
+</p>
+<pre>
+   Supplier(<b>sid</b>, sname, status, scity)
+   Part(<b>pid</b>, pname, colour, weight, pcity)
+   Job(<b>jid</b>, jname, jcity)
+   SPJ(<b><i>supplier</i></b>, <b><i>part</i></b>, <b><i>job</i></b>, qty)
+</pre>
+<p>
+The <tt>SPJ</tt> relation represents a shipment of parts from a supplier
+for a particular job and indicates how many parts are in the shipment;
+the <code><b><i>supplier</i></b></code> field contains the <b>sid</b> of the supplier,
+the <code><b><i>part</i></b></code> field contains the <b>pid</b> of the part,
+the <code><b><i>job</i></b></code> field contains the <b>jid</b> of the job.
+<p>
+Write a relational algebra expression (possibly expressed as a sequence of
+relational assignments) to answer each of the queries below.
+If a query says <q>get all XXX</q> it means get all instances in a given
+database, not all possible instances based on the domains.
+</p>
+
+<ol type="a">
+<li>
+<p>Get full details of all jobs.</p>
+<?=startAnswer()?>
+<pre>
+Answer = Job
+</pre>
+<?=endAnswer()?>
+<li>
+<p>Get full details of all jobs in London.</p>
+<?=startAnswer()?>
+<pre>
+Answer = Sel<small>[city=London]</small>(Job)
+</pre>
+<?=endAnswer()?>
+<li>
+<p>Get supplier ids for all suppliers who supply job J1</p>
+<?=startAnswer()?>
+<pre>
+Answer = Proj<small>[supplier]</small>(Sel<small>[job=J1]</small>(SPJ))
+</pre>
+<?=endAnswer()?>
+<li>
+<p>Get all shipments where the quantity is in the range 300 to 750 inclusive.</p>
+<?=startAnswer()?>
+<pre>
+Answer = Sel<small>[qty>=300 && qty<=750]</small>(SPJ)
+</pre>
+<?=endAnswer()?>
+<li>
+<p>Get all (part,colour) and (part,city) combinations.</p>
+<?=startAnswer()?>
+<pre>
+Answer Proj<small>[colour,city]</small>(Part)
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Get all (supplier,part,job) triples such that the supplier, part
+and job are all co-located.
+</p>
+<?=startAnswer()?>
+<pre>
+Answer = Proj<small>[sid,pid,jid]</small>(Supplier Join Part Join Job)
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Get all (supplier,part,job) triples such that the supplier, part
+and job are not all co-located.
+</p>
+<?=startAnswer()?>
+<pre>
+TheLot = (Supplier &times; Part &times Job)
+DiffCities = Sel<small>[scity!=pcity || pcity!=jcity || scity!=jcity]</small>(TheLot)
+Answer = Proj<small>[sid,pid,jid]</small>(DiffCities)
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Get all (supplier,part,job) triples such that no two of the supplier,
+part and job are co-located.
+</p>
+<?=startAnswer()?>
+<pre>
+TheLot = (Supplier &times; Part &times Job)
+DiffCities = Sel<small>[scity!=pcity && pcity!=jcity && scity!=jcity]</small>(TheLot)
+Answer = Proj<small>[sid,pid,jid]</small>(DiffCities)
+</pre>
+<?=endAnswer()?>
+<li>
+<p>Get part numbers for parts supplied by a supplier in London.</p>
+<?=startAnswer()?>
+<pre>
+Answer = Proj<small>[part]</small>(SPJ Join Select<small>[scity=London]</small>(Supplier))
+</pre>
+<?=endAnswer()?>
+<li>
+<p>Get part numbers for parts supplied by a supplier in London for a job in London.</p>
+<?=startAnswer()?>
+<pre>
+LondonJobParts = Proj<small>[part,job]</small>(SPJ Join Select<small>[scity=London]</small>(Supplier))
+LondonJobs = Select<small>[jcity=London]</small>(Jobs)
+Answer = Proj<small>[part]</small>(LondonJobParts Join LondonJobs)
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Get all pairs of city names such that a supplier in the first city
+supplies parts to a job in the second city.
+</p>
+<?=startAnswer()?>
+<pre>
+Answer = Proj<small>[scity,jcity]</small>(Supplier Join SPJ Join Job)
+</pre>
+<?=endAnswer()?>
+<li>
+<p>Get the total number of projects supplied by supplier S1.</p>
+<?=startAnswer()?>
+<pre>
+Answer = Count(Proj<small>[job]</small>(Sel<small>[supplier=S1]</small>(SPJ)))
+</pre>
+<?=endAnswer()?>
+<li>
+<p>Get the total quantity of part P1 supplied by supplier S1.</p>
+<?=startAnswer()?>
+<pre>
+Answer = Sum(Proj<small>[qty]</small>(Sel<small>[supplier=S1 && part=P1]</small>(SPJ)))
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+For each part being supplied to a project, get the part number,
+the project number, and the corresponding total quantity.
+</p>
+<?=startAnswer()?>
+<pre>
+Answer = GroupBy<small>[part]</small><sub>Sum[qty]</sub>(SPJ)
+</pre>
+<p>
+Note: The <tt>GroupBy</tt> partitions the SPJ relation into groups based
+on part number; the <tt>Sum</tt> adds up the quanitities within
+each group and gives a single tuple with the part number and the
+total quantity.
+</p>
+<?=endAnswer()?>
+<li>
+<p>Get part numbers supplied to some job in an average quantity of more than 320.</p>
+<?=startAnswer()?>
+<pre>
+PartUsage = GroupBy<small>[part]</small><sub>Avg[qty]</sub>(SPJ)
+Answer = Proj<small>[part]</small>Sel<small>[avg&gt;320]</small>(PartUsage))
+</pre>
+<?=endAnswer()?>
+<li>
+<p>Get job names for jobs supplied by supplier S1.</p>
+<?=startAnswer()?>
+<pre>
+S1Shipments = Sel<small>[supplier=S1]</small>(SPJ)
+Answer = Proj<small>[jname]</small>(Jobs Join S1Shipments)
+</pre>
+<?=endAnswer()?>
+<li>
+<p>Get colours of parts supplied by supplier S1.</p>
+<?=startAnswer()?>
+<pre>
+S1Shipments = Sel<small>[supplier=S1]</small>(SPJ)
+Answer = Proj<small>[colour]</small>(Part Join S1Shipments)
+</pre>
+<?=endAnswer()?>
+<li>
+<p>Get part numbers for parts supplied to any job in London.</p>
+<?=startAnswer()?>
+<pre>
+LondonJobs = Sel<small>[jcity=London]</small>(Job)
+Answer = Proj<small>[part]</small>(LondonJobs Join SPJ)
+</pre>
+<?=endAnswer()?>
+<li>
+<p>Get job numbers for jobs using at least one part available from supplier S1.</p>
+<?=startAnswer()?>
+<pre>
+S1Parts = Proj<small>[part]</small>(Sel<small>[supplier=S1]</small>(SPJ))
+S1PartJobs = (SPJ Join S1Parts)
+Answer = Proj<small>[job]</small>S1PartJobs
+</pre>
+<?=endAnswer()?>
+<li>
+<p>Get suppliers numbers for suppliers with status lower than that of supplier S1.</p>
+<?=startAnswer()?>
+<pre>
+statusOfS1 = Proj<small>[status]</small>(Sel<small>[sid=S1]</small>(Supplier))
+Answer = Proj<small>[sid]</small>(Sel<small>[status&lt;statusOfS1]</small>(Supplier))
+</pre>
+<p>
+Note: this assumes that you can treat a relation with a single row and
+column (statusOfS1) as a scalar value for use in comparisons.
+</p>
+<?=endAnswer()?>
+<li>
+<p>Get job numbers for jobs supplied entirely by supplier S1.</p>
+<?=startAnswer()?>
+<pre>
+NotAllS1Jobs = Proj<small>[job]</small>(Sel<small>[supplier=S1]</small>(SPJ))
+AllJobs = Proj<small>[jid]</small>(Job)
+Answer =  AllJobs - NotAllS1Jobs
+</pre>
+<?=endAnswer()?>
+<li>
+<p>Get supplier numbers for suppliers who supply the same part to all jobs.</p>
+<?=startAnswer()?>
+<pre>
+SPJTriples = Proj<small>[supplier,part,job]</small>(SPJ)
+AllJobNums = Proj<small>[jid]</small>(Job)
+Answer = Proj<small>[supplier]</small>(SPJTriples Div AllJobNums)
+</pre>
+<?=endAnswer()?>
+<li>
+<p>Get all cities in which at least one supplier, part or job is located.</p>
+<?=startAnswer()?>
+<pre>
+SupplierCities = Proj<small>[scity]</small>(Supplier)
+PartCities = Proj<small>[pcity]</small>(Part)
+JobCities = Proj<small>[jcity]</small>(Job)
+Answer = SupplierCities U PartCities U JobCities
+</pre>
+<?=endAnswer()?>
+<li>
+<p>
+Get all pairs of supplier numbers
+(<i>S<sub>x</sub></i>,<i>S<sub>y</sub></i>)
+such that <i>S<sub>x</sub></i> and <i>S<sub>y</sub></i>
+supply exactly the same set of parts each.</i>
+</p>
+<?=startAnswer()?>
+<pre>
+SupplierA = Rename<small>[SupplierA(sidA,sname,status,scity)]</small>(Supplier)
+SupplierB = Rename<small>[SupplierB(sidB,sname,status,scity)]</small>(Supplier)
+AllPairs = (SupplierA &times; SupplierB)
+Answer = Sel<small>[Proj[part](Sel[supplier=sidA](SPJ)) = Proj[part](Sel[supplier=sidB](SPJ)) && sidA&lt;sidB]</small>(AllPairs)
+</pre>
+<p>
+Note: This solution assumes that we can compare sets as part of a select
+operation.
+It takes pairs of supplier numbers (sidA,sidB), finds the set of parts
+supplied by each, and then checks that these sets are equal.
+The <code>sidA&lt;sidB</code> term simply avoids having trivial pairs like
+(S1,S1) and also avoids having both (S1,S2) and (S2,S1).
+</p>
+<?=endAnswer()?>
+</ol>
+
+</ol>
+</body>
+</html>

@@ -1,0 +1,270 @@
+/srvr/z5089358/postgresql-10.4/contrib/hstore/hstore_op.c:hstore_to_array_internal(HStore *hs, int ndims)
+/srvr/z5089358/postgresql-10.4/contrib/hstore/hstore_op.c:	ArrayType  *out = hstore_to_array_internal(hs, 1);
+/srvr/z5089358/postgresql-10.4/contrib/hstore/hstore_op.c:	ArrayType  *out = hstore_to_array_internal(hs, 2);
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:CREATE INDEX intarrayidx ON array_index_op_test USING gin (i);
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE i @> '{32}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE i @> '{32}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE i && '{32}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE i @> '{17}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE i && '{17}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE i @> '{32,17}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE i && '{32,17}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE i <@ '{38,34,32,89}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE i = '{47,77}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE i = '{}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE i @> '{}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE i && '{}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE i <@ '{}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:CREATE INDEX textarrayidx ON array_index_op_test USING gin (t);
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE t @> '{AAAAAAAA72908}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE t @> '{AAAAAAAA72908}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE t && '{AAAAAAAA72908}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE t @> '{AAAAAAAAAA646}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE t && '{AAAAAAAAAA646}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE t @> '{AAAAAAAA72908,AAAAAAAAAA646}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE t && '{AAAAAAAA72908,AAAAAAAAAA646}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE t <@ '{AAAAAAAA72908,AAAAAAAAAAAAAAAAAAA17075,AA88409,AAAAAAAAAAAAAAAAAA36842,AAAAAAA48038,AAAAAAAAAAAAAA10611}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE t = '{AAAAAAAAAA646,A87088}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE t = '{}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE t @> '{}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE t && '{}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE t <@ '{}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:CREATE INDEX botharrayidx ON array_index_op_test USING gin (i, t);
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE i @> '{32}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE i && '{32}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE t @> '{AAAAAAA80240}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE t && '{AAAAAAA80240}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE i @> '{32}' AND t && '{AAAAAAA80240}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE i && '{32}' AND t @> '{AAAAAAA80240}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:SELECT * FROM array_index_op_test WHERE t = '{}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_index.sql:CREATE INDEX gin_relopts_test ON array_index_op_test USING gin (i)
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_table.sql:CREATE TABLE array_index_op_test (
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/create_type.sql:CREATE TYPE not_existing_type (INPUT = array_in,
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/type_sanity.sql:-- Varlena array types will point to array_in
+/srvr/z5089358/postgresql-10.4/src/test/regress/sql/type_sanity.sql:    (p2.oid = 'array_in'::regproc)
+/srvr/z5089358/postgresql-10.4/src/test/regress/output/copy.source:COPY array_index_op_test FROM '@abs_srcdir@/data/array.data';
+/srvr/z5089358/postgresql-10.4/src/test/regress/output/copy.source:ANALYZE array_index_op_test;
+/srvr/z5089358/postgresql-10.4/src/test/regress/input/copy.source:COPY array_index_op_test FROM '@abs_srcdir@/data/array.data';
+/srvr/z5089358/postgresql-10.4/src/test/regress/input/copy.source:ANALYZE array_index_op_test;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_type.out:CREATE TYPE not_existing_type (INPUT = array_in,
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/opr_sanity.out: 2296 | anyarray_in
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/opr_sanity.out: 2777 | anynonarray_in
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/opr_sanity.out:  750 | array_in
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/sanity_check.out:array_index_op_test|t
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:CREATE INDEX intarrayidx ON array_index_op_test USING gin (i);
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE i @> '{32}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:   ->  Bitmap Heap Scan on array_index_op_test
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE i @> '{32}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE i && '{32}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE i @> '{17}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE i && '{17}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE i @> '{32,17}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE i && '{32,17}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE i <@ '{38,34,32,89}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE i = '{47,77}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE i = '{}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE i @> '{}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE i && '{}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE i <@ '{}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:CREATE INDEX textarrayidx ON array_index_op_test USING gin (t);
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE t @> '{AAAAAAAA72908}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:   ->  Bitmap Heap Scan on array_index_op_test
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE t @> '{AAAAAAAA72908}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE t && '{AAAAAAAA72908}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE t @> '{AAAAAAAAAA646}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE t && '{AAAAAAAAAA646}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE t @> '{AAAAAAAA72908,AAAAAAAAAA646}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE t && '{AAAAAAAA72908,AAAAAAAAAA646}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE t <@ '{AAAAAAAA72908,AAAAAAAAAAAAAAAAAAA17075,AA88409,AAAAAAAAAAAAAAAAAA36842,AAAAAAA48038,AAAAAAAAAAAAAA10611}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE t = '{AAAAAAAAAA646,A87088}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE t = '{}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE t @> '{}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE t && '{}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE t <@ '{}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:CREATE INDEX botharrayidx ON array_index_op_test USING gin (i, t);
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE i @> '{32}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE i && '{32}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE t @> '{AAAAAAA80240}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE t && '{AAAAAAA80240}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE i @> '{32}' AND t && '{AAAAAAA80240}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE i && '{32}' AND t @> '{AAAAAAA80240}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:SELECT * FROM array_index_op_test WHERE t = '{}' ORDER BY seqno;
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:CREATE INDEX gin_relopts_test ON array_index_op_test USING gin (i)
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_index.out:gin, for table "public.array_index_op_test"
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/type_sanity.out:-- Varlena array types will point to array_in
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/type_sanity.out:    (p2.oid = 'array_in'::regproc)
+/srvr/z5089358/postgresql-10.4/src/test/regress/expected/create_table.out:CREATE TABLE array_index_op_test (
+/srvr/z5089358/postgresql-10.4/src/test/subscription/t/002_types.pl:	-- test_tbl_composite_with_single_enums_array_in_composite
+/srvr/z5089358/postgresql-10.4/src/test/subscription/t/002_types.pl:	-- test_tbl_composite_with_enums_array_in_composite
+/srvr/z5089358/postgresql-10.4/src/tools/pgindent/typedefs.list:plperl_array_info
+/srvr/z5089358/postgresql-10.4/src/pl/plperl/plperl.c:typedef struct plperl_array_info
+/srvr/z5089358/postgresql-10.4/src/pl/plperl/plperl.c:} plperl_array_info;
+/srvr/z5089358/postgresql-10.4/src/pl/plperl/plperl.c:static SV  *split_array(plperl_array_info *info, int first, int last, int nest);
+/srvr/z5089358/postgresql-10.4/src/pl/plperl/plperl.c:static SV  *make_array_ref(plperl_array_info *info, int first, int last);
+/srvr/z5089358/postgresql-10.4/src/pl/plperl/plperl.c:	plperl_array_info *info;
+/srvr/z5089358/postgresql-10.4/src/pl/plperl/plperl.c:	info = palloc0(sizeof(plperl_array_info));
+/srvr/z5089358/postgresql-10.4/src/pl/plperl/plperl.c:split_array(plperl_array_info *info, int first, int last, int nest)
+/srvr/z5089358/postgresql-10.4/src/pl/plperl/plperl.c:make_array_ref(plperl_array_info *info, int first, int last)
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/sql/plpython_types.sql:CREATE FUNCTION test_type_conversion_array_int4(x int4[]) RETURNS int4[] AS $$
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/sql/plpython_types.sql:SELECT * FROM test_type_conversion_array_int4(ARRAY[0, 100]);
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/sql/plpython_types.sql:SELECT * FROM test_type_conversion_array_int4(ARRAY[0,-100,55]);
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/sql/plpython_types.sql:SELECT * FROM test_type_conversion_array_int4(ARRAY[NULL,1]);
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/sql/plpython_types.sql:SELECT * FROM test_type_conversion_array_int4(ARRAY[]::integer[]);
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/sql/plpython_types.sql:SELECT * FROM test_type_conversion_array_int4(NULL);
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/sql/plpython_types.sql:SELECT * FROM test_type_conversion_array_int4(ARRAY[[1,2,3],[4,5,6]]);
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/sql/plpython_types.sql:SELECT * FROM test_type_conversion_array_int4(ARRAY[[[1,2,NULL],[NULL,5,6]],[[NULL,8,9],[10,11,12]]]);
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/sql/plpython_types.sql:SELECT * FROM test_type_conversion_array_int4('[2:4]={1,2,3}');
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/sql/plpython_types.sql:CREATE FUNCTION test_type_conversion_array_int8(x int8[]) RETURNS int8[] AS $$
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/sql/plpython_types.sql:SELECT * FROM test_type_conversion_array_int8(ARRAY[[[1,2,NULL],[NULL,5,6]],[[NULL,8,9],[10,11,12]]]::int8[]);
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types.out:CREATE FUNCTION test_type_conversion_array_int4(x int4[]) RETURNS int4[] AS $$
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types.out:SELECT * FROM test_type_conversion_array_int4(ARRAY[0, 100]);
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types.out: test_type_conversion_array_int4 
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types.out:SELECT * FROM test_type_conversion_array_int4(ARRAY[0,-100,55]);
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types.out: test_type_conversion_array_int4 
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types.out:SELECT * FROM test_type_conversion_array_int4(ARRAY[NULL,1]);
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types.out: test_type_conversion_array_int4 
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types.out:SELECT * FROM test_type_conversion_array_int4(ARRAY[]::integer[]);
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types.out: test_type_conversion_array_int4 
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types.out:SELECT * FROM test_type_conversion_array_int4(NULL);
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types.out: test_type_conversion_array_int4 
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types.out:SELECT * FROM test_type_conversion_array_int4(ARRAY[[1,2,3],[4,5,6]]);
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types.out: test_type_conversion_array_int4 
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types.out:SELECT * FROM test_type_conversion_array_int4(ARRAY[[[1,2,NULL],[NULL,5,6]],[[NULL,8,9],[10,11,12]]]);
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types.out:          test_type_conversion_array_int4          
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types.out:SELECT * FROM test_type_conversion_array_int4('[2:4]={1,2,3}');
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types.out: test_type_conversion_array_int4 
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types.out:CREATE FUNCTION test_type_conversion_array_int8(x int8[]) RETURNS int8[] AS $$
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types.out:SELECT * FROM test_type_conversion_array_int8(ARRAY[[[1,2,NULL],[NULL,5,6]],[[NULL,8,9],[10,11,12]]]::int8[]);
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types.out:          test_type_conversion_array_int8          
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types_3.out:CREATE FUNCTION test_type_conversion_array_int4(x int4[]) RETURNS int4[] AS $$
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types_3.out:SELECT * FROM test_type_conversion_array_int4(ARRAY[0, 100]);
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types_3.out: test_type_conversion_array_int4 
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types_3.out:SELECT * FROM test_type_conversion_array_int4(ARRAY[0,-100,55]);
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types_3.out: test_type_conversion_array_int4 
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types_3.out:SELECT * FROM test_type_conversion_array_int4(ARRAY[NULL,1]);
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types_3.out: test_type_conversion_array_int4 
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types_3.out:SELECT * FROM test_type_conversion_array_int4(ARRAY[]::integer[]);
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types_3.out: test_type_conversion_array_int4 
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types_3.out:SELECT * FROM test_type_conversion_array_int4(NULL);
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types_3.out: test_type_conversion_array_int4 
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types_3.out:SELECT * FROM test_type_conversion_array_int4(ARRAY[[1,2,3],[4,5,6]]);
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types_3.out: test_type_conversion_array_int4 
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types_3.out:SELECT * FROM test_type_conversion_array_int4(ARRAY[[[1,2,NULL],[NULL,5,6]],[[NULL,8,9],[10,11,12]]]);
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types_3.out:          test_type_conversion_array_int4          
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types_3.out:SELECT * FROM test_type_conversion_array_int4('[2:4]={1,2,3}');
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types_3.out: test_type_conversion_array_int4 
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types_3.out:CREATE FUNCTION test_type_conversion_array_int8(x int8[]) RETURNS int8[] AS $$
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types_3.out:SELECT * FROM test_type_conversion_array_int8(ARRAY[[[1,2,NULL],[NULL,5,6]],[[NULL,8,9],[10,11,12]]]::int8[]);
+/srvr/z5089358/postgresql-10.4/src/pl/plpython/expected/plpython_types_3.out:          test_type_conversion_array_int8          
+/srvr/z5089358/postgresql-10.4/src/include/utils/array.h: * We support subscripting on these types, but array_in() and array_out()
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_proc.h:DATA(insert OID = 750 (  array_in		   PGNSP PGUID 12 1 0 0 0 f f f f t f s s 3 0 2277 "2275 26 23" _null_ _null_ _null_ _null_ _null_	array_in _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_proc.h:DATA(insert OID = 2296 (  anyarray_in		PGNSP PGUID 12 1 0 0 0 f f f f t f i s 1 0 2277 "2275" _null_ _null_ _null_ _null_ _null_ anyarray_in _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_proc.h:DATA(insert OID = 2777 (  anynonarray_in	PGNSP PGUID 12 1 0 0 0 f f f f t f i s 1 0 2776 "2275" _null_ _null_ _null_ _null_ _null_ anynonarray_in _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 143 ( _xml	   PGNSP PGUID -1 f b A f t \054 0 142 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 199 ( _json	   PGNSP PGUID -1 f b A f t \054 0 114 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 629 (  _line	   PGNSP PGUID	-1 f b A f t \054 0 628 0 array_in array_out array_recv array_send - - array_typanalyze d x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 719 (  _circle   PGNSP PGUID	-1 f b A f t \054 0  718 0 array_in array_out array_recv array_send - - array_typanalyze d x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 791 (  _money    PGNSP PGUID	-1 f b A f t \054 0  790 0 array_in array_out array_recv array_send - - array_typanalyze d x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1000 (  _bool		 PGNSP PGUID -1 f b A f t \054 0	16 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1001 (  _bytea	 PGNSP PGUID -1 f b A f t \054 0	17 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1002 (  _char		 PGNSP PGUID -1 f b A f t \054 0	18 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1003 (  _name		 PGNSP PGUID -1 f b A f t \054 0	19 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1005 (  _int2		 PGNSP PGUID -1 f b A f t \054 0	21 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1006 (  _int2vector PGNSP PGUID -1 f b A f t \054 0	22 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1007 (  _int4		 PGNSP PGUID -1 f b A f t \054 0	23 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1008 (  _regproc	 PGNSP PGUID -1 f b A f t \054 0	24 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1009 (  _text		 PGNSP PGUID -1 f b A f t \054 0	25 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 100 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1028 (  _oid		 PGNSP PGUID -1 f b A f t \054 0	26 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1010 (  _tid		 PGNSP PGUID -1 f b A f t \054 0	27 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1011 (  _xid		 PGNSP PGUID -1 f b A f t \054 0	28 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1012 (  _cid		 PGNSP PGUID -1 f b A f t \054 0	29 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1013 (  _oidvector PGNSP PGUID -1 f b A f t \054 0	30 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1014 (  _bpchar	 PGNSP PGUID -1 f b A f t \054 0 1042 0 array_in array_out array_recv array_send bpchartypmodin bpchartypmodout array_typanalyze i x f 0 -1 0 100 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1015 (  _varchar	 PGNSP PGUID -1 f b A f t \054 0 1043 0 array_in array_out array_recv array_send varchartypmodin varchartypmodout array_typanalyze i x f 0 -1 0 100 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1016 (  _int8		 PGNSP PGUID -1 f b A f t \054 0	20 0 array_in array_out array_recv array_send - - array_typanalyze d x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1017 (  _point	 PGNSP PGUID -1 f b A f t \054 0 600 0 array_in array_out array_recv array_send - - array_typanalyze d x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1018 (  _lseg		 PGNSP PGUID -1 f b A f t \054 0 601 0 array_in array_out array_recv array_send - - array_typanalyze d x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1019 (  _path		 PGNSP PGUID -1 f b A f t \054 0 602 0 array_in array_out array_recv array_send - - array_typanalyze d x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1020 (  _box		 PGNSP PGUID -1 f b A f t \073 0 603 0 array_in array_out array_recv array_send - - array_typanalyze d x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1021 (  _float4	 PGNSP PGUID -1 f b A f t \054 0 700 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1022 (  _float8	 PGNSP PGUID -1 f b A f t \054 0 701 0 array_in array_out array_recv array_send - - array_typanalyze d x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1023 (  _abstime	 PGNSP PGUID -1 f b A f t \054 0 702 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1024 (  _reltime	 PGNSP PGUID -1 f b A f t \054 0 703 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1025 (  _tinterval PGNSP PGUID -1 f b A f t \054 0 704 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1027 (  _polygon	 PGNSP PGUID -1 f b A f t \054 0 604 0 array_in array_out array_recv array_send - - array_typanalyze d x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1034 (  _aclitem	 PGNSP PGUID -1 f b A f t \054 0 1033 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1040 (  _macaddr	 PGNSP PGUID -1 f b A f t \054 0  829 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 775  (  _macaddr8  PGNSP PGUID -1 f b A f t \054 0  774 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1041 (  _inet		 PGNSP PGUID -1 f b A f t \054 0  869 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 651  (  _cidr		 PGNSP PGUID -1 f b A f t \054 0  650 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1263 (  _cstring	 PGNSP PGUID -1 f b A f t \054 0 2275 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1115 ( _timestamp  PGNSP PGUID	-1 f b A f t \054 0 1114 0 array_in array_out array_recv array_send timestamptypmodin timestamptypmodout array_typanalyze d x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1182 ( _date		 PGNSP PGUID	-1 f b A f t \054 0 1082 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1183 ( _time		 PGNSP PGUID	-1 f b A f t \054 0 1083 0 array_in array_out array_recv array_send timetypmodin timetypmodout array_typanalyze d x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1185 ( _timestamptz PGNSP PGUID -1 f b A f t \054 0	1184 0 array_in array_out array_recv array_send timestamptztypmodin timestamptztypmodout array_typanalyze d x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1187 ( _interval	 PGNSP PGUID	-1 f b A f t \054 0 1186 0 array_in array_out array_recv array_send intervaltypmodin intervaltypmodout array_typanalyze d x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1231 (  _numeric	 PGNSP PGUID -1 f b A f t \054 0	1700 0 array_in array_out array_recv array_send numerictypmodin numerictypmodout array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1270 ( _timetz	 PGNSP PGUID -1 f b A f t \054 0	1266 0 array_in array_out array_recv array_send timetztypmodin timetztypmodout array_typanalyze d x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1561 ( _bit		 PGNSP PGUID -1 f b A f t \054 0	1560 0 array_in array_out array_recv array_send bittypmodin bittypmodout array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 1563 ( _varbit	 PGNSP PGUID -1 f b A f t \054 0	1562 0 array_in array_out array_recv array_send varbittypmodin varbittypmodout array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 2201 ( _refcursor    PGNSP PGUID -1 f b A f t \054 0 1790 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 2207 ( _regprocedure PGNSP PGUID -1 f b A f t \054 0 2202 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 2208 ( _regoper	   PGNSP PGUID -1 f b A f t \054 0 2203 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 2209 ( _regoperator  PGNSP PGUID -1 f b A f t \054 0 2204 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 2210 ( _regclass	   PGNSP PGUID -1 f b A f t \054 0 2205 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 2211 ( _regtype	   PGNSP PGUID -1 f b A f t \054 0 2206 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 4097 ( _regrole	   PGNSP PGUID -1 f b A f t \054 0 4096 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 4090 ( _regnamespace PGNSP PGUID -1 f b A f t \054 0 4089 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 2951 ( _uuid			PGNSP PGUID -1 f b A f t \054 0 2950 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 3221 ( _pg_lsn			PGNSP PGUID -1 f b A f t \054 0 3220 0 array_in array_out array_recv array_send - - array_typanalyze d x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 3643 ( _tsvector		PGNSP PGUID -1 f b A f t \054 0 3614 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 3644 ( _gtsvector		PGNSP PGUID -1 f b A f t \054 0 3642 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 3645 ( _tsquery		PGNSP PGUID -1 f b A f t \054 0 3615 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 3735 ( _regconfig		PGNSP PGUID -1 f b A f t \054 0 3734 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 3770 ( _regdictionary PGNSP PGUID -1 f b A f t \054 0 3769 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 3807 ( _jsonb			PGNSP PGUID -1 f b A f t \054 0 3802 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 2949 ( _txid_snapshot PGNSP PGUID -1 f b A f t \054 0 2970 0 array_in array_out array_recv array_send - - array_typanalyze d x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 3905 ( _int4range		PGNSP PGUID  -1 f b A f t \054 0 3904 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 3907 ( _numrange		PGNSP PGUID  -1 f b A f t \054 0 3906 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 3909 ( _tsrange		PGNSP PGUID  -1 f b A f t \054 0 3908 0 array_in array_out array_recv array_send - - array_typanalyze d x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 3911 ( _tstzrange		PGNSP PGUID  -1 f b A f t \054 0 3910 0 array_in array_out array_recv array_send - - array_typanalyze d x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 3913 ( _daterange		PGNSP PGUID  -1 f b A f t \054 0 3912 0 array_in array_out array_recv array_send - - array_typanalyze i x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 3927 ( _int8range		PGNSP PGUID  -1 f b A f t \054 0 3926 0 array_in array_out array_recv array_send - - array_typanalyze d x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 2287 ( _record		PGNSP PGUID -1 f p P f t \054 0 2249 0 array_in array_out array_recv array_send - - array_typanalyze d x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 2277 ( anyarray		PGNSP PGUID -1 f p P f t \054 0 0 0 anyarray_in anyarray_out anyarray_recv anyarray_send - - - d x f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/include/catalog/pg_type.h:DATA(insert OID = 2776 ( anynonarray	PGNSP PGUID  4 t p P f t \054 0 0 0 anynonarray_in anynonarray_out - - - - - i p f 0 -1 0 0 _null_ _null_ _null_ ));
+/srvr/z5089358/postgresql-10.4/src/backend/parser/parse_coerce.c:		 * is, we just fall through; below, we'll call anyarray_in,
+/srvr/z5089358/postgresql-10.4/src/backend/bootstrap/bootstrap.c: * the binary I/O routines.  It is exported so that array_in and array_out
+/srvr/z5089358/postgresql-10.4/src/backend/utils/cache/lsyscache.c:	 * use array_in and array_out during bootstrap.
+/srvr/z5089358/postgresql-10.4/src/backend/utils/fmgrtab.c:  { 750, "array_in", 3, true, false, array_in },
+/srvr/z5089358/postgresql-10.4/src/backend/utils/fmgrtab.c:  { 2296, "anyarray_in", 1, true, false, anyarray_in },
+/srvr/z5089358/postgresql-10.4/src/backend/utils/fmgrtab.c:  { 2777, "anynonarray_in", 1, true, false, anynonarray_in },
+Binary file /srvr/z5089358/postgresql-10.4/src/backend/utils/fmgrtab.o matches
+Binary file /srvr/z5089358/postgresql-10.4/src/backend/utils/adt/arrayfuncs.o matches
+/srvr/z5089358/postgresql-10.4/src/backend/utils/adt/pseudotypes.c: * anyarray_in		- input routine for pseudo-type ANYARRAY.
+/srvr/z5089358/postgresql-10.4/src/backend/utils/adt/pseudotypes.c:anyarray_in(PG_FUNCTION_ARGS)
+Binary file /srvr/z5089358/postgresql-10.4/src/backend/utils/adt/pseudotypes.o matches
+Binary file /srvr/z5089358/postgresql-10.4/src/backend/utils/adt/varlena.o matches
+/srvr/z5089358/postgresql-10.4/src/backend/utils/adt/arrayfuncs.c:static void array_insert_slice(ArrayType *destArray, ArrayType *origArray,
+/srvr/z5089358/postgresql-10.4/src/backend/utils/adt/arrayfuncs.c: * array_in :
+/srvr/z5089358/postgresql-10.4/src/backend/utils/adt/arrayfuncs.c:array_in(PG_FUNCTION_ARGS)
+/srvr/z5089358/postgresql-10.4/src/backend/utils/adt/arrayfuncs.c:	printf("array_in- ndim %d (", ndim);
+/srvr/z5089358/postgresql-10.4/src/backend/utils/adt/arrayfuncs.c:		array_insert_slice(newarray, array, srcArray,
+/srvr/z5089358/postgresql-10.4/src/backend/utils/adt/arrayfuncs.c:array_insert_slice(ArrayType *destArray,
+/srvr/z5089358/postgresql-10.4/src/backend/utils/adt/varlena.c:static Datum text_to_array_internal(PG_FUNCTION_ARGS);
+/srvr/z5089358/postgresql-10.4/src/backend/utils/adt/varlena.c:	return text_to_array_internal(fcinfo);
+/srvr/z5089358/postgresql-10.4/src/backend/utils/adt/varlena.c:	return text_to_array_internal(fcinfo);
+/srvr/z5089358/postgresql-10.4/src/backend/utils/adt/varlena.c:text_to_array_internal(PG_FUNCTION_ARGS)
+/srvr/z5089358/postgresql-10.4/src/backend/utils/fmgrprotos.h:extern Datum array_in(PG_FUNCTION_ARGS);
+/srvr/z5089358/postgresql-10.4/src/backend/utils/fmgrprotos.h:extern Datum anyarray_in(PG_FUNCTION_ARGS);
+/srvr/z5089358/postgresql-10.4/src/backend/utils/fmgrprotos.h:extern Datum anynonarray_in(PG_FUNCTION_ARGS);
+/srvr/z5089358/postgresql-10.4/src/backend/utils/fmgr/funcapi.c:		ArrayType  *array_in;
+/srvr/z5089358/postgresql-10.4/src/backend/utils/fmgr/funcapi.c:		array_in = PG_GETARG_ARRAYTYPE_P(variadic_start);
+/srvr/z5089358/postgresql-10.4/src/backend/utils/fmgr/funcapi.c:		element_type = ARR_ELEMTYPE(array_in);
+/srvr/z5089358/postgresql-10.4/src/backend/utils/fmgr/funcapi.c:		deconstruct_array(array_in, element_type, typlen, typbyval,
+/srvr/z5089358/postgresql-10.4/src/backend/catalog/postgres.bki:insert OID = 750 ( array_in 11 10 12 1 0 0 0 f f f f t f s s 3 0 2277 "2275 26 23" _null_ _null_ _null_ _null_ _null_ array_in _null_ _null_ _null_ )
+/srvr/z5089358/postgresql-10.4/src/backend/catalog/postgres.bki:insert OID = 2296 ( anyarray_in 11 10 12 1 0 0 0 f f f f t f i s 1 0 2277 "2275" _null_ _null_ _null_ _null_ _null_ anyarray_in _null_ _null_ _null_ )
+/srvr/z5089358/postgresql-10.4/src/backend/catalog/postgres.bki:insert OID = 2777 ( anynonarray_in 11 10 12 1 0 0 0 f f f f t f i s 1 0 2776 "2275" _null_ _null_ _null_ _null_ _null_ anynonarray_in _null_ _null_ _null_ )
+Binary file /srvr/z5089358/postgresql-10.4/src/backend/postgres matches
+/srvr/z5089358/postgresql-10.4/src/interfaces/ecpg/ecpglib/execute.c:#define not_an_array_in_ecpg ECPG_ARRAY_NONE
+/srvr/z5089358/postgresql-10.4/src/interfaces/ecpg/ecpglib/execute.c:		if (!ecpg_type_infocache_push(&(stmt->connection->cache_head), NAMEOID, not_an_array_in_ecpg, stmt->lineno))

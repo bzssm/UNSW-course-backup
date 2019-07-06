@@ -1,0 +1,646 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+ <head>
+  <title>COMP9311 17s2 - Lab 04</title>
+ </head>
+
+<style>
+body {font-size:11pt;font-family:arial,sans-serif;margin:5px 10px;}
+a {color:#3333CC;text-decoration:none;}
+a[href]:hover {color:#CC0000;background:#FFFFCC;}
+h2 {color:#99BB55;}
+small {font-size:75%}
+pre {background:#EEEEFF;border:thin solid #9999CC;margin:5px 20px 5px 20px;padding:4px 8px;}
+span.toggle {font-size:67%;}
+span.notice {font-size:110%;}
+span.tiny {font-size:75%;font-weight:normal;}
+span.heading {font-size:18pt;font-weight:bold;color:#99BB55;}
+span.marks {font-weight:normal;font-size:75%;}
+span.identifier {color:#993300;font-size:110%;font-weight:bold;font-family:courier;}
+tr.heading {font-size:large;font-weight:bold;background-color:#AACC66;}
+table.note {border:thin solid black;padding:2pt;width:75%}
+div.note {border:thin solid black;font-size:90%;margin:5px 60px 5px 60px;padding:4px 8px;}
+dt.item {font-weight:bold;}
+.red {color:#CC0000;}
+.green {color:#006600;}
+.brown {color:#993300;}
+.grey {color:#CCCCCC;}
+.comment {font-size:90%;color:#666666}
+.important {font-weight:bold;color:#CC0000;}
+.bigQ {font-size:13pt;font-style:italic;}
+</style>
+
+</head>
+
+<body>
+
+<div align='center'>
+<table width='100%' border='0'>
+ <tr valign='top'>
+  <td align='left' width='25%'>
+   <span class='tiny'><a href="http://www.cse.unsw.edu.au/~cs9311">COMP9311 17s2</a></span>
+  </td>
+  <td align='center' width='50%'>
+   <span class='heading'>Lab 4</span><br><b>Lab 4 - SQL Queries, Views, and Aggregates </b>
+  </td>
+  <td align='right' width='25%'>
+   <span class='tiny'><a href="http://www.cse.unsw.edu.au/~cs9311">Database Systems</a></span>
+  </td>
+ </tr> 
+</table>
+</div>
+
+<h3>Aims</h3>
+
+This exercise aims to give you practice in:
+<ul>
+<li> asking SQL queries on a relatively simple schema
+<li> using SQL aggregation and grouping operators
+<li> writing SQL view definitions
+</ul>
+This exercise will <b>not</b> explain how
+to do everything in fine detail. Part of the aim of the exercise is that you
+explore how to use the PostgreSQL system.
+The documentation contains much useful information:
+<a href="https://www.postgresql.org/docs/current/static/index.html">PostgreSQL Manual</a>.
+You should become familiar with where to find useful information in the documentation ASAP since you need to know how to use PostgreSQL to do your assignments.
+
+<h3>Background</h3>
+<p>
+Access logs for web servers contain a considerable amount of information
+that is potentially useful in tuning both the web server parameters and
+the applications that run on the web server.
+A web server access log contains one entry for each page that is
+fetched from that server, where a page may be an HTML document, a 
+PHP script, an image, etc.
+Each log entry contains information about one page access, including:
+</p>
+<ul>
+<li> the IP address of the host from which the page request was made
+<li> the precise date/time that the request was made
+<li> the URL that was requested (path name relative to server document root)
+<li> the status of the fetch operation (e.g. 200 = successful, 404 = not found)
+<li> the number of bytes of data transferred to the requestor
+</ul>
+<p>
+Here is an example from the start of the March 2005 log from the Apache
+web server on <tt>mahler</tt>:
+</p>
+<pre style="font-size:75%">
+60.240.97.148 - - [01/Mar/2005:00:00:00 +1100] "GET /webcms/intro/view_intro.phtml?cid=845&color=%23DEB887 HTTP/1.1" 200 342
+60.240.97.148 - - [01/Mar/2005:00:00:03 +1100] "GET /webcms/notice/view_notice.phtml?cid=845&color=%23DEB887&state=view HTTP/1.1" 200 3642
+60.229.57.188 - - [01/Mar/2005:00:00:06 +1100] "GET /webcms/creation/index.phtml?tid=000000124004 HTTP/1.1" 200 881
+60.229.57.188 - - [01/Mar/2005:00:00:06 +1100] "GET /webcms/login/invalid.phtml HTTP/1.1" 200 1401
+60.229.57.188 - - [01/Mar/2005:00:00:07 +1100] "GET /webcms/login/login.phtml HTTP/1.1" 200 4883
+60.229.57.188 - - [01/Mar/2005:00:00:09 +1100] "POST /webcms/login/log_in.phtml HTTP/1.1" 302 5
+60.229.57.188 - - [01/Mar/2005:00:00:09 +1100] "GET /webcms/creation/index.phtml?tid=000000124013 HTTP/1.1" 200 720
+60.229.57.188 - - [01/Mar/2005:00:00:09 +1100] "GET /webcms/creation/menu.phtml?tid=000000124013 HTTP/1.1" 200 1898
+60.229.57.188 - - [01/Mar/2005:00:00:10 +1100] "GET /webcms/creation/welcome.phtml?tid=000000124013 HTTP/1.1" 200 5487
+60.229.57.188 - - [01/Mar/2005:00:00:12 +1100] "GET /webcms/course/index.phtml?tid=000000124013&cid=860 HTTP/1.1" 200 806
+</pre>
+<p>
+Some Web-based applications such as WebCMS introduce the notion of a
+<q>session</q>
+to a user's interaction with the web server. A user logs in to WebCMS,
+performs a series of page accesses (e.g. looks the the lecture notes,
+reads the message board, etc) and then logs out. All of these accesses
+are tied together by being part of a single user's interaction with
+the system. In an older version of WebCMS, sessions were implemented
+by passing a session
+identifier from one PHP script to the next, and checking this against
+a copy of the session identifier stored in the database. Thus, while
+the web log itself does not store information about users, it is
+possible to track an individual user's access to the system by finding
+all of the page accesses that make use of the same session identifier.
+</p>
+<p>
+For the purposes of this exercise, imagine that we are interested in
+finding out the typical things that people do in a session with WebCMS.
+Some of this we can guess: they check the NoticeBoard, take a look
+whether there are any new lecture notes, read the current prac exercise,
+etc.
+Analysing the actual data in detail allows us to either confirm our
+hunches or discover new (unexpected) ways in which people use the
+system.
+Either way, this information could give us ideas on how to tune the
+performance of WebCMS.
+</p>
+<p>
+It is very convenient to do this kind of analysis if the data is
+loaded into a relational database system, so the first step is to
+put the web log data into a relational form that captures the
+essential aspects of WebCMS sessions.
+Based on this, it is possible to define a database schema to
+represent the data from a WebCMS web log:
+</p>
+<ul>
+<li> the IP address and names of various host computers
+<li> information about each session using WebCMS, including
+	which host it was from and whether the user actually
+	logged out via the WebCMS logout page (if they don't
+	logout, their session is eventually timed-out)
+<li> the details of each individual page access, including
+	the name of the script, the parameters, the access time,
+	and the session that the access was part of
+</ul>
+<p>
+We use the following ER design:
+</p>
+<p>
+<center>
+<table border='1' cellpadding='10' cellspacing='0'><tr><td>
+<img src='Pic/schema.png'>
+</td></tr></table>
+</center>
+</p>
+which has been converted to a relational schema.
+</p>
+<pre>
+create table Hosts (
+	id          integer,
+	ipaddr      varchar(20) unique,
+	hostname    varchar(100),
+	primary key (id)
+);
+
+create table Sessions (
+	id          int, 
+	host        integer,
+	complete    boolean,
+	primary key (id),
+	foreign key (host) references Hosts(id)
+);
+
+create table Accesses (
+	session     int,
+	seq         int,
+	course      int,
+	page        varchar(200),
+	params      varchar(200),
+	accTime     timestamp,
+	nbytes      integer,
+	primary key (session,seq),
+	foreign key (session) references Sessions(id)
+);
+</pre>
+<p>
+This schema is written in standard SQL, and so will load in any
+standard-conforming SQL database management system. 
+</p>
+<p>
+An Apache web-server on the CSE <tt>mahler</tt> runs the WebCMS system.
+The web server log for the first three days of March 2005 from this
+server was pre-processed to fit the schema above
+and is available for you load into a database.
+</p>
+<p>
+The data has been placed into three files, each of which consists
+of a large number of SQL insert statements.
+</p>
+<pre>
+-rw-r--r--  1 <i>YOU</i>  <i>YOU</i>  5568874 31 Mar 16:58 Accesses.sql
+-rw-r--r--  1 <i>YOU</i>  <i>YOU</i>   172536 31 Mar 16:09 Hosts.sql
+-rw-r--r--  1 <i>YOU</i>  <i>YOU</i>   193407 31 Mar 21:03 Sessions.sql
+</pre>
+<p>
+Note that these data files are quite large, so you shouldn't leave
+them lying around under your home directory unless you have a large
+disk quota. However, it would be feasible to place them under your
+<tt>/srvr/<i>YOU</i>/</tt> directory since you have a reasonable
+disk quota on <tt>grieg</tt>, which is separate from and additional
+to your "home" quota. <font color="red">If your disk on /srvr/YOU is not enough, you should consider delete your previous lab database or the source code of postgres.</font>
+</p>
+<p>
+We have also supplied a copy of the schema to build the database
+table structures and a template file for the exercises:
+</p>
+<pre>
+-rw-r--r--  1 <i>YOU</i>  <i>YOU</i>      657 31 Mar 16:10 schema.sql
+-rw-r--r--  1 <i>YOU</i>  <i>YOU</i>     2243 31 Mar 16:11 weblog.sql
+</pre>
+<p>
+We have created a <b><a href="weblog.zip">ZIP file</a></b> containing
+all of the above files for you to download and use for this Prac.
+Since the data files are quite large (e.g. <tt>Accesses.sql</tt> is
+5MB), you might want to put them under your <tt>/srvr/<i>YOU</i>/</tt>
+directory rather than under your home directory.
+Note that you can access <tt>/srvr/<i>YOU</i>/</tt> from an xterm on
+any CSE workstation without needing to log in to <tt>grieg</tt>.
+</p>
+<p>
+The first thing to do is to make a directory for this Prac and
+extract a copy of the data files into this directory. On the CSE
+workstations, you can do this via:
+</p>
+<pre>
+% <b>unzip weblog.zip</b>
+</pre>
+<p>
+while you're in the directory where you want the files to be located.
+</p>
+<p>
+Alternatively, if you're working on this at home, you should download
+the <a href="weblog.zip">weblog.zip</a> file your home
+machine and run the command:
+</p>
+<pre>
+% <b>unzip weblog.zip</b>
+</pre>
+<p>
+In the examples below, we assume that you have already done this.
+</p>
+
+<h3>Setting up the PostgreSQL database</h3>
+<p>
+Once you have copies of the schema and data files,
+you can setup a PostgreSQL database for this Prac via the following
+sequence of commands on your PostgreSQL server on <tt>grieg</tt>:
+</p>
+<pre>
+% <b>createdb weblog</b>
+CREATE DATABASE
+% <b>psql weblog -f schema.sql</b>
+  <span class="comment">... should produce CREATE TABLE messages ...</span>
+% <b>psql weblog -f Hosts.sql</b>
+  <span class="comment">... should produce lots of INSERT messages ...</span>
+% <b>psql weblog -f Sessions.sql</b>
+  <span class="comment">... should produce lots of INSERT messages ...</span>
+% <b>psql weblog -f Accesses.sql</b>
+  <span class="comment">... should produce lots of INSERT messages ...</span>
+</pre>
+<p>
+Each <tt>INSERT</tt> statement should look like:
+</p>
+<pre>
+INSERT 0 1
+</pre>
+<p>
+The <tt>1</tt> means that one tuple was inserted.
+You can insert multiple tuples in a single SQL statement,
+so this number could potentially be different to <tt>1</tt>.
+The <tt>0</tt> means that no object ID was generated for the new tuple.
+PostgreSQL can generate a unique ID for each tuple if you ask.
+</p>
+<p>
+An alternative way of achieving the above is:
+</p>
+<pre>
+% <b>createdb weblog</b>
+CREATE DATABASE
+% <b>psql weblog</b>
+psql (9.3.3)
+Type "help" for help.
+
+weblog=#  <b>\i schema.sql</b>
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+weblog=#  <b>\i Hosts.sql</b>
+<span class="comment">... should produce lots of INSERT messages ...</span>
+weblog=#  <b>\i Sessions.sql</b>
+<span class="comment">... should produce lots of INSERT messages ...</span>
+weblog=#  <b>\i Accesses.sql</b>
+<span class="comment">... should produce lots of INSERT messages ...</span>
+</pre>
+<p>
+If you don't want to look at all of the <tt>INSERT</tt> messages, and you're using Linux or Mac OSX, then you can do the following:
+</p>
+<pre>
+% <b>createdb weblog</b>
+CREATE DATABASE
+% <b>psql weblog -f schema.sql</b>
+  <span class="comment">... should produce CREATE TABLE messages ...</span>
+% <b>(psql weblog -f Hosts.sql 2>&amp;1) > .errs</b>
+  <span class="comment">... INSERT messages are added to file .errs ...</span>
+% <b>(psql weblog -f Sessions.sql 2>&amp;1) >> .errs</b>
+  <span class="comment">... INSERT messages are added to file .errs ...</span>
+% <b>(psql weblog -f Accesses.sql 2>&amp;1) >> .errs</b>
+  <span class="comment">... INSERT messages are added to file .errs ...</span>
+</pre>
+<p>
+Note that the first loading command has only one <tt>&gt;</tt> to create
+the <tt>.errs</tt> file, while the other loading commands use
+<tt>&gt;&gt;</tt> to append to the <tt>.errs</tt> file.
+A useful command, once you've run the above is:
+</p>
+<pre>
+% <b>grep ERROR .errs</b>
+</pre>
+<p>
+to check for any load-time errors.
+If there are any errors (and there shouldn't be), all of the tuples
+<em>except</em> the incorrect ones will have been loaded into the
+database. Using the line numbers in the error messages, you should
+be able to find any erroneous <tt>INSERT</tt> statements and correct
+them, and then re-run just those statements.
+</p>
+<p>
+Once the database is loaded, access it via <tt>psql</tt> to check that
+everything was loaded ok:
+</p>
+<pre>
+% <b>psql weblog</b>
+psql (9.0.3)
+Type "help" for help.
+
+weblog=# <b>\d</b>
+         List of relations
+ Schema |   Name   | Type  | Owner 
+--------+----------+-------+-------
+ public | accesses | table | <i>YOU</i>
+ public | hosts    | table | <i>YOU</i>
+ public | sessions | table | <i>YOU</i>
+(3 rows)
+
+weblog=# <b>select count(*) from hosts;</b>
+ count 
+-------
+  2213
+(1 row)
+
+weblog=# <b>select count(*) from sessions;</b>
+ count 
+-------
+  4610
+(1 row)
+
+weblog=# <b>select count(*) from accesses;</b>
+ count  
+-------
+ 54490
+(1 row)
+
+weblog=# ...
+</pre>
+<p>
+Note that this is a non-trivial-sized database, and if you are not
+careful in how you phrase your queries, they make take quite a while
+to be answered.
+It might be useful to run your <tt>psql</tt> session with timing
+output turned on (use <tt>psql</tt>'s <tt>\timing</tt> command to do this).
+If a query takes too long to produce a result, see if you can
+phrase it differently to get the same answer, but using less time.
+</p>
+<p>
+Another thing to note: the first time you access a table after
+creating it (e.g. to run the above counting queries), the query
+may be quite slow. On subsequent accesses to the table, it may
+be significantly faster. Try re-running the above queries to
+see if you observe this. Can you suggest why it's happening?
+</p>
+
+
+<h3>Exercises</h3>
+<p>
+In the questions below, you are required to produce SQL queries
+to solve a range of data retrieval problems on this schema.
+For each problem, create a view called <tt>Q</tt><i>n</i>
+which holds the <q>top-level</q> SQL statement that produces
+the answer (this SQL statement may make use of any views defined
+earlier in the Prac Exercise). 
+In producing a solution for each problem, you may define as many
+auxiliary views as you like.
+</p>
+<p>
+To simplify the process of producing these views, a template
+file (<a href="weblog.sql"><tt>weblog.sql</tt></a>) is available.
+While you're developing your views, you might find it convenient
+to edit the views in one window (i.e. edit the <tt>weblog.sql</tt>
+file containing the views) and copy-and-paste the view definitions
+into another window running <tt>psql</tt>.
+</p>
+<p>
+Note that the order of the results does not matter (except for the
+examples where you are imposing an order using <tt>order by</tt>).
+As long as you have the same set of tuples, your view is correct.
+Remember that, in theory, the output from an SQL query is a set.
+</p>
+<p>
+Once you have completed each of the view definitions, you can
+test it simply by typing:
+</p>
+<pre>
+weblog=# <b>select * from Q<i>n</i>;</b>
+</pre>
+<p>
+and observing whether the result matches the expected result
+given below.
+</p>
+
+<h3>Queries in PostgreSQL</h3>
+<ol start='1'>
+
+<li>
+<p>
+How many of the page accesses occurred on March 2?
+</p>
+<p>
+The results should look like:
+</p>
+<pre>
+   weblog=# <b>select * from Q1;</b>
+    nacc  
+   -------
+    20144
+   (1 row)
+</pre>
+
+<li>
+<p>
+How many times was the main WebCMS MessageBoard search facility used?
+You can recognise this by the fact that the page contains <tt>messageboard</tt>
+and the parameters string contains <tt>state=search</tt>.
+</p>
+<p>
+The result should look like:
+</p>
+<pre>
+weblog=# <b>select * from Q2;</b>
+ nsearches 
+-----------
+         0
+(1 row)
+</pre>
+
+<li>
+<p>
+On which (distinct) machines in the Tuba Lab were WebCMS sessions run
+that were not terminated correctly (i.e. were uncompleted)?
+</p>
+<p>
+The result should look like:
+</p>
+<pre>
+weblog=# <b>select * from Q3;</b>
+             hostname             
+----------------------------------
+ tuba00.orchestra.cse.unsw.edu.au
+ tuba04.orchestra.cse.unsw.edu.au
+ tuba05.orchestra.cse.unsw.edu.au
+ tuba06.orchestra.cse.unsw.edu.au
+ tuba07.orchestra.cse.unsw.edu.au
+ tuba16.orchestra.cse.unsw.edu.au
+ tuba18.orchestra.cse.unsw.edu.au
+ tuba20.orchestra.cse.unsw.edu.au
+ tuba21.orchestra.cse.unsw.edu.au
+(9 rows)
+</pre>
+<p>
+(Hint: the <tt>Sessions.complete</tt> attribute tells you whether
+a given session was completed)
+</p>
+<li>
+<p>
+What are the minimum, average and maximum number of bytes
+transferred in a single page access?
+Produce all three values in a single tuple, and make sure
+that they are all integers.
+</p>
+<p>
+The result should look like:
+</p>
+<pre>
+weblog=# <b>select * from Q4;</b>
+ min | avg  |  max   
+-----+------+--------
+   0 | 3412 | 425253
+(1 row)
+</pre>
+<li>
+<p>
+How many of the sessions were run from CSE hosts?
+A CSE host is one whose host name ends in <tt>cse.unsw.edu.au</tt>.
+Ignore any machines whose hostname is not known.
+</p>
+<p>
+The result should look like:
+</p>
+<pre>
+weblog=# <b>select * from Q5;</b>
+ nhosts 
+--------
+   1380
+(1 row)
+</pre>
+<li>
+<p>
+How many of the sessions were run from non-CSE hosts?
+A non-CSE host is one whose host name does not end in
+<tt>cse.unsw.edu.au</tt>.
+Ignore any machines whose hostname is not known.
+</p>
+<p>
+The result should look like:
+</p>
+<pre>
+weblog=# <b>select * from Q6;</b>
+ nhosts 
+--------
+   2785
+(1 row)
+</pre>
+<li>
+<p>
+How many page accesses were there in the longest session(number of page
+accesses)?
+</p>
+<p>
+The result should look like:
+</p>
+<pre>
+weblog=# <b>select * from Q7;</b>
+ session | length 
+---------+--------
+    2945 |    576
+(1 row)
+</pre>
+<li>
+<p>
+Each <tt>Accesses</tt> tuple indicates an access to a single WebCMS
+page/script.
+Produce a list of pages and their access frequency (i.e. how
+many times each is accessed).
+</p>
+<p>
+The result should look like:
+</p>
+<pre>
+weblog=# <b>select * from Q8 order by freq desc limit 10;</b>
+              page              | freq 
+--------------------------------+------
+ notice/view_notice             | 9707
+ course/index                   | 9288
+ course/menu                    | 9133
+ lecture/view_lecture           | 2969
+ intro/view_intro               | 1627
+ class/view_class               | 1303
+ webgms/group/view_group        | 1205
+ lab/view_lab                   | 1047
+ messageboard/view_messagetopic |  735
+ webgms/overview/view_intro     |  692
+(10 rows)
+</pre>
+<li>
+<p>
+WebCMS is divided into modules, where the PHP scripts for each module
+is contained in a subdirectory. We can work out the module name by
+looking at the first component of the script name (e.g. in the sample
+output above, <tt>notice</tt>, <tt>course</tt>, <tt>lecture</tt>, etc.
+are modules).
+Produce a table of modules and their access frequency (i.e. how
+many times each is accessed).
+</p>
+<p>
+The result should look like:
+</p>
+<pre>
+weblog=# <b>select * from Q9 order by freq desc limit 10;</b>
+    module    | freq  
+--------------+-------
+ course       | 18602
+ notice       |  9859
+ webgms       |  8122
+ lecture      |  3903
+ messageboard |  2354
+ creation     |  1884
+ login        |  1776
+ intro        |  1720
+ class        |  1375
+ lab          |  1216
+(10 rows)
+</pre>
+<p>
+<b>Hint:</b> you'll need to find out more about PostgreSQL
+<a href='https://www.postgresql.org/docs/current/static/functions-string.html'>string operators</a>
+and
+<a href='https://www.postgresql.org/docs/current/static/functions-matching.html#FUNCTIONS-POSIX-REGEXP'>regular expressions</a>.<br>
+<b>Note:</b> not all page URLs contain the '/' character;
+a page URL that looks simply like <tt>'lecture'</tt> should be treated
+as a reference to the lecture module.
+</p>
+
+<li>
+<p>
+The script that maps the web log into relational tuples isn't perfect.
+Has it produced any sessions that have no corresponding accesses?
+Write a view to print the session IDs of any such sessions.
+</p>
+<p>
+The result should look like:
+</p>
+<pre>
+weblog=# <b>select * from Q10;</b>
+ session 
+---------
+    3992
+    3998
+    4610
+(3 rows)
+</pre>
+
+</ol>
+
+</body>
+
+</html>

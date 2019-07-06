@@ -1,0 +1,181 @@
+<HTML>
+<HEAD>
+  <TITLE>COMP3411 Tutorial Solutions Week 11</TITLE>
+</HEAD>
+<style><!-- A {text-decoration:none} --></style>
+<BODY ALINK="#660000" VLINK="#000066" LINK="#800066" BGCOLOR="#ffffff">
+
+<H2><P><CENTER><B><FONT COLOR="#000066">
+COMP3411/9414/9814 Artificial Intelligence<br>
+Session 1, 2018</FONT></B></CENTER></P></H2>
+
+<H2><P><CENTER><B>Tutorial Solutions - Week 11</B></CENTER></P></H2>
+
+<P><B><FONT SIZE=-1>
+<SCRIPT LANGUAGE="JavaScript">
+document.write("This page was last updated: " +
+document.lastModified);
+</SCRIPT>
+</FONT>
+</B>
+</P>
+
+<hr align=left>
+
+<b>Activity 11.1</b> Conditional Probability
+<hr>
+<p>
+Only 4% of the population are color blind,
+but 7% of men are color blind.
+What percentage of color blind people are men?
+<blockquote>
+If we assume 50% of the population are men,
+then the fraction of "color blind men" is
+0.5 * 0.07 = 0.035<br>
+This means the fraction of "color blind women" is
+0.04 - 0.035 = 0.005<br>
+Therefore, the fraction of color blind people who are men
+is 0.035 / 0.04 = 87.5%.
+</blockquote>
+<p>
+<hr>
+<b>Activity 11.2</b> Enumerating Probabilities
+<hr>
+<p>
+(Exercise 13.8 from Russell &amp; Norvig)
+<p>
+<table border="1">
+<tr><th></th><th colspan="2">toothache</th><th colspan="2">&not;toothache</th></tr>
+<tr><th></th><th>catch</th><th>&not;catch</th><th>catch</th><th>&not;catch</th></tr>
+<tr><th>&nbsp;cavity</th><td>&nbsp;.108</td><td>&nbsp;.012</td><td>&nbsp;.072</td><td>&nbsp;.008</td></tr>
+<tr><th>&not;cavity</th><td>&nbsp;.016</td><td>&nbsp;.064</td><td>&nbsp;.144</td><td>&nbsp;.576</td></tr>
+</table>
+<p>
+<ol type="1">
+<li> Given the full joint distribution shown in Figure 13.3
+(also on page 17 of the Uncertainty lecture slides), calculate
+the following:
+<p>
+<ol type=a>
+<li>
+P( toothache &and; &not; catch ) = 0.012 + 0.064 = 0.076
+<p>
+<li> P( catch ) = 0.108 + 0.016 + 0.072 + 0.144 = 0.34
+<p>
+<li> P( cavity | catch ) = P( cavity &and; catch ) / P( catch )<br>
+= ( 0.108 + 0.072 )/( 0.108 + 0.072 + 0.016 + 0.144 ) = 0.18 / 0.34 = 0.53
+<p>
+<li> P( cavity | toothache &or; catch ) =<br>
+P( cavity &and; (toothache &or; catch)) / P( toothache &or; catch )<br>
+= ( 0.108 + 0.012 + 0.072 )/( 0.108 + 0.012 + 0.072 + 0.016 + 0.064 + 0.144 )<br>
+= 0.192 / 0.416 = 0.46
+</ol>
+<p>
+<li> Verify the conditional independence claimed in the lecture slides
+by showing that P( catch | toothache, cavity ) = P( catch | cavity )
+<p>
+P( catch | toothache &and; cavity ) =<br>
+P( catch &and; toothach &and; cavity ) / P( toothache &and; cavity )<br>
+= 0.108 /( 0.108 + 0.012 ) = 0.108 / 0.12 = 0.9
+<p>
+P( catch | cavity ) = P( catch &and; cavity ) / P( cavity )<br>
+= ( 0.108 + 0.072 )/( 0.108 + 0.012 + 0.072 + 0.008 ) = 0.18 / 0.2 = 0.9<br>
+</ol>
+<p>
+<hr>
+<b>Activity 11.3</b> Wumpus World with Three Pits
+<hr>
+<blockquote>
+<img src="./wk10wumpus1.jpg" width="256">
+</blockquote>
+Consider the same Wumpus World situation shown above, but this
+time making a different prior assumption about the placement of the
+Pits - namely, that exactly three Pits have been placed
+randomly among the sixteen squares at the beginning of the game. Using
+this new prior, calculate:
+<ol type="1">
+<li> the probability of a Pit in (1,3)
+<li> the probability of a Pit in (2,2)
+</ol>
+<blockquote>
+We start with these equations from the Lecture Notes:
+</blockquote>
+<i>P(Pit<sub>1,3</sub> | known) = &Sigma;<sub>fringe &isin; F</sub> P(Pit<sub>1,3</sub> | fringe)
+&Sigma;<sub>other</sub> P(known | fringe,other)P(fringe,other) / P(known)</i>
+<p>
+<i>P(known) = &Sigma;<sub>fringe &isin; F</sub> &Sigma;<sub>other</sub> P(known | fringe,other) P(fringe,other)</i>
+<blockquote>
+<img src="./wk10wumpus2.jpg" width="512">
+<p>
+In this case,
+<i>P(known | fringe,other) = 1</i>
+if and only if <i>fringe &isin; F</i> and <i>fringe, other</i>
+between them contain exactly three Pits. For these configurations,
+<i>P(fringe,other)</i> becomes a constant that can
+be cancelled from the numerator and denominator.
+If there are two pits in the fringe, the other pit can be placed in 10
+different squares. If there is only one pit in the fringe, the other
+two pits can be placed in 45 different ways. Therefore,
+<p>
+<i>P(Pit<sub>1,3</sub> | known)</i> = (1+10+10)/(1+10+10+10+45) = 21/76 &asymp; 0.276
+<p>
+<i>P(Pit<sub>2,2</sub> | known)</i> = (1+10+10+45)/(1+10+10+10+45) = 66/76 &asymp; 0.868
+</blockquote>
+<p>
+<hr>
+<b>Activity 11.4</b> Robot Navigation
+<hr>
+<p>
+Consider a robot which has an accurate map of its environment (shown below),
+but is faced with the task of determining its own location within that environment.
+The robot has limited sensors which only enable it to perceive up to the
+boundaries of the square it currently occupies (i.e. it can tell whether there is a wall
+or another square, in each direction).
+<p>
+<img src="./wk10map.jpg">
+<p>
+<ol type="1">
+<li> The robot actually begins in square N, facing Up
+(but does not yet know it).
+Based on its limited sensors, how many possibilities are there
+for its initial position and orientation,
+consistent with what it currently perceives?
+<p>
+There are 24 possibilities:
+<p>
+<img src="./wk10map1.jpg" width="400">
+<p>
+It could be in squares J, K, L, M, N, O facing Up or Down,
+or in squares D, E, G, H, Q, R facing Left or Right.
+<p>
+<li> The robot then moves through the squares in this order:
+K, F, G, H, I, L, O, T.
+How many possibilities are there, at each step,
+for its position and orientation, consistent with its
+entire sequence of observations? At what point does it know
+its location with (effective) certainty?
+<p>
+After moving to K, only 12 possibilities remain:
+<p>
+<img src="./wk10map2.jpg" width="400">
+<p>
+J, K, L facing Up; M, N, O facing Down;
+D, G, Q facing Left; E, H, R facing Right.<br>
+After moving to F, only 4 possibilities remain,
+and these persist through G and H:
+<p>
+<img src="./wk10map3.jpg" width="400">
+<p>
+Upon reaching I, only 2 possibilities remain,
+and these persist through L and O:
+<p>
+<img src="./wk10map4.jpg" width="400">
+<p>
+Upon reaching T, the robot finally knows its
+position with (effective) certainty.
+</ol>
+<p>
+
+<hr align=left>
+</body>
+</html>

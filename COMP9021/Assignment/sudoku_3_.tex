@@ -1,0 +1,18 @@
+\documentclass[10pt]{article}
+\usepackage[left=0pt,right=0pt]{geometry}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usepackage{cancel}
+\pagestyle{empty}
+
+\newcommand{\N}[5]{\tikz{\node[label=above left:{\tiny #1},
+                               label=above right:{\tiny #2},
+                               label=below left:{\tiny #3},
+                               label=below right:{\tiny #4}]{#5};}}
+
+\begin{document}
+
+\tikzset{every node/.style={minimum size=.5cm}}
+
+\begin{center}
+\begin{tabular}{||@{}c@{}|@{}c@{}|@{}c@{}||@{}c@{}|@{}c@{}|@{}c@{}||@{}c@{}|@{}c@{}|@{}c@{}||}\hline\hline% Line 1

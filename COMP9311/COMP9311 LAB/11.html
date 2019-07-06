@@ -1,0 +1,389 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<head>
+  <title>COMP9311 17s2 - Lab 11</title>
+
+<style>
+body {font-size:11pt;font-family:arial,sans-serif;margin:5px 10px;}
+a {color:#3333CC;text-decoration:none;}
+a[href]:hover {color:#CC0000;background:#FFFFCC;}
+h2 {color:#99BB55;}
+small {font-size:75%}
+pre {background:#EEEEFF;border:thin solid #9999CC;margin:5px 20px 5px 20px;padding:4px 8px;}
+span.toggle {font-size:67%;}
+span.notice {font-size:110%;}
+span.tiny {font-size:75%;font-weight:normal;}
+span.heading {font-size:18pt;font-weight:bold;color:#99BB55;}
+span.marks {font-weight:normal;font-size:75%;}
+span.identifier {color:#993300;font-size:110%;font-weight:bold;font-family:courier;}
+tr.heading {font-size:large;font-weight:bold;background-color:#AACC66;}
+table.note {border:thin solid black;padding:2pt;width:75%}
+div.note {border:thin solid black;font-size:90%;margin:5px 60px 5px 60px;padding:4px 8px;}
+dt.item {font-weight:bold;}
+.red {color:#CC0000;}
+.green {color:#006600;}
+.brown {color:#993300;}
+.grey {color:#CCCCCC;}
+.comment {font-size:90%;color:#666666}
+.important {font-weight:bold;color:#CC0000;}
+.bigQ {font-size:13pt;font-style:italic;}
+</style>
+
+</head>
+
+<body>
+<div align='center'>
+<table width='100%' border='0'>
+ <tr valign='top'>
+  <td align='left' width='25%'>
+   <span class='tiny'><a href="http://www.cse.unsw.edu.au/~cs9311">COMP9311 17s2</a></span>
+  </td>
+  <td align='center' width='50%'>
+   <span class='heading'>Lab 11</span><br><b>Lab 11 - Query Processing</b>
+  </td>
+  <td align='right' width='25%'>
+   <span class='tiny'><a href="http://www.cse.unsw.edu.au/~cs9311">Database Systems</a></span>
+  </td>
+ </tr> 
+</table>
+</div>
+
+
+<h3>Aims</h3>
+
+This exercise aims to:
+<ul>
+<li> explore how PostgreSQL evaluates queries
+<li> give you practice in reading PostgreSQL query plans
+</ul>
+
+
+<h3>Background</h3>
+
+PostgreSQL, like any serious DBMS, has a query optimiser that attempts
+to map SQL statements into efficient query execution plans.
+SQL developers can access these query execution plans via the
+<code>EXPLAIN</code> statement (a PostgreSQL extension to SQL).
+If you prefix an SQL query statement by the keyword <code>EXPLAIN</code>,
+then PostgreSQL prints the query execution plan <i>instead of</i> running
+the query.
+This plan includes <em>estimates</em> from the query optimiser of
+the cost of each of the operations.
+If you prefix the query with <code>EXPLAIN ANALYZE</code>,
+then PostgreSQL executes the query, but does not display the results;
+instead it displays the query execution plan, giving both the estimated
+and the actual cost for each operation executed during query evaluation.
+<p>
+For this lab exercise, we will use the UNSWSIS database.
+You can load it from the file:
+<pre>
+<a href="db.dump"><tt>db.dump</tt></a>
+</pre>
+
+The rest of this Lab assumes that you've got the UNSWSIS database loaded
+into your PostgreSQL server and called <code>lab11</code>.
+<p>
+Consider the following simple query to find out whether a particular
+student is local or international:
+<pre>
+   lab11=# <b>select stype from Students where sid=2237112;</b>
+    stype
+   -------
+    local
+   (1 row)
+</pre>
+Recall the definition of this relation and think about how PostgreSQL
+might go about answering the query above:
+<pre>
+   create table Students (
+           id        integer primary key references Person(id),
+           sid       integer unique not null, -- student id
+           stype     varchar(5) check (stype in ('local','intl'))
+   );
+</pre>
+We know that PostgreSQL automatically creates a B-tree index for all
+primary keys, so clearly a query involving <code>Student.id</code>
+will make use of that index.
+To find out how PostgreSQL answers the query above, we can use
+<code>explain</code>:
+<pre>
+   lab11=# <b>explain select stype from Students where sid=2237112;</b>
+                                     QUERY PLAN
+   -------------------------------------------------------------------------------
+    Index Scan using students_sid_key on students  (cost=0.00..5.94 rows=1 width=5)
+      Index Cond: (sid = 2237112)
+   (2 rows)
+</pre>
+The first thing to notice is that it's doing the selection operation
+via an index; this is because <code>Students.sid</code> was declared
+to be <code>unique</code> and PostgreSQL also creates indexes on all
+<code>unique</code> fields. Check the definition of the
+<code>Student</code> table in the <code>lab11</code> database to
+confirm this.
+<p>
+Now let's look at the <code>explain</code> output in more detail:
+<ul>
+<li> <code>Index Scan</code> tells us that PostgreSQL is performing a
+	selection operation on the <code>students</code> table using
+	an index (B-tree) called <code>students_sid_key</code>
+<li> the <code>cost</code> components are:
+	<ul>
+	<li> <code>0.00</code>: expected time (ms) until first result
+			is available (not used in this example)
+	<li> <code>5.94</code>: expected time (ms) until all results have
+			been found
+	</ul>
+<li> <code>rows=1</code>: expected number of result tuples
+<li> <code>width=5</code>: size (bytes) of each result tuple (exact)
+<li> <code>Index Cond</code>ition tells us the filtering condition used to
+	access the B-tree index
+<li> the <code>(2 rows)</code> simply tells us how many lines there are in
+	the query plan description; it has nothing to do with the query
+	itself.
+</ul>
+The above query evaluation plan gives an <em>estimate</em> of the cost.
+If we want to find out the actual costs, we could use <code>explain
+analyze</code>:
+<pre>
+   lab11=# <b>explain analyze select stype from Students where sid=2237112;</b>
+                            QUERY PLAN
+   -------------------------------------------------------------
+    Index Scan using students_sid_key on students
+      (cost=0.00..5.94 rows=1 width=5)
+      (actual time=0.048..0.051 rows=1 loops=1)
+      Index Cond: (sid = 2237112)
+    Total runtime: 0.114 ms
+   (3 rows)
+</pre>
+The <code>analyze</code> provides us with the following additional
+information:
+<ul>
+<li> <code>actual time</code> gives
+	<ul>
+	<li> <code>0.048</code>: the time (sec) to generate the first tuple
+	<li> <code>0.051</code>: the time (sec) that the last tuple was sent
+	</ul>
+	<small>
+	("Why are they different?", you say, "since only one tuple was
+	generated". The timers used for pretty much anything on Unix are
+	typically not accurate to the number of decimal places to which
+	they are displayed. If PostgreSQL had used only two decimal places,
+	it would have said 0.05 for both, and nobody would have wondered
+	about it.)
+	</small>
+<li> <code>rows=1</code>: actual number of result tuples
+	<small>(because it was a <code>unique</code> attribute, the estimate above was exact)</small>
+<li> <code>runtime: 0.114 ms</code> elapsed time until last tuple arrives
+</ul>
+You can find more details on <code>EXPLAIN</code> in the
+<a href='http://www.postgresql.org/docs/9.3/static/sql-explain.html'>PostgreSQL manual</a>.
+<p>
+Note that I have changed the formatting from what you'll actually see in
+<code>psql</code>, because the lines become ridiculously wide. You'll
+probably need a window that occupies the entire workstation screen width
+in order to make sense of the analyzed evaluation plans.
+Note also that you will observe different actual times to what is shown
+here, simply because of the imprecise nature of timing under Unix.
+
+<p>
+Consider a more complex example, using a simple join, to find out the
+name of student, given their student id:
+<pre>
+   lab11=# <b>select p.name from People p, Students s</b>
+   lab11-# <b>where p.id = s.id and s.sid = 2237112;</b>
+         name
+   -----------------
+    Christopher Kay
+   (1 row)
+
+   lab11=# <b>explain analyze</b>
+   lab11-# <b>select p.name from People p, Students s</b>
+   lab11-# <b>where p.id = s.id and s.sid = 2237112;</b>
+                                QUERY PLAN
+   ---------------------------------------------------------------------
+    <b>Nested Loop</b>
+        (cost=0.00..11.94 rows=1 width=15)
+        (actual time=0.074..0.079 rows=1 loops=1)
+      ->  <b>Index Scan using students_sid_key on students s</b>
+            (cost=0.00..5.94 rows=1 width=4)
+            (actual time=0.040..0.042 rows=1 loops=1)
+            <font color='blue'>Index Cond: (sid = 2237112)</font>
+      ->  <b>Index Scan using people_pkey on person p</b>
+            (cost=0.00..6.00 rows=1 width=19)
+            (actual time=0.019..0.022 rows=1 loops=1)
+            <font color='blue'>Index Cond: (id = s.id)</font>
+    Total runtime: 0.193 ms
+   (6 rows)
+</pre>
+The query plan shows us that PostgreSQL uses the simple (and often regarded
+as inefficient) nested-loop join operation to join the two tables. It can
+do this, because the results of the selection on <code>Students.sid</code>
+consists of only one tuple.
+
+Now consider a more complex example, using a three-way join to produce
+the "standard representation" for each course in the UNSWSIS database
+<pre>
+   lab11=# <b>explain analyze</b>
+   lab11-# <b>select s.code,t.year,t.sess</b>
+   lab11-# <b>from   Subjects s, Courses c, Terms t</b>
+   lab11-# <b>where  s.id = c.subject and c.term = t.id;</b>
+                                 QUERY PLAN
+   -----------------------------------------------------------------------
+   <b>Hash Join</b>  
+   (cost=679.25..1224.74 rows=10922 width=16) 
+   (actual time=15.932..63.463 rows=10922 loops=1)
+  <font color='blue'> Hash Cond: (c.term = t.id)</font>
+   ->  <b> Hash Join</b>  
+     (cost=677.08..1072.39 rows=10922 width=13) 
+	 (actual time=15.805..45.150 rows=10922 loops=1)
+         <font color='blue'> Hash Cond: (c.subject = s.id)</font>
+         -> <b> Seq Scan on courses c </b> 
+		 (cost=0.00..163.22 rows=10922 width=8) 
+		 (actual time=0.012..7.995 rows=10922 loops=1)
+         ->  <b>Hash</b>  
+		 (cost=582.59..582.59 rows=7559 width=13) 
+		 (actual time=15.774..15.774 rows=7559 loops=1)
+               Buckets: 1024  Batches: 1  Memory Usage: 266kB
+               ->  <b>Seq Scan on subjects s</b>  
+			   (cost=0.00..582.59 rows=7559 width=13) 
+			   (actual time=0.006..7.824 rows=7559 loops=1)
+    ->  <b>Hash</b>  
+        (cost=1.52..1.52 rows=52 width=11) 
+        (actual time=0.111..0.111 rows=52 loops=1)
+         Buckets: 1024  Batches: 1  Memory Usage: 2kB
+        ->  <b>Seq Scan on terms t </b> 
+		   (cost=0.00..1.52 rows=52 width=11)
+		   (actual time=0.010..0.055 rows=52 loops=1)
+ Total runtime: 70.050 ms
+(12 rows)
+
+
+</pre>
+You'll notice that there are two places where a <code>Seq Scan</code>
+(sequential scan) peration is fed into a <code>Hash</code> operation.
+This is PostgreSQL converting a single table into a hashed file, because
+it allows it to use the very efficient <code>Hash Join</code> operation
+in a subsequent step.
+Note that <code>explain analyze</code> claims that there are 0 actual
+rows returned from the <code>Hash</code> operations; this is simply
+an indication that the operation built a table rather than returning results;
+in fact there are as many tuples (rows) in the table as there were resulting
+from the <code>Seq Scan</code>.
+
+<p>
+As a final example, consider the following two queries to show which
+UNSW people come from either Nepal or Finland:
+<pre>
+lab11=# <b>explain analyze</b>
+lab11-# <b>select p.name from People p, Countries c</b>
+lab11-# <b>where p.citizen = c.id and (c.name = 'Nepal' or c.name='Finland');</b>
+                           QUERY PLAN
+----------------------------------------------------------------
+
+ <b> Hash Join </b>  
+ (cost=4.89..143.17 rows=39 width=15) 
+ (actual time=2.629..7.344 rows=2 loops=1)
+   <font color='blue'> Hash Cond: (p.citizen = c.id)</font>
+   -> <b> Seq Scan on people p </b> 
+   (cost=0.00..124.01 rows=3701 width=19) 
+   (actual time=0.013..3.261 rows=3701 loops=1)
+   -> <b> Hash </b>
+   (cost=4.87..4.87 rows=2 width=4) 
+   (actual time=0.107..0.107 rows=2 loops=1)
+         Buckets: 1024  Batches: 1  Memory Usage: 1kB
+         -> <b> Seq Scan on countries c </b> (cost=0.00..4.87 rows=2 width=4) (actual t
+ime=0.044..0.100 rows=2 loops=1)
+                <font color='blue'>Filter: (((name)::text = 'Nepal'::text) OR 
+				((name)::text = 'Finland'::text)) </font>
+               Rows Removed by Filter: 189
+ Total runtime: 7.396 ms
+(9 rows)
+
+
+
+lab11=# <b>explain analyze</b>
+lab11-# <b>select p.name from People p</b>
+lab11-# <b>where p.citizen in</b>
+lab11-#         <b>(select id from Countries where name = 'Nepal' or name='Finland');</b>
+                           QUERY PLAN
+----------------------------------------------------------------
+
+<b>Hash Semi Join</b>  
+(cost=4.89..139.74 rows=101 width=15) 
+(actual time=2.548..7.171 rows=2 loops=1)
+    <font color='blue'>Hash Cond: (p.citizen = countries.id)</font>
+   -> <b> Seq Scan on people p </b>
+   (cost=0.00..124.01 rows=3701 width=19) 
+   (actual time=0.011..3.118 rows=3701 loops=1)
+   ->  <b>Hash </b> (cost=4.87..4.87 rows=2 width=4) (actual time=0.108..0.108 rows=2 loops=1)
+         Buckets: 1024  Batches: 1  Memory Usage: 1kB
+         -> <b> Seq Scan on countries </b> 
+		 (cost=0.00..4.87 rows=2 width=4) 
+		 (actual time=0.042..0.101 rows=2 loops=1)
+             <font color='blue'>   Filter: (((name)::text = 'Nepal'::text) OR 
+			 ((name)::text = 'Finland'::text)</font>
+)
+               Rows Removed by Filter: 189
+ Total runtime: 7.223 ms
+(9 rows)
+
+</pre>
+
+
+<h3>Exercises</h3>
+
+For each of the following queries, produce your SQL code to answer and use the PostgreSQL query analyzer to
+determine the query evaluation plan:
+<ol>
+<li> Find all students who scored more than 97 in a UNSW course:
+
+<li> Produce a transcript for student 2176435
+
+<li> Produce a list of all students enrolled in COMPxxx courses in 2002
+
+</ol>
+
+
+<h3>For Fun</h3>
+Consider the following alternative solutions for a query something like
+the <code>FullyEnrolled(1998,2002)</code> function:
+<pre>
+-- first version (follows standard mapping of DIVISION)
+select s.sid
+from   Students s
+where  not exists (
+                (select id from Terms
+                 where year >= 1998 and year <= 2002 and sess in ('S1','S2'))
+                except
+                (select distinct c.term from CourseEnrolments e, Courses c
+                 where e.student=s.id and e.course=c.id)
+        )
+;
+
+-- second version (using group-by and counting)
+select s.sid
+from   Students s, CourseEnrolments e, Courses c, Terms t
+where  e.student = s.id and e.course = c.id and c.term = t.id
+        and t.year >= 1998 and t.year <= 2002 and t.sess in ('S1','S2')
+group by s.sid
+having count(distinct c.term) =
+        (select count(id) from Terms
+         where year >= 1998 and year <= 2002 and sess in ('S1','S2'))
+;
+
+-- third version (using group-by and faster counting)
+select s.sid
+from   Students s, CourseEnrolments e, Courses c, Terms t
+where  e.student = s.id and e.course = c.id and c.term = t.id
+        and t.year >= 1998 and t.year <= 2002 and t.sess in ('S1','S2')
+group by s.sid
+having count(distinct c.term) = 10   -- number of s1/s2 terms in 1998..2002
+;
+</pre>
+Run them using <code>explain</code> and compare the query plans
+to see if you can work out why one is so much slower than the others.
+If you are really brave, run <code>explain analyze</code>.
+<p>
+</body>
+</html>
